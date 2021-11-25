@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebShop.Core.Model
 {
     public class Transaction
     {
-        private Guid Id { get; set; }
-        private TransactionStatus Status { get; set; }
-        private DateTime Timestamp { get; set; }
-        private double TotalPrice { get; set; }
+        public Guid Id { get; set; }
+        public TransactionStatus Status { get; set; }
+        public DateTime Timestamp { get; set; }
+        public double TotalPrice { get; set; }
+        public Guid SellerId { get; set; }
         public virtual Admin Seller { get; set; }
+        public Guid BuyerId { get; set; }
         public virtual RegisteredUser Buyer { get; set; }
-        public virtual IEnumerable<TransactionItem> TransactionItems { get; set; }
+        public virtual ICollection<TransactionItem> TransactionItems { get; set; }
 
-        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, Admin seller, RegisteredUser buyer,
-            IEnumerable<TransactionItem> transactionItems)
+        public Transaction()
+        {
+        }
+
+        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, Guid sellerId, Guid buyerId)
         {
             Id = id;
             Status = status;
             Timestamp = timestamp;
             TotalPrice = totalPrice;
-            Seller = seller;
-            Buyer = buyer;
-            TransactionItems = transactionItems;
+            SellerId = sellerId;
+            BuyerId = buyerId;
         }
     }
 }

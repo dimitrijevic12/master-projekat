@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -9,17 +10,23 @@ namespace WebShop.Core.Model
 {
     public abstract class User
     {
-        protected Guid Id { get; set; }
-        protected MailAddress Email { get; set; }
-        protected string Username { get; set; }
-        protected string Password { get; set; }
+        public Guid Id { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
-        protected User(Guid id, MailAddress email, string username, string password)
+        protected User()
+        {
+        }
+
+        protected User(Guid id, string email, string username, string password)
         {
             Id = id;
             Email = email;
             Username = username;
             Password = password;
         }
+
+        
     }
 }

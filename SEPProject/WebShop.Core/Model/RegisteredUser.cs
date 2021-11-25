@@ -9,13 +9,17 @@ namespace WebShop.Core.Model
 {
     public class RegisteredUser : User
     {
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private string PostalCode { get; set; }
-        private string PhoneNumber { get; set; }
-        private string Address { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PostalCode { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
 
-        public RegisteredUser(Guid id, MailAddress email, string username, string password,
+        public RegisteredUser() : base()
+        {
+        }
+
+        public RegisteredUser(Guid id, string email, string username, string password,
             string firstName, string lastName, string postalCode, string phoneNumber, string address)
             : base(id, email, username, password)
         {

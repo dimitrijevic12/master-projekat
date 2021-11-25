@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebShop.Core.Model
 {
     public class Conference
     {
-        private Guid Id { get; set; }
-        private string Name { get; set; }
-        private string Description { get; set; }
-        private bool Online { get; set; }
-        private double Price { get; set; }
-        private string Address { get; set; }
-        private string ImagePath{ get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public bool Online { get; set; }
+        public double Price { get; set; }
+        public string Address { get; set; }
+        public string ImagePath{ get; set; }
+        public Guid OwnerId { get; set; }
         public virtual Admin Owner { get; set; }
 
-        public Conference(Guid id, string name, string description, bool online, double price, string address, string imagePath, Admin owner)
+        public Conference()
+        {
+        }
+
+        public Conference(Guid id, string name, string description, bool online, 
+            double price, string address, string imagePath, Guid ownerId)
         {
             Id = id;
             Name = name;
@@ -26,7 +28,7 @@ namespace WebShop.Core.Model
             Price = price;
             Address = address;
             ImagePath = imagePath;
-            Owner = owner;
+            OwnerId = ownerId;
         }
     }
 }

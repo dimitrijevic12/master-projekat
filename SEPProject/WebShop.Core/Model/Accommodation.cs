@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebShop.Core.Model
 {
     public class Accommodation
     {
-        private Guid Id { get; set; }
-        private string Name { get; set; }
-        private string Description { get; set; }
-        private double CostPerNight { get; set; }
-        private string Address { get; set; }
-        private string ImagePath { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double CostPerNight { get; set; }
+        public string Address { get; set; }
+        public string ImagePath { get; set; }
+        public Guid OwnerId { get; set; }
         public virtual Admin Owner { get; set; }
 
-        public Accommodation(Guid id, string name, string description, double costPerNight, string address, string imagePath, Admin owner)
+        public Accommodation()
+        {
+        }
+
+        public Accommodation(Guid id, string name, string description, 
+            double costPerNight, string address, string imagePath, Guid ownerId)
         {
             Id = id;
             Name = name;
@@ -24,7 +26,7 @@ namespace WebShop.Core.Model
             CostPerNight = costPerNight;
             Address = address;
             ImagePath = imagePath;
-            Owner = owner;
+            OwnerId = ownerId;
         }
     }
 }

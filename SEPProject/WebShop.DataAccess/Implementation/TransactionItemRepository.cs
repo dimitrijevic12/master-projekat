@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 using WebShop.DataAccess.WebShopDbContext;

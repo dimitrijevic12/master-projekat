@@ -32,6 +32,13 @@ namespace WebShop.Api
 
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionItemRepository, TransactionItemRepository>();
+            services.AddScoped<IAccommodationRepository, AccommodationRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IConferenceRepository, ConferenceRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IRegisteredUserRepository, RegisteredUserRepository>();
+            services.AddScoped<ITransportationRepository, TransportationRepository>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

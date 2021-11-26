@@ -4,11 +4,11 @@ using WebShop.DataAccess.WebShopDbContext;
 
 namespace WebShop.DataAccess.Implementation
 {
-    public class TransactionRepository : Repository<Transaction>, ITransactionRepository
+    public class AccommodationRepository : Repository<Accommodation>, IAccommodationRepository
     {
         private AppDbContext dbContext;
 
-        public TransactionRepository(AppDbContext context) : base(context)
+        public AccommodationRepository(AppDbContext context) : base(context)
         {
             dbContext = context;
         }

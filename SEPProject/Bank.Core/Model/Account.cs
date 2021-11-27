@@ -8,17 +8,22 @@ namespace Bank.Core.Model
 {
     public class Account
     {
-        private Guid Id { get; set; }
-        private string AccountNumber { get; set;  }
-        private double Balance { get; set; }
-        public virtual User User { get; set; }
+        public Guid Id { get; private set; }
+        public string AccountNumber { get; private set;  }
+        public double Balance { get; private set; }
+        public Guid UserId { get; private set; }
+        public virtual User User { get; private set; }
 
-        public Account(Guid id, string accountNumber, double balance, User user)
+        public Account()
+        {
+        }
+
+        public Account(Guid id, string accountNumber, double balance, Guid userId)
         {
             Id = id;
             AccountNumber = accountNumber;
             Balance = balance;
-            User = user;
+            UserId = userId;
         }
     }
 }

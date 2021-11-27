@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -9,22 +10,25 @@ namespace Bank.Core.Model
 {
     public class RegisteredUser : User
     {
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private DateTime DateOfBirth { get; set; }
-        private MailAddress EmailAddress { get; set; }
-        private string UniquePersonalRegistrationNumber { get; set; }
-        public virtual PaymentCard PaymentCard { get; set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public DateTime DateOfBirth { get; private set; }
+        public string EmailAddress { get; private set; }
+        public string UniquePersonalRegistrationNumber { get; private set; }
+        public virtual ICollection<PaymentCard> PaymentCards { get; private set; }
 
-        public RegisteredUser(Guid id, string firstName, string lastName, DateTime dateOfBirth, MailAddress emailAddress, string uniquePersonalRegistrationNumber,
-            PaymentCard paymentCard) : base(id)
+        public RegisteredUser() : base()
+        {
+        }
+
+        public RegisteredUser(Guid id, string firstName, string lastName, DateTime dateOfBirth, string emailAddress, string uniquePersonalRegistrationNumber) 
+            : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
             DateOfBirth = dateOfBirth;
             EmailAddress = emailAddress;
             UniquePersonalRegistrationNumber = uniquePersonalRegistrationNumber;
-            PaymentCard = paymentCard;
         }
     }
 }

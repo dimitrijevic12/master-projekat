@@ -3,6 +3,8 @@ import { getItemById } from "../../actions/actionsItems";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import BuyItemModal from "./BuyItemModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ReviewItem(props) {
   const [item, setItem] = useState({});
@@ -33,8 +35,39 @@ function ReviewItem(props) {
     if (item != undefined) {
       setItem(item);
     }
-    setShowPostModal(!showPostModal);
+    if (
+      localStorage.getItem("shoppingCart") === null ||
+      localStorage.getItem("shoppingCart") === ""
+    ) {
+      var shoppingCartList = [];
+    } else {
+      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    }
+    debugger;
+    if (item !== undefined) {
+      if (shoppingCartList.length > 0) {
+        if (shoppingCartList[0].item.ownerId != item.ownerId) {
+          toast.configure();
+          toast.error("You can't add items of another owner to cart!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          setShowPostModal(!showPostModal);
+        }
+      }
+    }
+    debugger;
   };
+
+  const edit = (item) => {
+    localStorage.setItem("item-productkey", item.productKey);
+    window.location = "/edit-item";
+  };
+
+  // const deleteItem = async () => {
+  //   await props.deleteItem(props.item);
+  //   window.location = "/";
+  // };
 
   if (props.item === undefined) {
     return null;
@@ -75,11 +108,11 @@ function ReviewItem(props) {
           <div class="form-group w-100 pr-5">
             <label for="tag">Price:</label>
             <input
-              type="number"
+              type="text"
               name="price"
               class="form-control"
               id="price"
-              value={props.item.price}
+              value={props.item.price + " €"}
               disabled={true}
               placeholder="Enter price"
             />
@@ -89,7 +122,7 @@ function ReviewItem(props) {
           <div class="form-group w-100 pr-5">
             <label for="location">Description:</label>
             <textarea
-              name="promotedAction"
+              name="description"
               value={props.item.description}
               cols="40"
               rows="5"
@@ -139,6 +172,11 @@ function ReviewItem(props) {
           className="btn btn-primary"
         >
           Add to cart
+        </button>
+      </div>
+      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
+        <button onClick={() => edit(props.item)} className="btn btn-primary">
+          Edit item
         </button>
       </div>
     </React.Fragment>

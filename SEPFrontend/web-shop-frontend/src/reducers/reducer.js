@@ -3,9 +3,19 @@ import {
   GET_IMAGES_FOR_ITEMS,
   GET_ITEM_BY_ID,
   LOAD_IMAGE,
+  CREATE_ITEM,
+  GET_ITEMS_FOR_OWNER,
+  EDIT_ITEM,
+  SAVE_TRANSACTION,
 } from "../types/types";
 
-const initialState = { items: [], itemsImages: [], item: {}, loadedImage: "" };
+const initialState = {
+  items: [],
+  itemsImages: [],
+  item: {},
+  loadedImage: "",
+  itemsForOwner: [],
+};
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -28,6 +38,23 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         loadedImage: action.payload,
+      };
+    case CREATE_ITEM:
+      return {
+        ...state,
+      };
+    case GET_ITEMS_FOR_OWNER:
+      return {
+        ...state,
+        itemsForOwner: action.payload,
+      };
+    case EDIT_ITEM:
+      return {
+        ...state,
+      };
+    case SAVE_TRANSACTION:
+      return {
+        ...state,
       };
     default:
       return state;

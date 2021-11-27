@@ -7,7 +7,10 @@ import {
 } from "react-instagram-ui-kit";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getItems, getImagesForItems } from "../../actions/actionsItems";
+import {
+  getItemsForOwner,
+  getImagesForItems,
+} from "../../actions/actionsItems";
 
 class Items extends Component {
   state = {
@@ -17,16 +20,16 @@ class Items extends Component {
   };
   async componentDidMount() {
     debugger;
-    await this.props.getItems();
-    await this.getAllImages(this.props.items);
+    await this.props.getItemsForOwner("12345678-1234-1234-1234-123412341234");
+    await this.getAllImages(this.props.itemsForOwner);
   }
   render() {
-    if (this.props.items === undefined) {
+    if (this.props.itemsForOwner === undefined) {
       return null;
     }
 
     debugger;
-    const items = this.props.items;
+    const itemsForOwner = this.props.itemsForOwner;
 
     if (this.props.itemsImages === undefined) {
       return null;
@@ -34,7 +37,7 @@ class Items extends Component {
     debugger;
     const ItemsList = () => {
       debugger;
-      return items.map((post, i) =>
+      return itemsForOwner.map((post, i) =>
         this.props.itemsImages[i].contentType === "image/jpeg" ? (
           <Photo
             src={
@@ -63,25 +66,41 @@ class Items extends Component {
 
     return (
       <div>
+        {/* {this.state.showPostModal ? (
+          <PostModal
+            show={this.state.showPostModal}
+            postId={this.state.postId}
+            personPhoto="/images/download.jfif"
+            person={this.state.username}
+            onShowChange={() => this.displayModalPost()}
+          />
+        ) : null} */}
         <Grid>
           <GridControlBar>
             <GridControlBarItem isActive>Items</GridControlBarItem>
           </GridControlBar>
           <ItemsList />
-          <button onClick={() => this.reset()}>Reset localstorage</button>
         </Grid>
       </div>
     );
-  }
-
-  reset() {
-    localStorage.setItem("shoppingCart", "");
   }
 
   view(f) {
     localStorage.setItem("item-productkey", f.productKey);
     window.location = "/item/" + f.productKey;
   }
+
+  //   displayModalPost = (post) => {
+  //     if (post != undefined) {
+  //       this.setState({
+  //         postId: post.id,
+  //         username: post.registeredUser.username,
+  //       });
+  //     }
+  //     this.setState({
+  //       showPostModal: !this.state.showPostModal,
+  //     });
+  //   };
 
   getAllImages = async (items) => {
     debugger;
@@ -98,13 +117,13 @@ class Items extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  items: state.items,
+  itemsForOwner: state.itemsForOwner,
   itemsImages: state.itemsImages,
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getItems,
+    getItemsForOwner,
     getImagesForItems,
   })
 )(Items);

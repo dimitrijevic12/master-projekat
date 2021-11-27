@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Core.Interface.Repository;
+using WebShop.Core.Model;
 
 namespace WebShop.Api.Controllers
 {
@@ -29,6 +30,14 @@ namespace WebShop.Api.Controllers
         public IActionResult GetTransactionForTransactionItem()
         {
             return Ok(_transactionItemRepository.GetTransactionForItem(new Guid("12345678-1234-1234-1234-123412341234")));
+        }
+
+        [HttpPost]
+        public IActionResult Save(TransactionItem transactionItem)
+        {
+            transactionItem.Id = Guid.NewGuid();
+            _transactionItemRepository.Save(transactionItem);
+            return Created(Request.Path + transactionItem.Id, "");
         }
     }
 }

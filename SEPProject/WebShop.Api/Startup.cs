@@ -43,6 +43,7 @@ namespace WebShop.Api
             services.AddScoped<IRegisteredUserRepository, RegisteredUserRepository>();
             services.AddScoped<ITransportationRepository, TransportationRepository>();
             services.AddScoped<ItemService>();
+            services.AddScoped<TransactionService>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

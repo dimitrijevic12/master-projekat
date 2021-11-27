@@ -86,11 +86,11 @@ function ReviewItemInShoppingCart(props) {
           <div class="form-group w-100 pr-5">
             <label for="tag">Price:</label>
             <input
-              type="number"
+              type="text"
               name="price"
               class="form-control"
               id="price"
-              value={props.item.price}
+              value={props.item.price + " €"}
               disabled={true}
               placeholder="Enter price"
             />
@@ -130,13 +130,14 @@ function ReviewItemInShoppingCart(props) {
           <div class="form-group w-100 pr-5">
             <label for="location">Total price:</label>
             <input
-              type="number"
+              type="text"
               name="quantity"
               class="form-control"
               id="quantity"
               value={
                 parseInt(localStorage.getItem("quantity-for-shopping-item")) *
-                parseInt(props.item.price)
+                  parseInt(props.item.price) +
+                " €"
               }
               disabled={true}
               placeholder="Enter quantity"

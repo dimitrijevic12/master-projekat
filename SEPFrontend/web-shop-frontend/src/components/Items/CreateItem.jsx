@@ -94,7 +94,7 @@ class CreateItem extends Component {
       ImagePath: this.state.contentPath,
       Price: this.state.price,
       Description: this.state.description,
-      OwnerId: "12345678-1234-1234-1234-123412341234",
+      OwnerId: sessionStorage.getItem("userIdWebShop"),
     });
     window.location = "/items";
   }
@@ -118,7 +118,7 @@ class CreateItem extends Component {
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",
-          //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
         },
       })
         .then(function (response) {

@@ -14,3 +14,7 @@ export const EDIT_ITEM = "editItem";
 export const EDIT_ITEM_ERROR = "editItemError";
 export const SAVE_TRANSACTION = "saveTransaction";
 export const SAVE_TRANSACTION_ERROR = "saveTransactionError";
+export const REGISTER_USER = "registerUser";
+export const REGISTER_USER_ERROR = "registerUserError";
+export const ADMIN_REGISTRATION = "adminRegistration";
+export const ADMIN_REGISTRATION_ERROR = "adminRegistrationError";

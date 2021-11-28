@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebShop.Core.Interface.Repository;
+﻿using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 
 namespace WebShop.Core.Services
@@ -23,16 +18,6 @@ namespace WebShop.Core.Services
         public void Save(Transaction transaction)
         {
             _transactionRepository.Save(transaction);
-        }
-
-        private void SaveTransactionItems(Transaction transaction)
-        {
-            foreach (TransactionItem transactionItem in transaction.TransactionItems)
-            {
-                transactionItem.Id = Guid.NewGuid();
-                transactionItem.TransactionId = transaction.Id;
-                _transactionItemRepository.Save(transactionItem);
-            }
         }
     }
 }

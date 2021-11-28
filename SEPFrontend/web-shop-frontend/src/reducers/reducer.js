@@ -7,6 +7,8 @@ import {
   GET_ITEMS_FOR_OWNER,
   EDIT_ITEM,
   SAVE_TRANSACTION,
+  REGISTER_USER,
+  ADMIN_REGISTRATION,
 } from "../types/types";
 
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   item: {},
   loadedImage: "",
   itemsForOwner: [],
+  registeredUser: {},
 };
 
 function reducer(state = initialState, action) {
@@ -53,6 +56,15 @@ function reducer(state = initialState, action) {
         ...state,
       };
     case SAVE_TRANSACTION:
+      return {
+        ...state,
+      };
+    case REGISTER_USER:
+      return {
+        ...state,
+        registeredUser: action.payload,
+      };
+    case ADMIN_REGISTRATION:
       return {
         ...state,
       };

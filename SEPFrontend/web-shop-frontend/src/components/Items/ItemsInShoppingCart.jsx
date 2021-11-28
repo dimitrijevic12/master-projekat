@@ -121,10 +121,11 @@ class ItemsInShoppingCart extends Component {
       Status: 0,
       TimeStamp: new Date().toJSON(),
       TotalPrice: this.getTotalPrice(),
-      SellerId: "12345678-1234-1234-1234-123412341234",
-      BuyerId: "983dcb79-5204-467e-ac60-00ed6b2afeb6",
+      SellerId: shoppingCartList[0].item.ownerId,
+      BuyerId: sessionStorage.getItem("userIdWebShop"),
       TransactionItems: transactionItems,
     };
+    debugger;
     await this.props.saveTransaction(transaction);
     localStorage.setItem("shoppingCart", "");
     window.location = "/items-in-shopping-cart";

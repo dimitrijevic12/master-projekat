@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import "../css/app.css";
 import { connect } from "react-redux";
 import background from "../images/background-login.jpg";
+import { userLoggedIn } from "../actions/actionsUsers";
 import { compose } from "redux";
 import Header from "../components/Common/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class LoginPage extends Component {
   state = {
@@ -42,18 +45,49 @@ class LoginPage extends Component {
                 />
                 <a href="#">Forgot?</a>
               </div>
-              <input type="button" value="Log in" class="btn btn-primary" />
+              <input
+                type="button"
+                onClick={this.login.bind(this)}
+                value="Log in"
+                class="btn btn-primary"
+              />
             </div>
           </div>
           <div class="sub-content">
             <div class="s-part">
               Don't have an account?
-              <a href="javascript:;">Sign up</a>
+              <a onClick={this.register.bind(this)} href="javascript:;">
+                Sign up
+              </a>
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  register() {
+    this.props.history.replace({
+      pathname: "/registration",
+    });
+  }
+
+  async login() {
+    debugger;
+    var successful = false;
+    successful = await this.props.userLoggedIn({
+      Username: this.state.username,
+      Password: this.state.password,
+    });
+
+    if (successful === true) {
+      window.location = "/items";
+    } else {
+      toast.configure();
+      toast.error("Unsuccessful login!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   }
 
   handleChange = (event) => {
@@ -71,4 +105,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default LoginPage;
+export default compose(
+  connect(mapStateToProps, {
+    userLoggedIn,
+  })
+)(LoginPage);

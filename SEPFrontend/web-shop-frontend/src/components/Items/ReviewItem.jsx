@@ -54,6 +54,8 @@ function ReviewItem(props) {
         } else {
           setShowPostModal(!showPostModal);
         }
+      } else {
+        setShowPostModal(!showPostModal);
       }
     }
     debugger;

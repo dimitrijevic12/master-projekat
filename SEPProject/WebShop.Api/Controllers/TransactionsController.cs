@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
@@ -27,6 +28,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "RegisteredUserProxy, AdminProxy")]
         public IActionResult Save(Transaction transaction)
         {
             transaction.Id = Guid.NewGuid();

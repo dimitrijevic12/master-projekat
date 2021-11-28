@@ -9,7 +9,7 @@ export const saveTransaction = (transaction) => async (dispatch) => {
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
         },
       }
     );

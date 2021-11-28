@@ -1,4 +1,6 @@
-﻿using WebShop.Core.Interface.Repository;
+﻿using CSharpFunctionalExtensions;
+using System.Linq;
+using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 using WebShop.DataAccess.WebShopDbContext;
 

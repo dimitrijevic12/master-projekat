@@ -9,6 +9,8 @@ import ReviewShoppingItemPage from "./pages/ReviewShoppingItemPage";
 import CreateItemPage from "./pages/CreateItemPage";
 import OwnerItemsPage from "./pages/OwnerItemsPage";
 import EditItem from "./components/Items/EditItem";
+import RegistrationPage from "./pages/RegistrationPage";
+import AdminRegistrationPage from "./pages/AdminRegistrationPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -26,6 +28,11 @@ function App() {
           <Route path="/items" element={<ItemsPage />} />
           <Route path="/owners-items" element={<OwnerItemsPage />} />
           <Route path="/edit-item" element={<EditItem />} />
+          <Route path="/registration" element={<RegistrationPage />} />
+          <Route
+            path="/admin-registration"
+            element={<AdminRegistrationPage />}
+          />
           <Route
             path="/items-in-shopping-cart"
             element={<ItemsInShoppingCartPage />}

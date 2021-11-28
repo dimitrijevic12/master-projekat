@@ -189,7 +189,7 @@ class EditItem extends Component {
         headers: {
           "Content-Type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",
-          //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
         },
       })
         .then(function (response) {

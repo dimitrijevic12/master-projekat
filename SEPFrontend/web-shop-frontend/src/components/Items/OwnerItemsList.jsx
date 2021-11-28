@@ -20,7 +20,7 @@ class Items extends Component {
   };
   async componentDidMount() {
     debugger;
-    await this.props.getItemsForOwner("12345678-1234-1234-1234-123412341234");
+    await this.props.getItemsForOwner(sessionStorage.getItem("userIdWebShop"));
     await this.getAllImages(this.props.itemsForOwner);
   }
   render() {

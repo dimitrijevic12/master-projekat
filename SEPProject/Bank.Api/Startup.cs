@@ -1,4 +1,6 @@
 using Bank.Core.Interface.Repository;
+using Bank.Core.Interface.Service;
+using Bank.Core.Services;
 using Bank.DataAccess.BankDbContext;
 using Bank.DataAccess.Implementation;
 using Microsoft.AspNetCore.Builder;
@@ -34,8 +36,15 @@ namespace Bank.Api
             services.AddScoped<IMerchantRepository, MerchantRepository>();
             services.AddScoped<IPaymentCardRepository, PaymentCardRepository>();
             services.AddScoped<IPSPRequestRepository, PSPRequestRepository>();
+            services.AddScoped<IPSPResponseRepository, PSPResponseRepository>();
             services.AddScoped<IRegisteredUserRepository, RegisteredUserRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IPaymentCardRepository, PaymentCardRepository>();
+            services.AddScoped<IMerchantService, MerchantService>();
+            services.AddScoped<IPSPRequestService, PSPRequestService>();
+            services.AddScoped<IPSPResponseService, PSPResponseService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IPaymentCardService, PaymentCardService>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

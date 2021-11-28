@@ -1,6 +1,7 @@
 ﻿using Bank.Core.Interface.Repository;
 using Bank.Core.Model;
 using Bank.DataAccess.BankDbContext;
+using CSharpFunctionalExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace Bank.DataAccess.Implementation
 {
-    public class AccountRepository : Repository<Account>, IAccountRepository
+    public class PSPResponseRepository : Repository<PSPResponse>, IPSPResponseRepository
     {
         private AppDbContext dbContext;
 
-        public AccountRepository(AppDbContext context) : base(context)
+        public PSPResponseRepository(AppDbContext context) : base(context)
         {
             dbContext = context;
         }
 
-        public Account GetByUserId(Guid id) => dbContext.Accounts.ToList().Where(account => account.UserId == id).FirstOrDefault();
+        public PSPResponse GetByPaymentId(Guid id) => dbContext.PSPResponse.ToList()
+            .Where(response => response.PaymentId == id).FirstOrDefault();
     }
 }

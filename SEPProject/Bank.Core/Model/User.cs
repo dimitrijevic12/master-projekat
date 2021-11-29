@@ -8,11 +8,15 @@ namespace Bank.Core.Model
 {
     public abstract class User
     {
-        protected Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
         protected User(Guid id)
         {
             Id = id;
+        }
+
+        protected User()
+        {
         }
     }
 }

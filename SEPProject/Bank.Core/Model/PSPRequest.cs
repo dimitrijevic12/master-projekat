@@ -8,18 +8,24 @@ namespace Bank.Core.Model
 {
     public class PSPRequest
     {
-        private Guid MerchantId { get; set; }
-        private string MerchantPassword{ get; set; }
-        private double Amount{ get; set; }
-        private Guid MerchantOrderId { get; set; }
-        private DateTime MerchantTimestamp { get; set; }
-        private Uri SuccessUrl{ get; set; }
-        private Uri FailedUrl { get; set; }
-        private Uri ErrorUrl { get; set; }
+        public Guid Id { get; private set; }
+        public Guid MerchantId { get; private set; }
+        public string MerchantPassword{ get; private set; }
+        public double Amount{ get; set; }
+        public Guid MerchantOrderId { get; private set; }
+        public DateTime MerchantTimestamp { get; private set; }
+        public Uri SuccessUrl{ get; private set; }
+        public Uri FailedUrl { get; private set; }
+        public Uri ErrorUrl { get; private set; }
 
-        public PSPRequest(Guid merchantId, string merchantPassword, double amount, Guid merchantOrderId, DateTime merchantTimestamp,
+        public PSPRequest() : base()
+        {
+        }
+
+        public PSPRequest(Guid id, Guid merchantId, string merchantPassword, double amount, Guid merchantOrderId, DateTime merchantTimestamp,
             Uri successUrl, Uri failedUrl, Uri errorUrl)
         {
+            Id = id;
             MerchantId = merchantId;
             MerchantPassword = merchantPassword;
             Amount = amount;

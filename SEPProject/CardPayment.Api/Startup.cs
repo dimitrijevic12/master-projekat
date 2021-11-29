@@ -1,16 +1,13 @@
+using CardPayment.Core.Interface.Repository;
+using CardPayment.DataAccess.CardPaymentDbContext;
+using CardPayment.DataAccess.Implementation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CardPayment.Api
 {
@@ -32,6 +29,19 @@ namespace CardPayment.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CardPayment.Api", Version = "v1" });
             });
+
+            services.AddScoped<IMerchantRepository, MerchantRepository>();
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("cardpaymentdb"))
+                .UseLazyLoadingProxies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

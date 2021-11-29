@@ -8,15 +8,19 @@ namespace PSP.Core.Model
 {
     public class Transaction
     {
-        private Guid Id { get; set; }
-        private double Amount { get; set; }
-        private DateTime Timestamp { get; set; }
-        private Guid OrderId { get; set; }
-        private TransactionStatus TransactionStatus { get; set; }
-        private Guid MerchantId { get; set; }
-        private string MerchantName { get; set; }
-        private Guid IssuerId { get; set; }
-        private string IssuerName { get; set; }
+        public Guid Id { get; private set; }
+        public double Amount { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public Guid OrderId { get; private set; }
+        public TransactionStatus TransactionStatus { get; private set; }
+        public Guid MerchantId { get; private set; }
+        public string MerchantName { get; private set; }
+        public Guid IssuerId { get; private set; }
+        public string IssuerName { get; private set; }
+
+        public Transaction()
+        {
+        }
 
         public Transaction(Guid id, double amount, DateTime timestamp, Guid orderId, TransactionStatus transactionStatus,
             Guid merchantId, string merchantName, Guid issuerId, string issuerName)

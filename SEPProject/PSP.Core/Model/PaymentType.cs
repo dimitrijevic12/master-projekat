@@ -8,7 +8,23 @@ namespace PSP.Core.Model
 {
     public class PaymentType
     {
-        private Guid Id { get; set; }
-        private string Name { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public virtual ICollection<RegisteredWebShop> RegisteredWebShops { get; private set; }
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        public virtual List<PaymentTypeRegisteredWebShop> PaymentTypeRegisteredWebShops { get; private set; }
+
+        public PaymentType()
+        {
+        }
+
+        public PaymentType(Guid id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

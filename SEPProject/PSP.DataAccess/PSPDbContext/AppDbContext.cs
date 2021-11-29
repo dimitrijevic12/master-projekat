@@ -38,12 +38,14 @@ namespace PSP.DataAccess.PSPDbContext
                     j.HasKey(t => new { t.PaymentTypeId, t.RegisteredWebShopId });
                 });
 
-            PaymentType paymentType = new PaymentType(new Guid("12345678-1234-1234-1234-123412341234"), "PayPal");
+            PaymentType paymentTypePayPal = new PaymentType(new Guid("12345678-1234-1234-1234-123412341234"), "PayPal");
 
-            modelBuilder.Entity<PaymentType>().HasData(paymentType);
+            PaymentType paymentTypeCrypto = new PaymentType(new Guid("12345678-1234-1234-1234-223412341234"), "CryptoValute");
 
-            ICollection<PaymentType> paymentTypes = new List<PaymentType>();
-            paymentTypes.Add(paymentType);
+            PaymentType paymentTypeBank = new PaymentType(new Guid("12345678-1234-1234-1234-323412341234"), "Bank");
+
+
+            modelBuilder.Entity<PaymentType>().HasData(paymentTypePayPal, paymentTypeCrypto, paymentTypeBank);
 
             modelBuilder.Entity<RegisteredWebShop>().HasData(
                new RegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341230"), 123, "WebShopName", "password", "gmail@gmail.com",
@@ -52,7 +54,9 @@ namespace PSP.DataAccess.PSPDbContext
             );
 
             modelBuilder.Entity<PaymentTypeRegisteredWebShop>().HasData(
-                new PaymentTypeRegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230"))
+                new PaymentTypeRegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230")),
+                new PaymentTypeRegisteredWebShop(new Guid("12345678-1234-1234-1234-223412341234"), new Guid("12345678-1234-1234-1234-123412341230")),
+                new PaymentTypeRegisteredWebShop(new Guid("12345678-1234-1234-1234-323412341234"), new Guid("12345678-1234-1234-1234-123412341230"))
              );
 
             modelBuilder.Entity<Transaction>().HasData(

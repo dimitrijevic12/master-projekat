@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PSP.Core.Interface.Repository;
+using PSP.Core.Services;
 using PSP.DataAccess.Implementation;
 using PSP.DataAccess.PSPDbContext;
 using System;
@@ -39,6 +40,9 @@ namespace PSP.Api
             services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
             services.AddScoped<IRegisteredWebShopRepository, RegisteredWebShopRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IPaymentTypeRegisteredWebShopRepository, PaymentTypeRegisteredWebShopRepository>();
+            services.AddScoped<RegisteredWebShopService>();
+            services.AddScoped<PaymentTypeRegisteredWebShopService>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

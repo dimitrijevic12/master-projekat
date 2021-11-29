@@ -18,19 +18,15 @@ namespace Bank.Api.Controllers
         private readonly IPSPRequestRepository _PSPRequestRepository;
         private readonly IPSPRequestService _PSPRequestService;
         private readonly IPSPResponseService _PSPResponseService;
+        private readonly IPSPResponseRepository _PSPResponseRepository;
 
         public PSPRequestsController(IPSPRequestRepository pSPRequestRepository, IPSPRequestService pSPRequestService,
-            IPSPResponseService pSPResponseService)
+            IPSPResponseService pSPResponseService, IPSPResponseRepository pSPResponseRepository)
         {
             _PSPRequestRepository = pSPRequestRepository;
             _PSPRequestService = pSPRequestService;
             _PSPResponseService = pSPResponseService;
-        }
-
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(_PSPRequestRepository.GetAll());
+            _PSPResponseRepository = pSPResponseRepository;
         }
 
         [HttpPost]
@@ -45,6 +41,13 @@ namespace Bank.Api.Controllers
             Guid paymentId = Guid.NewGuid();
             Result<Core.Model.PSPResponse> response = _PSPResponseService.Create(request.Id);
             return Created(this.Request.Path + "/" + id, new BankResponse(new Uri("https://localhost:3001/" + paymentId), paymentId));
+        }
+
+        [HttpGet]
+        public IActionResult Find([FromQuery] Guid paymentId)
+        {
+            var test = _PSPResponseRepository.GetByPaymentId(paymentId);
+            return Ok(_PSPResponseRepository.GetByPaymentId(paymentId).PSPRequest);
         }
     }
 }

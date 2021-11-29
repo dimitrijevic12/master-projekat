@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebShop.Core.Interface.Repository;
+using WebShop.Core.Model;
+using WebShop.Core.Services;
 
 namespace WebShop.Api.Controllers
 {
@@ -13,16 +12,28 @@ namespace WebShop.Api.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;
+        private readonly TransactionService transactinService;
 
-        public TransactionsController(ITransactionRepository transactionRepository)
+        public TransactionsController(ITransactionRepository transactionRepository,
+            TransactionService transactinService)
         {
             _transactionRepository = transactionRepository;
+            this.transactinService = transactinService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_transactionRepository.GetAll());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "RegisteredUserProxy, AdminProxy")]
+        public IActionResult Save(Transaction transaction)
+        {
+            transaction.Id = Guid.NewGuid();
+            transactinService.Save(transaction);
+            return Created(Request.Path + transaction.Id, "");
         }
     }
 }

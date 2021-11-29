@@ -8,6 +8,7 @@ import {
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { getItems, getImagesForItems } from "../../actions/actionsItems";
+import { saveTransaction } from "../../actions/actionsTransaction";
 
 class ItemsInShoppingCart extends Component {
   state = {
@@ -65,6 +66,7 @@ class ItemsInShoppingCart extends Component {
 
     return shoppingCartList.length === 0 ? (
       <div className="text-center pt-5">
+        <img src="/images/empty-shopping-cart.png" />
         <br />
         <h4>Shopping cart is empty!</h4>
       </div>
@@ -86,15 +88,64 @@ class ItemsInShoppingCart extends Component {
           <br />
           <ItemsList />
           <br />
-          <button
-            //onClick={() => this.removeFromShoppingCart()}
-            className="btn btn-primary"
-          >
-            Buy
+          <button onClick={() => this.buy()} className="btn btn-primary">
+            Buy, Total price: {this.getTotalPrice()}€
           </button>
         </Grid>
       </div>
     );
+  }
+
+  async buy() {
+    debugger;
+    var transactionItems = [];
+    if (
+      localStorage.getItem("shoppingCart") === null ||
+      localStorage.getItem("shoppingCart") === ""
+    ) {
+      var shoppingCartList = [];
+    } else {
+      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    }
+    const items = this.state.itemsInShoppingCart;
+    for (var i = 0; i < shoppingCartList.length; i++) {
+      var transactionItem = {
+        Type: 4,
+        Name: items[i].name,
+        Quantity: shoppingCartList[i].quantity,
+        Price: items[i].price * shoppingCartList[i].quantity,
+      };
+      transactionItems.push(transactionItem);
+    }
+    const transaction = {
+      Status: 0,
+      TimeStamp: new Date().toJSON(),
+      TotalPrice: this.getTotalPrice(),
+      SellerId: shoppingCartList[0].item.ownerId,
+      BuyerId: sessionStorage.getItem("userIdWebShop"),
+      TransactionItems: transactionItems,
+    };
+    debugger;
+    await this.props.saveTransaction(transaction);
+    localStorage.setItem("shoppingCart", "");
+    window.location = "/items-in-shopping-cart";
+  }
+
+  getTotalPrice() {
+    if (
+      localStorage.getItem("shoppingCart") === null ||
+      localStorage.getItem("shoppingCart") === ""
+    ) {
+      var shoppingCartList = [];
+    } else {
+      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    }
+    var totalPrice = 0;
+    const items = this.state.itemsInShoppingCart;
+    for (var i = 0; i < shoppingCartList.length; i++) {
+      totalPrice += items[i].price * shoppingCartList[i].quantity;
+    }
+    return totalPrice;
   }
 
   removeFromShoppingCart() {
@@ -150,5 +201,6 @@ export default compose(
   connect(mapStateToProps, {
     getItems,
     getImagesForItems,
+    saveTransaction,
   })
 )(ItemsInShoppingCart);

@@ -63,7 +63,6 @@ class BuyItemModal extends Component {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
     const product = { item: this.state.item, quantity: this.state.quantity };
-
     if (
       shoppingCartList.some(
         (shoppingProduct) =>

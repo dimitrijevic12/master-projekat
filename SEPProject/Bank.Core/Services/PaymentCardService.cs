@@ -34,6 +34,7 @@ namespace Bank.Core.Services
                 return Result.Failure("Invalid card holder name.");
             Account account = _accountRepository.GetByUserId(card.CardOwnerId);
             Result reserveBalanceResult = account.ReserveBalance(amount);
+            _accountRepository.Edit(account);
             return reserveBalanceResult;
         }
     }

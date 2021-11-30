@@ -40,7 +40,9 @@ namespace Bank.Api.Controllers
                 return BadRequest(result.Error);
             Guid paymentId = Guid.NewGuid();
             Result<Core.Model.PSPResponse> response = _PSPResponseService.Create(request.Id);
-            return Created(this.Request.Path + "/" + id, new BankResponse(new Uri("https://localhost:3001/" + paymentId), paymentId));
+            if(response.IsFailure)
+                return BadRequest(result.Error);
+            return Created(this.Request.Path + "/" + id, new BankResponse(response.Value.PaymentUrl, response.Value.PaymentId));
         }
 
         [HttpGet]

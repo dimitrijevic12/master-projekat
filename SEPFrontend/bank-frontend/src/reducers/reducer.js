@@ -9,6 +9,8 @@ function reducer(state = initialState, action) {
         ...state,
         pspRequest: action.payload,
       };
+    default:
+      return state;
   }
 }
 

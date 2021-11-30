@@ -35,7 +35,7 @@ namespace Bank.Core.Model
                 return Result.Failure<double>("Amount can not be negative number");
             if(Balance - amount < 0)
                 return Result.Failure<double>("There is not enough resources on this bank account.");
-            ReservedBalance = amount;
+            Balance = Balance - amount;
             return Result.Success(amount);
         }
     }

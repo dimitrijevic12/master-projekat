@@ -36,6 +36,8 @@ namespace Bank.Api.Controllers
         [HttpPost]
         public IActionResult Create(CardInfo cardInfo)
         {
+            if(_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null)
+                return BadRequest("Transaction with given payment id already exists.");
             // TODO
             /*if (!cardInfo.PAN.Substring(0, 5).Equals("123456"))
             {

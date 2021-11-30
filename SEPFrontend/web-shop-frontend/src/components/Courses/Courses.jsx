@@ -7,9 +7,10 @@ import {
 } from "react-instagram-ui-kit";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getItems, getImagesForItems } from "../../actions/actionsItems";
+import { getImagesForItems } from "../../actions/actionsItems";
+import { getCourses } from "../../actions/actionsCourse";
 
-class Items extends Component {
+class Courses extends Component {
   state = {
     showPostModal: false,
     postId: 0,
@@ -17,24 +18,24 @@ class Items extends Component {
   };
   async componentDidMount() {
     debugger;
-    await this.props.getItems();
-    await this.getAllImages(this.props.items);
+    await this.props.getCourses();
+    await this.getAllImages(this.props.courses);
   }
   render() {
-    if (this.props.items === undefined) {
+    if (this.props.courses === undefined) {
       return null;
     }
 
     debugger;
-    const items = this.props.items;
+    const courses = this.props.courses;
 
     if (this.props.itemsImages === undefined) {
       return null;
     }
     debugger;
-    const ItemsList = () => {
+    const CoursesList = () => {
       debugger;
-      return items.map((post, i) =>
+      return courses.map((post, i) =>
         this.props.itemsImages[i].contentType === "image/jpeg" ? (
           <Photo
             src={
@@ -65,17 +66,17 @@ class Items extends Component {
       <div>
         <Grid>
           <GridControlBar>
-            <GridControlBarItem isActive>Items</GridControlBarItem>
+            <GridControlBarItem isActive>Courses</GridControlBarItem>
           </GridControlBar>
-          <ItemsList />
+          <CoursesList />
         </Grid>
       </div>
     );
   }
 
   view(f) {
-    localStorage.setItem("item-productkey", f.productKey);
-    window.location = "/item/" + f.productKey;
+    localStorage.setItem("course-id", f.id);
+    window.location = "/course/" + f.id;
   }
 
   getAllImages = async (items) => {
@@ -93,13 +94,13 @@ class Items extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  items: state.items,
+  courses: state.courses,
   itemsImages: state.itemsImages,
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getItems,
+    getCourses,
     getImagesForItems,
   })
-)(Items);
+)(Courses);

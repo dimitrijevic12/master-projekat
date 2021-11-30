@@ -2,9 +2,13 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getItemById, editItem } from "../../actions/actionsItems";
+import {
+  getConferenceById,
+  editConference,
+} from "../../actions/actionsConference";
+import Switch from "react-switch";
 
-class EditItem extends Component {
+class EditConference extends Component {
   state = {
     file: null,
     fileName: "",
@@ -13,22 +17,25 @@ class EditItem extends Component {
     contentPath: "",
     name: "",
     price: "",
-    availableCount: "",
+    address: "",
+    online: "",
     description: "",
   };
 
   async componentDidMount() {
-    await this.props.getItemById(localStorage.getItem("item-productkey"));
+    await this.props.getConferenceById(localStorage.getItem("conference-id"));
     debugger;
     this.setState({
-      name: this.props.item.name,
-      price: this.props.item.price,
-      description: this.props.item.description,
+      name: this.props.conference.name,
+      price: this.props.conference.price,
+      description: this.props.conference.description,
+      address: this.props.conference.address,
+      online: this.props.conference.online,
     });
   }
 
   render() {
-    if (this.props.item === undefined) {
+    if (this.props.conference === undefined) {
       return null;
     }
 
@@ -79,6 +86,34 @@ class EditItem extends Component {
         <div className="mt-5">
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
+              <label for="tag">Online:</label>
+              <br />
+              <Switch
+                onChange={this.handleChangeOnline}
+                checked={this.state.online}
+                className="react-switch"
+                id="normal-switch"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="location">Address:</label>
+              <input
+                type="text"
+                name="address"
+                class="form-control"
+                id="address"
+                disabled={this.state.online === true}
+                value={this.state.online === true ? "" : this.state.address}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
               <label for="tag">Price:</label>
               <input
                 type="number"
@@ -114,7 +149,8 @@ class EditItem extends Component {
             disabled={
               this.state.contentPath === "" ||
               this.state.name === "" ||
-              this.state.price === ""
+              this.state.price === "" ||
+              (this.state.address === "" && this.state.online === false)
             }
             className="btn btn-primary btn-block"
           >
@@ -125,55 +161,64 @@ class EditItem extends Component {
     );
   }
 
+  handleChangeOnline = (checked) => {
+    debugger;
+    this.setState({ online: checked });
+  };
+
   async createItem() {
     debugger;
-    const newItem = {
-      productKey: this.props.item.productKey,
+    const newConference = {
+      id: this.props.conference.id,
       name: this.state.name,
       imagePath:
         this.state.contentPath === ""
-          ? this.props.item.imagePath
+          ? this.props.conference.imagePath
           : this.state.contentPath,
       price: this.state.price,
       description: this.state.description,
-      ownerId: this.props.item.ownerId,
+      address: this.state.online === true ? "" : this.state.address,
+      online: this.state.online,
+      ownerId: this.props.conference.ownerId,
     };
-    await this.props.editItem({
-      ProductKey: this.props.item.productKey,
+    await this.props.editConference({
+      Id: this.props.conference.id,
       Name: this.state.name,
       ImagePath:
         this.state.contentPath === ""
-          ? this.props.item.imagePath
+          ? this.props.conference.imagePath
           : this.state.contentPath,
       Price: this.state.price,
       Description: this.state.description,
-      OwnerId: this.props.item.ownerId,
+      Address: this.state.online === true ? "" : this.state.address,
+      Online: this.state.online,
+      OwnerId: this.props.conference.ownerId,
     });
-    if (
-      localStorage.getItem("shoppingCart") === null ||
-      localStorage.getItem("shoppingCart") === ""
-    ) {
-      var shoppingCartList = [];
-    } else {
-      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
-    }
-    if (
-      shoppingCartList.some(
-        (shoppingProduct) =>
-          newItem.productKey === shoppingProduct.item.productKey
-      )
-    ) {
-      const elementsIndex = shoppingCartList.findIndex(
-        (element) => element.item.productKey == newItem.productKey
-      );
-      let newArray = shoppingCartList;
-      newArray[elementsIndex] = {
-        ...newArray[elementsIndex],
-        item: newItem,
-      };
-      localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
-    }
-    window.location = "/items";
+    // if (
+    //   localStorage.getItem("shoppingCart") === null ||
+    //   localStorage.getItem("shoppingCart") === ""
+    // ) {
+    //   var shoppingCartList = [];
+    // } else {
+    //   var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    // }
+    // if (
+    //   shoppingCartList.some(
+    //     (shoppingProduct) =>
+    //       newItem.productKey === shoppingProduct.item.productKey
+    //   )
+    // ) {
+    //   const elementsIndex = shoppingCartList.findIndex(
+    //     (element) => element.item.productKey == newItem.productKey
+    //   );
+    //   let newArray = shoppingCartList;
+    //   newArray[elementsIndex] = {
+    //     ...newArray[elementsIndex],
+    //     item: newItem,
+    //   };
+    //   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+    // }
+    window.location = "/conferences";
   }
 
   choosePost = async (event) => {
@@ -225,10 +270,10 @@ class EditItem extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  item: state.item,
+  conference: state.conference,
   loadedImage: state.loadedImage,
 });
 
-export default compose(connect(mapStateToProps, { getItemById, editItem }))(
-  EditItem
-);
+export default compose(
+  connect(mapStateToProps, { getConferenceById, editConference })
+)(EditConference);

@@ -10,19 +10,19 @@ namespace WebShop.Api.Controllers
     [ApiController]
     public class ContentsController : ControllerBase
     {
-        private readonly ItemService itemService;
+        private readonly ContentService contentService;
         private readonly IWebHostEnvironment _env;
 
-        public ContentsController(ItemService itemService, IWebHostEnvironment env)
+        public ContentsController(ContentService contentService, IWebHostEnvironment env)
         {
-            this.itemService = itemService;
+            this.contentService = contentService;
             _env = env;
         }
 
         [HttpPost]
         public IActionResult SaveImg([FromForm] FileModel file)
         {
-            string fileName = itemService.ImageToSave(_env.WebRootPath, file);
+            string fileName = contentService.ImageToSave(_env.WebRootPath, file);
 
             return Ok(fileName);
         }
@@ -30,7 +30,7 @@ namespace WebShop.Api.Controllers
         [HttpGet("{fileName}")]
         public IActionResult GetImage(string fileName)
         {
-            FileContentResult fileContentResult = File(itemService.GetImage(_env.WebRootPath, fileName).Bytes,
+            FileContentResult fileContentResult = File(contentService.GetImage(_env.WebRootPath, fileName).Bytes,
                 "image/jpeg");
             return Ok(fileContentResult);
         }
@@ -41,7 +41,7 @@ namespace WebShop.Api.Controllers
             List<FileContentResult> fileContentResults = new List<FileContentResult>();
             foreach (string contentPath in contentPaths)
             {
-                var content = itemService.GetImage(_env.WebRootPath, contentPath);
+                var content = contentService.GetImage(_env.WebRootPath, contentPath);
                 if (content.Type.Equals(".mp4")) content.Type = "video/mp4";
                 else content.Type = "image/jpeg";
                 fileContentResults.Add(File(content.Bytes, content.Type));

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getItemById } from "../../actions/actionsItems";
+import { getConferenceById } from "../../actions/actionsConference";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import BuyItemModal from "./BuyItemModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Switch from "react-switch";
+import BuyItemModal from "../Items/BuyItemModal";
 
-function ReviewItem(props) {
+function ReviewConference(props) {
   const [item, setItem] = useState({});
   const [showPostModal, setShowPostModal] = useState(false);
 
   useEffect(() => {
     debugger;
-    props.getItemById(localStorage.getItem("item-productkey"));
+    props.getConferenceById(localStorage.getItem("conference-id"));
   }, []);
 
-  const Item = () => {
+  const Conference = () => {
     debugger;
     if (props.loadedImage === undefined) {
       return null;
@@ -59,9 +60,9 @@ function ReviewItem(props) {
     debugger;
   };
 
-  const edit = (item) => {
-    localStorage.setItem("item-productkey", item.productKey);
-    window.location = "/edit-item";
+  const edit = (conference) => {
+    localStorage.setItem("conference-id", conference.id);
+    window.location = "/edit-conference";
   };
 
   // const deleteItem = async () => {
@@ -69,7 +70,7 @@ function ReviewItem(props) {
   //   window.location = "/";
   // };
 
-  if (props.item === undefined) {
+  if (props.conference === undefined) {
     return null;
   }
 
@@ -85,7 +86,7 @@ function ReviewItem(props) {
       <div className="mt-5">
         <div className="d-inline-flex w-50">
           <div class="form-group w-100 pr-5">
-            <Item />
+            <Conference />
           </div>
         </div>
         <div className="d-inline-flex w-50">
@@ -96,9 +97,36 @@ function ReviewItem(props) {
               name="name"
               class="form-control"
               id="name"
-              value={props.item.name}
+              value={props.conference.name}
               disabled={true}
               placeholder="Enter name of product"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="mt-5">
+        <div className="d-inline-flex w-50">
+          <div class="form-group w-100 pr-5">
+            <label for="tag">Online:</label>
+            <br />
+            <Switch
+              checked={props.conference.online}
+              className="react-switch"
+              id="normal-switch"
+              disabled={true}
+            />
+          </div>
+        </div>
+        <div className="d-inline-flex w-50">
+          <div class="form-group w-100 pr-5">
+            <label for="location">Address:</label>
+            <input
+              type="text"
+              name="address"
+              class="form-control"
+              id="address"
+              value={props.conference.address}
+              disabled={true}
             />
           </div>
         </div>
@@ -112,7 +140,7 @@ function ReviewItem(props) {
               name="price"
               class="form-control"
               id="price"
-              value={props.item.price + " €"}
+              value={props.conference.price + " €"}
               disabled={true}
               placeholder="Enter price"
             />
@@ -123,7 +151,7 @@ function ReviewItem(props) {
             <label for="location">Description:</label>
             <textarea
               name="description"
-              value={props.item.description}
+              value={props.conference.description}
               cols="40"
               rows="5"
               class="form-control"
@@ -168,14 +196,17 @@ function ReviewItem(props) {
       )} */}
       <div style={{ textAlign: "center" }} className="mt-5 pb-5">
         <button
-          onClick={() => displayModalPost(props.item)}
+          onClick={() => displayModalPost(props.conference)}
           className="btn btn-primary"
         >
           Add to cart
         </button>
       </div>
       <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-        <button onClick={() => edit(props.item)} className="btn btn-primary">
+        <button
+          onClick={() => edit(props.conference)}
+          className="btn btn-primary"
+        >
           Edit item
         </button>
       </div>
@@ -184,12 +215,12 @@ function ReviewItem(props) {
 }
 
 const mapStateToProps = (state) => ({
-  item: state.item,
+  conference: state.conference,
   loadedImage: state.loadedImage,
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getItemById,
+    getConferenceById,
   })
-)(ReviewItem);
+)(ReviewConference);

@@ -9,6 +9,14 @@ import {
   SAVE_TRANSACTION,
   REGISTER_USER,
   ADMIN_REGISTRATION,
+  GET_CONFERENCES,
+  CREATE_CONFERENCE,
+  GET_CONFERENCE_BY_ID,
+  EDIT_CONFERENCE,
+  GET_COURSES,
+  GET_COURSE_BY_ID,
+  CREATE_COURSE,
+  EDIT_COURSE,
 } from "../types/types";
 
 const initialState = {
@@ -18,6 +26,10 @@ const initialState = {
   loadedImage: "",
   itemsForOwner: [],
   registeredUser: {},
+  conferences: [],
+  conference: {},
+  courses: [],
+  course: {},
 };
 
 function reducer(state = initialState, action) {
@@ -65,6 +77,42 @@ function reducer(state = initialState, action) {
         registeredUser: action.payload,
       };
     case ADMIN_REGISTRATION:
+      return {
+        ...state,
+      };
+    case GET_CONFERENCES:
+      return {
+        ...state,
+        conferences: action.payload,
+      };
+    case CREATE_CONFERENCE:
+      return {
+        ...state,
+      };
+    case GET_CONFERENCE_BY_ID:
+      return {
+        ...state,
+        conference: action.payload,
+      };
+    case EDIT_CONFERENCE:
+      return {
+        ...state,
+      };
+    case GET_COURSES:
+      return {
+        ...state,
+        courses: action.payload,
+      };
+    case GET_COURSE_BY_ID:
+      return {
+        ...state,
+        course: action.payload,
+      };
+    case CREATE_COURSE:
+      return {
+        ...state,
+      };
+    case EDIT_COURSE:
       return {
         ...state,
       };

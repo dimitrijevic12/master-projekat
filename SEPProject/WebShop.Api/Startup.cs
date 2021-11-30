@@ -51,6 +51,7 @@ namespace WebShop.Api
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<UserService>();
             services.AddScoped<AdminService>();
+            services.AddScoped<ContentService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

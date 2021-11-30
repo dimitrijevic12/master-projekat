@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getItemById, editItem } from "../../actions/actionsItems";
+import { createConference } from "../../actions/actionsConference";
+import Switch from "react-switch";
 
-class EditItem extends Component {
+class CreateConference extends Component {
   state = {
     file: null,
     fileName: "",
@@ -13,47 +14,16 @@ class EditItem extends Component {
     contentPath: "",
     name: "",
     price: "",
-    availableCount: "",
     description: "",
+    online: false,
+    address: "",
   };
-
-  async componentDidMount() {
-    await this.props.getItemById(localStorage.getItem("item-productkey"));
-    debugger;
-    this.setState({
-      name: this.props.item.name,
-      price: this.props.item.price,
-      description: this.props.item.description,
-    });
-  }
-
   render() {
-    if (this.props.item === undefined) {
-      return null;
-    }
-
-    if (this.props.loadedImage === undefined) {
-      return null;
-    }
     return (
       <React.Fragment>
         <div className="mt-5">
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
-              <img
-                src={
-                  "data:image/jpg;base64," + this.props.loadedImage.fileContents
-                }
-                style={{ width: 600, height: 320 }}
-                className="mb-3"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-5">
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label>You can choose new photo if you want to: </label>
               <input type="file" onChange={this.choosePost} />
               <img
                 src={this.state.fileUrl}
@@ -93,14 +63,43 @@ class EditItem extends Component {
           </div>
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
+              <label for="location">Online:</label>
+              <br />
+              <Switch
+                onChange={this.handleChangeOnline}
+                checked={this.state.online}
+                className="react-switch"
+                id="normal-switch"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Address:</label>
+              <input
+                type="text"
+                name="address"
+                disabled={this.state.online === true}
+                value={this.state.online === true ? "" : this.state.address}
+                onChange={this.handleChange}
+                class="form-control"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
               <label for="location">Description:</label>
               <textarea
                 name="description"
                 value={this.state.description}
                 cols="40"
                 rows="5"
-                class="form-control"
                 onChange={this.handleChange}
+                class="form-control"
                 placeholder="Enter description"
               ></textarea>
             </div>
@@ -109,71 +108,40 @@ class EditItem extends Component {
         <div className="mt-5 pb-5">
           <button
             onClick={() => {
-              this.createItem();
+              this.createConference();
             }}
             disabled={
               this.state.contentPath === "" ||
               this.state.name === "" ||
-              this.state.price === ""
+              this.state.price === "" ||
+              (this.state.address === "" && this.state.online === false)
             }
             className="btn btn-primary btn-block"
           >
-            Edit
+            Create
           </button>
         </div>
       </React.Fragment>
     );
   }
 
-  async createItem() {
+  handleChangeOnline = (checked) => {
     debugger;
-    const newItem = {
-      productKey: this.props.item.productKey,
-      name: this.state.name,
-      imagePath:
-        this.state.contentPath === ""
-          ? this.props.item.imagePath
-          : this.state.contentPath,
-      price: this.state.price,
-      description: this.state.description,
-      ownerId: this.props.item.ownerId,
-    };
-    await this.props.editItem({
-      ProductKey: this.props.item.productKey,
+    this.setState({ online: checked });
+  };
+
+  async createConference() {
+    debugger;
+    await this.props.createConference({
       Name: this.state.name,
-      ImagePath:
-        this.state.contentPath === ""
-          ? this.props.item.imagePath
-          : this.state.contentPath,
+      ImagePath: this.state.contentPath,
       Price: this.state.price,
       Description: this.state.description,
-      OwnerId: this.props.item.ownerId,
+      Online: this.state.online,
+      Address: this.state.online === true ? "" : this.state.address,
+      OwnerId: sessionStorage.getItem("userIdWebShop"),
     });
-    if (
-      localStorage.getItem("shoppingCart") === null ||
-      localStorage.getItem("shoppingCart") === ""
-    ) {
-      var shoppingCartList = [];
-    } else {
-      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
-    }
-    if (
-      shoppingCartList.some(
-        (shoppingProduct) =>
-          newItem.productKey === shoppingProduct.item.productKey
-      )
-    ) {
-      const elementsIndex = shoppingCartList.findIndex(
-        (element) => element.item.productKey == newItem.productKey
-      );
-      let newArray = shoppingCartList;
-      newArray[elementsIndex] = {
-        ...newArray[elementsIndex],
-        item: newItem,
-      };
-      localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
-    }
-    window.location = "/items";
+    window.location = "/conferences";
   }
 
   choosePost = async (event) => {
@@ -224,11 +192,8 @@ class EditItem extends Component {
   };
 }
 
-const mapStateToProps = (state) => ({
-  item: state.item,
-  loadedImage: state.loadedImage,
-});
+const mapStateToProps = (state) => ({});
 
-export default compose(connect(mapStateToProps, { getItemById, editItem }))(
-  EditItem
+export default compose(connect(mapStateToProps, { createConference }))(
+  CreateConference
 );

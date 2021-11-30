@@ -78,6 +78,11 @@ class CreateItem extends Component {
             onClick={() => {
               this.createItem();
             }}
+            disabled={
+              this.state.contentPath === "" ||
+              this.state.name === "" ||
+              this.state.price === ""
+            }
             className="btn btn-primary btn-block"
           >
             Create

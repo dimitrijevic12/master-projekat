@@ -111,11 +111,7 @@ class EditItem extends Component {
             onClick={() => {
               this.createItem();
             }}
-            disabled={
-              this.state.contentPath === "" ||
-              this.state.name === "" ||
-              this.state.price === ""
-            }
+            disabled={this.state.name === "" || this.state.price === ""}
             className="btn btn-primary btn-block"
           >
             Edit
@@ -158,14 +154,21 @@ class EditItem extends Component {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
     if (
-      shoppingCartList.some(
-        (shoppingProduct) =>
-          newItem.productKey === shoppingProduct.item.productKey
-      )
+      shoppingCartList.some((shoppingProduct) => {
+        if (shoppingProduct.type === "item") {
+          if (newItem.productKey === shoppingProduct.item.productKey) {
+            return shoppingProduct;
+          }
+        }
+      })
     ) {
-      const elementsIndex = shoppingCartList.findIndex(
-        (element) => element.item.productKey == newItem.productKey
-      );
+      const elementsIndex = shoppingCartList.findIndex((element) => {
+        if (element.type === "item") {
+          if (element.item.productKey === newItem.productKey) {
+            return element;
+          }
+        }
+      });
       let newArray = shoppingCartList;
       newArray[elementsIndex] = {
         ...newArray[elementsIndex],

@@ -16,7 +16,7 @@ function ReviewCourse(props) {
 
   useEffect(() => {
     debugger;
-    props.getCourseById(localStorage.getItem("course-id"));
+    props.getCourseById(localStorage.getItem("shoppingItem-id"));
   }, []);
 
   const Course = () => {
@@ -45,27 +45,15 @@ function ReviewCourse(props) {
     } else {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
-    debugger;
-    if (item !== undefined) {
-      if (shoppingCartList.length > 0) {
-        if (shoppingCartList[0].item.ownerId != item.ownerId) {
-          toast.configure();
-          toast.error("You can't add items of another owner to cart!", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        } else {
-          setShowPostModal(!showPostModal);
-        }
+    shoppingCartList = shoppingCartList.filter((cartItem) => {
+      if (cartItem.type === "course") {
+        return cartItem.item.id !== item.id;
       } else {
-        setShowPostModal(!showPostModal);
+        return cartItem;
       }
-    }
-    debugger;
-  };
-
-  const edit = (course) => {
-    localStorage.setItem("course-id", course.id);
-    window.location = "/edit-course";
+    });
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+    window.location = "/items-in-shopping-cart";
   };
 
   if (props.course === undefined) {
@@ -194,27 +182,49 @@ function ReviewCourse(props) {
             ></textarea>
           </div>
         </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Quantity:</label>
+              <input
+                type="number"
+                name="quantity"
+                class="form-control"
+                id="quantity"
+                value={localStorage.getItem("quantity-for-shopping-item")}
+                disabled={true}
+                placeholder="Enter quantity"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="location">Total price:</label>
+              <input
+                type="text"
+                name="quantity"
+                class="form-control"
+                id="quantity"
+                value={
+                  parseInt(localStorage.getItem("quantity-for-shopping-item")) *
+                    parseInt(props.course.price) +
+                  " €"
+                }
+                disabled={true}
+                placeholder="Enter quantity"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      {sessionStorage.getItem("roleWebShop") === "RegisteredUser" ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => displayModalPost(props.course)}
-            className="btn btn-primary"
-          >
-            Add to cart
-          </button>
-        </div>
-      ) : sessionStorage.getItem("userIdWebShop") ===
-        props.conference.ownerId ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => edit(props.course)}
-            className="btn btn-primary"
-          >
-            Edit course
-          </button>
-        </div>
-      ) : null}
+      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
+        <button
+          onClick={() => displayModalPost(props.item)}
+          className="btn btn-primary"
+        >
+          Remove item from cart
+        </button>
+      </div>
     </React.Fragment>
   );
 }

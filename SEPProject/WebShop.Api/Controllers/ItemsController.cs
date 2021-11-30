@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
@@ -20,6 +21,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "AdminProxy")]
         public IActionResult Save(Item item)
         {
             item.ProductKey = Guid.NewGuid();
@@ -28,6 +30,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Item item)
         {
             return Ok(_itemRepository.Edit(item));
@@ -46,6 +49,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpGet("users/{ownerId}")]
+        [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
             return Ok(_itemRepository.GetItemsForOwner(ownerId));

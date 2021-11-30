@@ -8,7 +8,7 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 
-class NavigationBar extends Component {
+class AdminNavigationBar extends Component {
   state = {};
 
   render() {
@@ -27,9 +27,9 @@ class NavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
-            to="/item"
+            to="/owners-items"
             onClick={() => {
-              window.location = "/items";
+              window.location = "/owners-items";
             }}
           >
             <img src="/images/boxes.png" />
@@ -37,9 +37,9 @@ class NavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
-            to="/conferences"
+            to="/owners-conferences"
             onClick={() => {
-              window.location = "/conferences";
+              window.location = "/owners-conferences";
             }}
           >
             <img
@@ -50,9 +50,9 @@ class NavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
-            to="/courses"
+            to="/owners-courses"
             onClick={() => {
-              window.location = "/courses";
+              window.location = "/owners-courses";
             }}
           >
             <img
@@ -61,18 +61,6 @@ class NavigationBar extends Component {
             />
           </NavLink>
           <span style={{ width: 25, display: "inline-block" }}></span>
-          <NavLink
-            exact
-            to="/items-in-shopping-cart"
-            onClick={() => {
-              window.location = "/items-in-shopping-cart";
-            }}
-          >
-            <img
-              src="/images/shopping-cart.png"
-              style={{ width: 24, height: 24, borderRadius: 50 }}
-            />
-          </NavLink>
           <UncontrolledDropdown style={{ float: "right" }}>
             <DropdownToggle nav caret></DropdownToggle>
             <DropdownMenu right>
@@ -107,4 +95,4 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar;
+export default AdminNavigationBar;

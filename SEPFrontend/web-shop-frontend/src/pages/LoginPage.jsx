@@ -67,9 +67,7 @@ class LoginPage extends Component {
   }
 
   register() {
-    this.props.history.replace({
-      pathname: "/registration",
-    });
+    window.location = "/registration";
   }
 
   async login() {

@@ -7,12 +7,10 @@ import {
 } from "react-instagram-ui-kit";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import {
-  getItemsForOwner,
-  getImagesForItems,
-} from "../../actions/actionsItems";
+import { getImagesForItems } from "../../actions/actionsItems";
+import { getConferencesForOwner } from "../../actions/actionsConference";
 
-class Items extends Component {
+class OwnerConferences extends Component {
   state = {
     showPostModal: false,
     postId: 0,
@@ -20,16 +18,18 @@ class Items extends Component {
   };
   async componentDidMount() {
     debugger;
-    await this.props.getItemsForOwner(sessionStorage.getItem("userIdWebShop"));
-    await this.getAllImages(this.props.itemsForOwner);
+    await this.props.getConferencesForOwner(
+      sessionStorage.getItem("userIdWebShop")
+    );
+    await this.getAllImages(this.props.conferencesForOwner);
   }
   render() {
-    if (this.props.itemsForOwner === undefined) {
+    if (this.props.conferencesForOwner === undefined) {
       return null;
     }
 
     debugger;
-    const itemsForOwner = this.props.itemsForOwner;
+    const conferencesForOwner = this.props.conferencesForOwner;
 
     if (this.props.itemsImages === undefined) {
       return null;
@@ -37,7 +37,7 @@ class Items extends Component {
     debugger;
     const ItemsList = () => {
       debugger;
-      return itemsForOwner.map((post, i) =>
+      return conferencesForOwner.map((post, i) =>
         this.props.itemsImages[i].contentType === "image/jpeg" ? (
           <Photo
             src={
@@ -66,18 +66,9 @@ class Items extends Component {
 
     return (
       <div>
-        {/* {this.state.showPostModal ? (
-          <PostModal
-            show={this.state.showPostModal}
-            postId={this.state.postId}
-            personPhoto="/images/download.jfif"
-            person={this.state.username}
-            onShowChange={() => this.displayModalPost()}
-          />
-        ) : null} */}
         <Grid>
           <GridControlBar>
-            <GridControlBarItem isActive>Your Items</GridControlBarItem>
+            <GridControlBarItem isActive>Yours Conferences</GridControlBarItem>
           </GridControlBar>
           <ItemsList />
         </Grid>
@@ -86,21 +77,9 @@ class Items extends Component {
   }
 
   view(f) {
-    localStorage.setItem("item-productkey", f.productKey);
-    window.location = "/item/" + f.productKey;
+    localStorage.setItem("conference-id", f.id);
+    window.location = "/conference/" + f.id;
   }
-
-  //   displayModalPost = (post) => {
-  //     if (post != undefined) {
-  //       this.setState({
-  //         postId: post.id,
-  //         username: post.registeredUser.username,
-  //       });
-  //     }
-  //     this.setState({
-  //       showPostModal: !this.state.showPostModal,
-  //     });
-  //   };
 
   getAllImages = async (items) => {
     debugger;
@@ -117,13 +96,13 @@ class Items extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  itemsForOwner: state.itemsForOwner,
+  conferencesForOwner: state.conferencesForOwner,
   itemsImages: state.itemsImages,
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getItemsForOwner,
+    getConferencesForOwner,
     getImagesForItems,
   })
-)(Items);
+)(OwnerConferences);

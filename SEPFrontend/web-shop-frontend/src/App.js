@@ -19,6 +19,10 @@ import CoursesPage from "./pages/CoursesPage";
 import ReviewCoursePage from "./pages/ReviewCoursePage";
 import CreateCoursePage from "./pages/CreateCoursePage";
 import EditCoursePage from "./pages/EditCoursePage";
+import ReviewCourseInShoppingCartPage from "./pages/ReviewCourseInShoppingCartPage";
+import ReviewConferenceInShoppingCartPage from "./pages/ReviewConferenceInShoppingCartPage";
+import OwnerConferencesPage from "./pages/OwnerConferencesPage";
+import OwnerCoursesPage from "./pages/OwnerCoursesPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -36,10 +40,23 @@ function App() {
             path="/shopping-item/:itemId"
             element={<ReviewShoppingItemPage />}
           />
+          <Route
+            path="/shopping-course/:courseId"
+            element={<ReviewCourseInShoppingCartPage />}
+          />
+          <Route
+            path="/shopping-conference/:conferenceId"
+            element={<ReviewConferenceInShoppingCartPage />}
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-item" element={<CreateItemPage />} />
           <Route path="/items" element={<ItemsPage />} />
           <Route path="/owners-items" element={<OwnerItemsPage />} />
+          <Route
+            path="/owners-conferences"
+            element={<OwnerConferencesPage />}
+          />
+          <Route path="/owners-courses" element={<OwnerCoursesPage />} />
           <Route path="/edit-item" element={<EditItem />} />
           <Route path="/registration" element={<RegistrationPage />} />
           <Route path="/conferences" element={<ConferencesPage />} />

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
@@ -23,6 +24,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "AdminProxy")]
         public IActionResult Save(Course course)
         {
             return Ok(_courseRepository.Save(course));
@@ -35,9 +37,17 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Course course)
         {
             return Ok(_courseRepository.Edit(course));
+        }
+
+        [HttpGet("users/{ownerId}")]
+        [Authorize(Roles = "AdminProxy")]
+        public IActionResult GetForOwner(Guid ownerId)
+        {
+            return Ok(_courseRepository.GetCoursesForOwner(ownerId));
         }
     }
 }

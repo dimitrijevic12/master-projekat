@@ -104,6 +104,9 @@ namespace WebShop.DataAccess.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -133,8 +136,9 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
+                            Date = new DateTime(2021, 11, 30, 17, 12, 34, 114, DateTimeKind.Local).AddTicks(2050),
                             Description = "ConferenceDesc",
-                            ImagePath = "item.png",
+                            ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
@@ -187,13 +191,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2021, 11, 25, 16, 58, 5, 657, DateTimeKind.Local).AddTicks(4219),
-                            ImagePath = "item.png",
+                            EndDate = new DateTime(2021, 11, 30, 17, 12, 34, 118, DateTimeKind.Local).AddTicks(3445),
+                            ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2021, 11, 25, 16, 58, 5, 654, DateTimeKind.Local).AddTicks(9217)
+                            StartDate = new DateTime(2021, 11, 30, 17, 12, 34, 118, DateTimeKind.Local).AddTicks(3393)
                         });
                 });
 
@@ -229,7 +233,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             ProductKey = new Guid("12345678-1234-1234-1234-123412341234"),
                             Description = "ItemDesc",
-                            ImagePath = "item.png",
+                            ImagePath = "bed.jpg",
                             Name = "ItemName",
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 123.0
@@ -273,7 +277,7 @@ namespace WebShop.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("983dcb79-5204-467e-ac60-00ed6b2afeb6"),
+                            Id = new Guid("8b5722f2-09bc-43ed-b9c0-7cf7740eb312"),
                             Address = "Novosadska 14",
                             Email = "issuer@gmail.com",
                             FirstName = "issuer",
@@ -318,10 +322,10 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            BuyerId = new Guid("983dcb79-5204-467e-ac60-00ed6b2afeb6"),
+                            BuyerId = new Guid("8b5722f2-09bc-43ed-b9c0-7cf7740eb312"),
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Status = 0,
-                            Timestamp = new DateTime(2021, 11, 25, 16, 58, 5, 658, DateTimeKind.Local).AddTicks(3625),
+                            Timestamp = new DateTime(2021, 11, 30, 17, 12, 34, 119, DateTimeKind.Local).AddTicks(1583),
                             TotalPrice = 1640.0
                         });
                 });
@@ -414,7 +418,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2021, 11, 25, 16, 58, 5, 659, DateTimeKind.Local).AddTicks(5118),
+                            DepartureTime = new DateTime(2021, 11, 30, 17, 12, 34, 120, DateTimeKind.Local).AddTicks(3117),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "item.png",
@@ -491,7 +495,7 @@ namespace WebShop.DataAccess.Migrations
             modelBuilder.Entity("WebShop.Core.Model.TransactionItem", b =>
                 {
                     b.HasOne("WebShop.Core.Model.Transaction", "Transaction")
-                        .WithMany()
+                        .WithMany("TransactionItems")
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -508,6 +512,11 @@ namespace WebShop.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("WebShop.Core.Model.Transaction", b =>
+                {
+                    b.Navigation("TransactionItems");
                 });
 #pragma warning restore 612, 618
         }

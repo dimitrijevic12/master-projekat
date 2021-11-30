@@ -7,6 +7,9 @@ import {
   editConference,
 } from "../../actions/actionsConference";
 import Switch from "react-switch";
+import DatePicker from "react-datepicker/dist/react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
 
 class EditConference extends Component {
   state = {
@@ -20,6 +23,7 @@ class EditConference extends Component {
     address: "",
     online: "",
     description: "",
+    date: "",
   };
 
   async componentDidMount() {
@@ -31,6 +35,7 @@ class EditConference extends Component {
       description: this.props.conference.description,
       address: this.props.conference.address,
       online: this.props.conference.online,
+      date: new Date(this.props.conference.date),
     });
   }
 
@@ -114,6 +119,24 @@ class EditConference extends Component {
         <div className="mt-5">
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
+              <label for="tag">Date:</label>
+              <div className="d-block w-100">
+                <DatePicker
+                  className="form-control w-100"
+                  id="date"
+                  name="date"
+                  dateFormat="dd/MM/yyyy"
+                  selected={this.state.date}
+                  minDate={new Date()}
+                  onChange={(e) => this.handleChangeDate(e)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
               <label for="tag">Price:</label>
               <input
                 type="number"
@@ -147,7 +170,7 @@ class EditConference extends Component {
               this.createItem();
             }}
             disabled={
-              this.state.contentPath === "" ||
+              this.state.date === "" ||
               this.state.name === "" ||
               this.state.price === "" ||
               (this.state.address === "" && this.state.online === false)
@@ -160,6 +183,12 @@ class EditConference extends Component {
       </React.Fragment>
     );
   }
+
+  handleChangeDate = (e) => {
+    this.setState({
+      date: e,
+    });
+  };
 
   handleChangeOnline = (checked) => {
     debugger;
@@ -176,6 +205,7 @@ class EditConference extends Component {
           ? this.props.conference.imagePath
           : this.state.contentPath,
       price: this.state.price,
+      date: this.state.date,
       description: this.state.description,
       address: this.state.online === true ? "" : this.state.address,
       online: this.state.online,
@@ -189,35 +219,43 @@ class EditConference extends Component {
           ? this.props.conference.imagePath
           : this.state.contentPath,
       Price: this.state.price,
+      Date: this.state.date,
       Description: this.state.description,
       Address: this.state.online === true ? "" : this.state.address,
       Online: this.state.online,
       OwnerId: this.props.conference.ownerId,
     });
-    // if (
-    //   localStorage.getItem("shoppingCart") === null ||
-    //   localStorage.getItem("shoppingCart") === ""
-    // ) {
-    //   var shoppingCartList = [];
-    // } else {
-    //   var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
-    // }
-    // if (
-    //   shoppingCartList.some(
-    //     (shoppingProduct) =>
-    //       newItem.productKey === shoppingProduct.item.productKey
-    //   )
-    // ) {
-    //   const elementsIndex = shoppingCartList.findIndex(
-    //     (element) => element.item.productKey == newItem.productKey
-    //   );
-    //   let newArray = shoppingCartList;
-    //   newArray[elementsIndex] = {
-    //     ...newArray[elementsIndex],
-    //     item: newItem,
-    //   };
-    //   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
-    // }
+    if (
+      localStorage.getItem("shoppingCart") === null ||
+      localStorage.getItem("shoppingCart") === ""
+    ) {
+      var shoppingCartList = [];
+    } else {
+      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    }
+    if (
+      shoppingCartList.some((shoppingProduct) => {
+        if (shoppingProduct.type === "conference") {
+          if (newConference.id === shoppingProduct.item.id) {
+            return shoppingProduct;
+          }
+        }
+      })
+    ) {
+      const elementsIndex = shoppingCartList.findIndex((element) => {
+        if (element.type === "conference") {
+          if (element.item.id === newConference.id) {
+            return element;
+          }
+        }
+      });
+      let newArray = shoppingCartList;
+      newArray[elementsIndex] = {
+        ...newArray[elementsIndex],
+        item: newConference,
+      };
+      localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+    }
     window.location = "/conferences";
   }
 

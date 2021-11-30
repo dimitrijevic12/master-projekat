@@ -8,6 +8,7 @@ namespace WebShop.Core.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Online { get; set; }
+        public DateTime Date { get; set; }
         public double Price { get; set; }
         public string Address { get; set; }
         public string ImagePath{ get; set; }
@@ -19,12 +20,13 @@ namespace WebShop.Core.Model
         }
 
         public Conference(Guid id, string name, string description, bool online, 
-            double price, string address, string imagePath, Guid ownerId)
+            DateTime date, double price, string address, string imagePath, Guid ownerId)
         {
             Id = id;
             Name = name;
             Description = description;
             Online = online;
+            Date = date;
             Price = price;
             Address = address;
             ImagePath = imagePath;

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { getCourseById } from "../../actions/actionsCourse";
+import { getConferenceById } from "../../actions/actionsConference";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Switch from "react-switch";
-import BuyCourseModal from "./BuyCourseModal";
+import BuyConferenceModal from "./BuyConferenceModal";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../css/datepicker.css";
 
-function ReviewCourse(props) {
+function ReviewConference(props) {
   const [item, setItem] = useState({});
   const [showPostModal, setShowPostModal] = useState(false);
 
   useEffect(() => {
     debugger;
-    props.getCourseById(localStorage.getItem("course-id"));
+    props.getConferenceById(localStorage.getItem("shoppingItem-id"));
   }, []);
 
-  const Course = () => {
+  const Conference = () => {
     debugger;
     if (props.loadedImage === undefined) {
       return null;
@@ -45,37 +45,25 @@ function ReviewCourse(props) {
     } else {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
-    debugger;
-    if (item !== undefined) {
-      if (shoppingCartList.length > 0) {
-        if (shoppingCartList[0].item.ownerId != item.ownerId) {
-          toast.configure();
-          toast.error("You can't add items of another owner to cart!", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        } else {
-          setShowPostModal(!showPostModal);
-        }
+    shoppingCartList = shoppingCartList.filter((cartItem) => {
+      if (cartItem.type === "conference") {
+        return cartItem.item.id !== item.id;
       } else {
-        setShowPostModal(!showPostModal);
+        return cartItem;
       }
-    }
-    debugger;
+    });
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+    window.location = "/items-in-shopping-cart";
   };
 
-  const edit = (course) => {
-    localStorage.setItem("course-id", course.id);
-    window.location = "/edit-course";
-  };
-
-  if (props.course === undefined) {
+  if (props.conference === undefined) {
     return null;
   }
 
   return (
     <React.Fragment>
       {showPostModal ? (
-        <BuyCourseModal
+        <BuyConferenceModal
           show={showPostModal}
           item={item}
           onShowChange={() => displayModalPost()}
@@ -84,7 +72,7 @@ function ReviewCourse(props) {
       <div className="mt-5">
         <div className="d-inline-flex w-50">
           <div class="form-group w-100 pr-5">
-            <Course />
+            <Conference />
           </div>
         </div>
         <div className="d-inline-flex w-50">
@@ -95,7 +83,7 @@ function ReviewCourse(props) {
               name="name"
               class="form-control"
               id="name"
-              value={props.course.name}
+              value={props.conference.name}
               disabled={true}
               placeholder="Enter name of product"
             />
@@ -108,7 +96,7 @@ function ReviewCourse(props) {
             <label for="tag">Online:</label>
             <br />
             <Switch
-              checked={props.course.online}
+              checked={props.conference.online}
               className="react-switch"
               id="normal-switch"
               disabled={true}
@@ -123,7 +111,7 @@ function ReviewCourse(props) {
               name="address"
               class="form-control"
               id="address"
-              value={props.course.address}
+              value={props.conference.address}
               disabled={true}
             />
           </div>
@@ -132,36 +120,32 @@ function ReviewCourse(props) {
       <div className="mt-5">
         <div className="d-inline-flex w-50">
           <div class="form-group w-100 pr-5">
-            <label for="tag">Start Date:</label>
+            <label for="tag">Date:</label>
             <div className="d-block w-100">
               <DatePicker
                 className="form-control w-100"
-                id="startDate"
-                name="startDate"
-                disabled={true}
+                id="date"
+                name="date"
                 dateFormat="dd/MM/yyyy"
-                selected={new Date(props.course.startDate)}
+                selected={new Date(props.conference.date)}
+                disabled={true}
                 minDate={new Date()}
-                onChange={(e) => this.handleChangeDate(e)}
               />
             </div>
           </div>
         </div>
         <div className="d-inline-flex w-50">
           <div class="form-group w-100 pr-5">
-            <label for="location">End Date:</label>
-            <div className="d-block w-100">
-              <DatePicker
-                className="form-control w-100"
-                id="endDate"
-                name="endDate"
-                disabled={true}
-                dateFormat="dd/MM/yyyy"
-                selected={new Date(props.course.endDate)}
-                minDate={new Date()}
-                onChange={(e) => this.handleChangeDate(e)}
-              />
-            </div>
+            <label for="tag">Quantity:</label>
+            <input
+              type="number"
+              name="quantity"
+              class="form-control"
+              id="quantity"
+              value={localStorage.getItem("quantity-for-shopping-item")}
+              disabled={true}
+              placeholder="Enter quantity"
+            />
           </div>
         </div>
       </div>
@@ -174,7 +158,7 @@ function ReviewCourse(props) {
               name="price"
               class="form-control"
               id="price"
-              value={props.course.price + " €"}
+              value={props.conference.price + " €"}
               disabled={true}
               placeholder="Enter price"
             />
@@ -185,7 +169,7 @@ function ReviewCourse(props) {
             <label for="location">Description:</label>
             <textarea
               name="description"
-              value={props.course.description}
+              value={props.conference.description}
               cols="40"
               rows="5"
               class="form-control"
@@ -195,37 +179,45 @@ function ReviewCourse(props) {
           </div>
         </div>
       </div>
-      {sessionStorage.getItem("roleWebShop") === "RegisteredUser" ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => displayModalPost(props.course)}
-            className="btn btn-primary"
-          >
-            Add to cart
-          </button>
+      <div className="mt-5">
+        <div className="d-inline-flex w-50">
+          <div class="form-group w-100 pr-5">
+            <label for="location">Total price:</label>
+            <input
+              type="text"
+              name="quantity"
+              class="form-control"
+              id="quantity"
+              value={
+                parseInt(localStorage.getItem("quantity-for-shopping-item")) *
+                  parseInt(props.conference.price) +
+                " €"
+              }
+              disabled={true}
+              placeholder="Enter quantity"
+            />
+          </div>
         </div>
-      ) : sessionStorage.getItem("userIdWebShop") ===
-        props.conference.ownerId ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => edit(props.course)}
-            className="btn btn-primary"
-          >
-            Edit course
-          </button>
-        </div>
-      ) : null}
+      </div>
+      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
+        <button
+          onClick={() => displayModalPost(props.conference)}
+          className="btn btn-primary"
+        >
+          Remove from shopping cart
+        </button>
+      </div>
     </React.Fragment>
   );
 }
 
 const mapStateToProps = (state) => ({
-  course: state.course,
+  conference: state.conference,
   loadedImage: state.loadedImage,
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getCourseById,
+    getConferenceById,
   })
-)(ReviewCourse);
+)(ReviewConference);

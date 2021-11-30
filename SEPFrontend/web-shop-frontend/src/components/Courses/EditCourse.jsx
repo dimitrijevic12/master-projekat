@@ -257,30 +257,37 @@ class EditCourse extends Component {
         StartDate: this.state.startDate,
         EndDate: this.state.endDate,
       });
-      // if (
-      //   localStorage.getItem("shoppingCart") === null ||
-      //   localStorage.getItem("shoppingCart") === ""
-      // ) {
-      //   var shoppingCartList = [];
-      // } else {
-      //   var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
-      // }
-      // if (
-      //   shoppingCartList.some(
-      //     (shoppingProduct) =>
-      //       newItem.productKey === shoppingProduct.item.productKey
-      //   )
-      // ) {
-      //   const elementsIndex = shoppingCartList.findIndex(
-      //     (element) => element.item.productKey == newItem.productKey
-      //   );
-      //   let newArray = shoppingCartList;
-      //   newArray[elementsIndex] = {
-      //     ...newArray[elementsIndex],
-      //     item: newItem,
-      //   };
-      //   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
-      // }
+      if (
+        localStorage.getItem("shoppingCart") === null ||
+        localStorage.getItem("shoppingCart") === ""
+      ) {
+        var shoppingCartList = [];
+      } else {
+        var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+      }
+      if (
+        shoppingCartList.some((shoppingProduct) => {
+          if (shoppingProduct.type === "course") {
+            if (newCourse.id === shoppingProduct.item.id) {
+              return shoppingProduct;
+            }
+          }
+        })
+      ) {
+        const elementsIndex = shoppingCartList.findIndex((element) => {
+          if (element.type === "course") {
+            if (element.item.id === newCourse.id) {
+              return element;
+            }
+          }
+        });
+        let newArray = shoppingCartList;
+        newArray[elementsIndex] = {
+          ...newArray[elementsIndex],
+          item: newCourse,
+        };
+        localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+      }
       window.location = "/courses";
     }
   }

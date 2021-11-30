@@ -64,11 +64,6 @@ function ReviewItem(props) {
     window.location = "/edit-item";
   };
 
-  // const deleteItem = async () => {
-  //   await props.deleteItem(props.item);
-  //   window.location = "/";
-  // };
-
   if (props.item === undefined) {
     return null;
   }
@@ -133,52 +128,22 @@ function ReviewItem(props) {
           </div>
         </div>
       </div>
-      {/* {sessionStorage.getItem("userIdAgentApp") === undefined ||
-      sessionStorage.getItem("userIdAgentApp") === "" ? (
-        ""
-      ) : sessionStorage.getItem("roleAgentApp") === "Agent" ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => {
-              editItem();
-            }}
-            className="btn btn-danger"
-          >
-            Edit
-          </button>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <button
-            onClick={() => {
-              deleteItem();
-            }}
-            className="btn btn-danger"
-          >
-            Delete
-          </button>
-        </div>
-      ) : (
+      {sessionStorage.getItem("roleWebShop") === "RegisteredUser" ? (
         <div style={{ textAlign: "center" }} className="mt-5 pb-5">
           <button
             onClick={() => displayModalPost(props.item)}
             className="btn btn-primary"
           >
-            Buy
+            Add to cart
           </button>
         </div>
-      )} */}
-      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-        <button
-          onClick={() => displayModalPost(props.item)}
-          className="btn btn-primary"
-        >
-          Add to cart
-        </button>
-      </div>
-      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-        <button onClick={() => edit(props.item)} className="btn btn-primary">
-          Edit item
-        </button>
-      </div>
+      ) : sessionStorage.getItem("userIdWebShop") === props.item.ownerId ? (
+        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
+          <button onClick={() => edit(props.item)} className="btn btn-primary">
+            Edit item
+          </button>
+        </div>
+      ) : null}
     </React.Fragment>
   );
 }

@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 
-class BuyItemModal extends Component {
+class BuyCourseModal extends Component {
   state = {
     showBuyModal: this.props.show,
     item: this.props.item,
@@ -65,20 +65,20 @@ class BuyItemModal extends Component {
     const product = {
       item: this.state.item,
       quantity: this.state.quantity,
-      type: "item",
+      type: "course",
     };
     if (
       shoppingCartList.some((shoppingProduct) => {
-        if (shoppingProduct.type === "item") {
-          if (product.item.productKey === shoppingProduct.item.productKey) {
+        if (shoppingProduct.type === "course") {
+          if (product.item.id === shoppingProduct.item.id) {
             return shoppingProduct;
           }
         }
       })
     ) {
       var foundProduct = shoppingCartList.filter((request) => {
-        if (request.type === "item") {
-          if (product.item.productKey === request.item.productKey) {
+        if (request.type === "course") {
+          if (product.item.id === request.item.id) {
             return request;
           }
         }
@@ -86,8 +86,8 @@ class BuyItemModal extends Component {
       const newQuantity =
         parseInt(foundProduct[0].quantity) + parseInt(product.quantity);
       const elementsIndex = shoppingCartList.findIndex((element) => {
-        if (element.type === "item") {
-          if (element.item.productKey == product.item.productKey) {
+        if (element.type === "course") {
+          if (element.item.id == product.item.id) {
             return element;
           }
         }
@@ -126,4 +126,4 @@ class BuyItemModal extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, {})(BuyItemModal);
+export default connect(mapStateToProps, {})(BuyCourseModal);

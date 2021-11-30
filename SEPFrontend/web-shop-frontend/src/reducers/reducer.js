@@ -17,6 +17,8 @@ import {
   GET_COURSE_BY_ID,
   CREATE_COURSE,
   EDIT_COURSE,
+  GET_COURSES_FOR_OWNER,
+  GET_CONFERENCES_FOR_OWNER,
 } from "../types/types";
 
 const initialState = {
@@ -30,6 +32,8 @@ const initialState = {
   conference: {},
   courses: [],
   course: {},
+  coursesForOwner: [],
+  conferencesForOwner: [],
 };
 
 function reducer(state = initialState, action) {
@@ -115,6 +119,16 @@ function reducer(state = initialState, action) {
     case EDIT_COURSE:
       return {
         ...state,
+      };
+    case GET_COURSES_FOR_OWNER:
+      return {
+        ...state,
+        coursesForOwner: action.payload,
+      };
+    case GET_CONFERENCES_FOR_OWNER:
+      return {
+        ...state,
+        conferencesForOwner: action.payload,
       };
     default:
       return state;

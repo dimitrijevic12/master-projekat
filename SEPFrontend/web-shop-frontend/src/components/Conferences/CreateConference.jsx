@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { createConference } from "../../actions/actionsConference";
 import Switch from "react-switch";
+import DatePicker from "react-datepicker/dist/react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
 
 class CreateConference extends Component {
   state = {
@@ -17,6 +20,7 @@ class CreateConference extends Component {
     description: "",
     online: false,
     address: "",
+    date: "",
   };
   render() {
     return (
@@ -43,6 +47,24 @@ class CreateConference extends Component {
                 id="name"
                 placeholder="Enter name of product"
               />
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Date:</label>
+              <div className="d-block w-100">
+                <DatePicker
+                  className="form-control w-100"
+                  id="date"
+                  name="date"
+                  dateFormat="dd/MM/yyyy"
+                  selected={this.state.date}
+                  minDate={new Date()}
+                  onChange={(e) => this.handleChangeDate(e)}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -125,6 +147,12 @@ class CreateConference extends Component {
     );
   }
 
+  handleChangeDate = (e) => {
+    this.setState({
+      date: e,
+    });
+  };
+
   handleChangeOnline = (checked) => {
     debugger;
     this.setState({ online: checked });
@@ -135,6 +163,7 @@ class CreateConference extends Component {
     await this.props.createConference({
       Name: this.state.name,
       ImagePath: this.state.contentPath,
+      Date: this.state.date,
       Price: this.state.price,
       Description: this.state.description,
       Online: this.state.online,

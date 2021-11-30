@@ -10,7 +10,7 @@ function ReviewItemInShoppingCart(props) {
 
   useEffect(() => {
     debugger;
-    props.getItemById(localStorage.getItem("shoppingItem-productkey"));
+    props.getItemById(localStorage.getItem("shoppingItem-id"));
   }, []);
 
   const Item = () => {
@@ -40,9 +40,13 @@ function ReviewItemInShoppingCart(props) {
     } else {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
-    shoppingCartList = shoppingCartList.filter(
-      (cartItem) => cartItem.item.productKey !== item.productKey
-    );
+    shoppingCartList = shoppingCartList.filter((cartItem) => {
+      if (cartItem.type === "item") {
+        return cartItem.item.productKey !== item.productKey;
+      } else {
+        return cartItem;
+      }
+    });
     localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
     window.location = "/items-in-shopping-cart";
   };
@@ -145,39 +149,6 @@ function ReviewItemInShoppingCart(props) {
           </div>
         </div>
       </div>
-      {/* {sessionStorage.getItem("userIdAgentApp") === undefined ||
-      sessionStorage.getItem("userIdAgentApp") === "" ? (
-        ""
-      ) : sessionStorage.getItem("roleAgentApp") === "Agent" ? (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => {
-              editItem();
-            }}
-            className="btn btn-danger"
-          >
-            Edit
-          </button>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <button
-            onClick={() => {
-              deleteItem();
-            }}
-            className="btn btn-danger"
-          >
-            Delete
-          </button>
-        </div>
-      ) : (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => displayModalPost(props.item)}
-            className="btn btn-primary"
-          >
-            Buy
-          </button>
-        </div>
-      )} */}
       <div style={{ textAlign: "center" }} className="mt-5 pb-5">
         <button
           onClick={() => displayModalPost(props.item)}

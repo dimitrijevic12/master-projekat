@@ -34,3 +34,7 @@ export const CREATE_COURSE = "createCourse";
 export const CREATE_COURSE_ERROR = "createCourseError";
 export const EDIT_COURSE = "editCourse";
 export const EDIT_COURSE_ERROR = "editCourseError";
+export const GET_CONFERENCES_FOR_OWNER = "getConferencesForOwner";
+export const GET_CONFERENCES_FOR_OWNER_ERROR = "getConferencesForOwnerError";
+export const GET_COURSES_FOR_OWNER = "getCoursesForOwner";
+export const GET_COURSES_FOR_OWNER_ERROR = "getCoursesForOwnerError";

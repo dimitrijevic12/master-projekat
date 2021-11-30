@@ -33,7 +33,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             modelBuilder.Entity<Admin>().HasData(admin);
 
             modelBuilder.Entity<Item>().HasData(
-                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Accommodation>().HasData(
@@ -41,11 +41,11 @@ namespace WebShop.DataAccess.WebShopDbContext
             );
 
             modelBuilder.Entity<Conference>().HasData(
-               new Conference(new Guid("12345678-1234-1234-1234-123412341234"), "ConferenceName", "ConferenceDesc", false, 1400.0, "Beogradska 14", "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Conference(new Guid("12345678-1234-1234-1234-123412341234"), "ConferenceName", "ConferenceDesc", false, DateTime.Now, 1400.0, "Beogradska 14", "conference12345123.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Course>().HasData(
-               new Course(new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", "CourseDesc", false, DateTime.Now, DateTime.Now, 1400.0, "Beogradska 14", "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Course(new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", "CourseDesc", false, DateTime.Now, DateTime.Now, 1400.0, "Beogradska 14", "conferences-integrated-systems-events-1500x630-2.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Transaction>().HasData(

@@ -8,6 +8,8 @@ import {
   LOAD_IMAGE,
   EDIT_CONFERENCE,
   EDIT_CONFERENCE_ERROR,
+  GET_CONFERENCES_FOR_OWNER,
+  GET_CONFERENCES_FOR_OWNER_ERROR,
 } from "../types/types";
 import axios from "axios";
 
@@ -116,6 +118,30 @@ export const editConference = (conference) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: EDIT_CONFERENCE_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const getConferencesForOwner = (ownerId) => async (dispatch) => {
+  ownerId = sessionStorage.getItem("userIdWebShop");
+  try {
+    const response = await axios.get(
+      `https://localhost:5001/api/conferences/users/` + ownerId,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
+    dispatch({
+      type: GET_CONFERENCES_FOR_OWNER,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: GET_CONFERENCES_FOR_OWNER_ERROR,
       payload: console.log(e),
     });
   }

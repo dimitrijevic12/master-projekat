@@ -5,7 +5,10 @@ import { compose } from "redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Switch from "react-switch";
-import BuyItemModal from "../Items/BuyItemModal";
+import BuyConferenceModal from "./BuyConferenceModal";
+import DatePicker from "react-datepicker/dist/react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
 
 function ReviewConference(props) {
   const [item, setItem] = useState({});
@@ -65,11 +68,6 @@ function ReviewConference(props) {
     window.location = "/edit-conference";
   };
 
-  // const deleteItem = async () => {
-  //   await props.deleteItem(props.item);
-  //   window.location = "/";
-  // };
-
   if (props.conference === undefined) {
     return null;
   }
@@ -77,7 +75,7 @@ function ReviewConference(props) {
   return (
     <React.Fragment>
       {showPostModal ? (
-        <BuyItemModal
+        <BuyConferenceModal
           show={showPostModal}
           item={item}
           onShowChange={() => displayModalPost()}
@@ -134,6 +132,24 @@ function ReviewConference(props) {
       <div className="mt-5">
         <div className="d-inline-flex w-50">
           <div class="form-group w-100 pr-5">
+            <label for="tag">Date:</label>
+            <div className="d-block w-100">
+              <DatePicker
+                className="form-control w-100"
+                id="date"
+                name="date"
+                dateFormat="dd/MM/yyyy"
+                selected={new Date(props.conference.date)}
+                disabled={true}
+                minDate={new Date()}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-5">
+        <div className="d-inline-flex w-50">
+          <div class="form-group w-100 pr-5">
             <label for="tag">Price:</label>
             <input
               type="text"
@@ -161,55 +177,26 @@ function ReviewConference(props) {
           </div>
         </div>
       </div>
-      {/* {sessionStorage.getItem("userIdAgentApp") === undefined ||
-      sessionStorage.getItem("userIdAgentApp") === "" ? (
-        ""
-      ) : sessionStorage.getItem("roleAgentApp") === "Agent" ? (
+      {sessionStorage.getItem("roleWebShop") === "RegisteredUser" ? (
         <div style={{ textAlign: "center" }} className="mt-5 pb-5">
           <button
-            onClick={() => {
-              editItem();
-            }}
-            className="btn btn-danger"
-          >
-            Edit
-          </button>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <button
-            onClick={() => {
-              deleteItem();
-            }}
-            className="btn btn-danger"
-          >
-            Delete
-          </button>
-        </div>
-      ) : (
-        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-          <button
-            onClick={() => displayModalPost(props.item)}
+            onClick={() => displayModalPost(props.conference)}
             className="btn btn-primary"
           >
-            Buy
+            Add to cart
           </button>
         </div>
-      )} */}
-      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-        <button
-          onClick={() => displayModalPost(props.conference)}
-          className="btn btn-primary"
-        >
-          Add to cart
-        </button>
-      </div>
-      <div style={{ textAlign: "center" }} className="mt-5 pb-5">
-        <button
-          onClick={() => edit(props.conference)}
-          className="btn btn-primary"
-        >
-          Edit item
-        </button>
-      </div>
+      ) : sessionStorage.getItem("userIdWebShop") ===
+        props.conference.ownerId ? (
+        <div style={{ textAlign: "center" }} className="mt-5 pb-5">
+          <button
+            onClick={() => edit(props.conference)}
+            className="btn btn-primary"
+          >
+            Edit conference
+          </button>
+        </div>
+      ) : null}
     </React.Fragment>
   );
 }

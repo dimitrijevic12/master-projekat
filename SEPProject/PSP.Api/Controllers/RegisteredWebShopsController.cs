@@ -36,6 +36,7 @@ namespace PSP.Api.Controllers
         public IActionResult Save(RegisteredWebShopDTO registeredWebShopDTO)
         {
             registeredWebShopDTO.Id = Guid.NewGuid();
+            registeredWebShopDTO.WebShopId = _registeredWebShopRepository.GetAll().ToList().Max(shop => shop.WebShopId) + 1;
             _registeredWebShopService.Save(registeredWebShopDTO);
             return Created(Request.Path + registeredWebShopDTO.Id, "");
         }

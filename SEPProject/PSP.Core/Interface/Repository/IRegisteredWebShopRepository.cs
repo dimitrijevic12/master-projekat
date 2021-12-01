@@ -9,5 +9,6 @@ namespace PSP.Core.Interface.Repository
 {
     public interface IRegisteredWebShopRepository : IRepository<RegisteredWebShop>
     {
+        public RegisteredWebShop GetByEmail(string email);
     }
 }

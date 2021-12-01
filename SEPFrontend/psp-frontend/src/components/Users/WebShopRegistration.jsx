@@ -192,7 +192,7 @@ class WebShopRegistration extends Component {
     });
 
     if (successful === true) {
-      window.location = "/registration";
+      window.location = "/login";
     } else {
       toast.configure();
       toast.error("Unsuccessful registration!", {

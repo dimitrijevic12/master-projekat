@@ -2,15 +2,9 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { createCourse } from "../../actions/actionsCourse";
-import Switch from "react-switch";
-import DatePicker from "react-datepicker/dist/react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { createAccommodation } from "../../actions/actionsAccommodation";
 
-class CreateCourse extends Component {
+class CreateAccommodation extends Component {
   state = {
     file: null,
     fileName: "",
@@ -20,10 +14,8 @@ class CreateCourse extends Component {
     name: "",
     price: "",
     description: "",
-    online: false,
     address: "",
-    startDate: "",
-    endDate: "",
+    city: "",
   };
   render() {
     return (
@@ -56,41 +48,7 @@ class CreateCourse extends Component {
         <div className="mt-5">
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
-              <label for="tag">Start Date:</label>
-              <div className="d-block w-100">
-                <DatePicker
-                  className="form-control w-100"
-                  id="startDate"
-                  name="startDate"
-                  dateFormat="dd/MM/yyyy"
-                  selected={this.state.startDate}
-                  minDate={new Date()}
-                  onChange={(e) => this.handleChangeStartDate(e)}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="location">End Date:</label>
-              <div className="d-block w-100">
-                <DatePicker
-                  className="form-control w-100"
-                  id="endDate"
-                  name="endDate"
-                  dateFormat="dd/MM/yyyy"
-                  selected={this.state.endDate}
-                  minDate={new Date()}
-                  onChange={(e) => this.handleChangeEndDate(e)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mt-5">
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="tag">Price:</label>
+              <label for="tag">Cost per night:</label>
               <input
                 type="number"
                 name="price"
@@ -98,37 +56,7 @@ class CreateCourse extends Component {
                 onChange={this.handleChange}
                 class="form-control"
                 id="price"
-                placeholder="Enter price"
-              />
-            </div>
-          </div>
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="location">Online:</label>
-              <br />
-              <Switch
-                onChange={this.handleChangeOnline}
-                checked={this.state.online}
-                className="react-switch"
-                id="normal-switch"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-5">
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="tag">Address:</label>
-              <input
-                type="text"
-                name="address"
-                disabled={this.state.online === true}
-                value={this.state.online === true ? "" : this.state.address}
-                onChange={this.handleChange}
-                class="form-control"
-                id="address"
-                placeholder="Enter address"
+                placeholder="Enter cost per night"
               />
             </div>
           </div>
@@ -147,18 +75,46 @@ class CreateCourse extends Component {
             </div>
           </div>
         </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Address:</label>
+              <input
+                type="text"
+                name="address"
+                value={this.state.address}
+                onChange={this.handleChange}
+                class="form-control"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">City:</label>
+              <input
+                type="text"
+                name="city"
+                value={this.state.city}
+                onChange={this.handleChange}
+                class="form-control"
+                id="city"
+                placeholder="Enter city"
+              />
+            </div>
+          </div>
+        </div>
         <div className="mt-5 pb-5">
           <button
             onClick={() => {
-              this.createConference();
+              this.createAccommodation();
             }}
             disabled={
               this.state.contentPath === "" ||
               this.state.name === "" ||
-              this.state.startDate === "" ||
-              this.state.endDate === "" ||
               this.state.price === "" ||
-              (this.state.address === "" && this.state.online === false)
+              this.state.address === ""
             }
             className="btn btn-primary btn-block"
           >
@@ -169,44 +125,18 @@ class CreateCourse extends Component {
     );
   }
 
-  handleChangeStartDate = (e) => {
-    this.setState({
-      startDate: e,
-    });
-  };
-
-  handleChangeEndDate = (e) => {
-    this.setState({
-      endDate: e,
-    });
-  };
-
-  handleChangeOnline = (checked) => {
+  async createAccommodation() {
     debugger;
-    this.setState({ online: checked });
-  };
-
-  async createConference() {
-    debugger;
-    if (this.state.startDate > this.state.endDate) {
-      toast.configure();
-      toast.error("Incorrect dates!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    } else {
-      await this.props.createCourse({
-        Name: this.state.name,
-        ImagePath: this.state.contentPath,
-        Price: this.state.price,
-        Description: this.state.description,
-        Online: this.state.online,
-        Address: this.state.online === true ? "" : this.state.address,
-        StartDate: this.state.startDate,
-        EndDate: this.state.endDate,
-        OwnerId: sessionStorage.getItem("userIdWebShop"),
-      });
-      window.location = "/owners-courses";
-    }
+    await this.props.createAccommodation({
+      Name: this.state.name,
+      ImagePath: this.state.contentPath,
+      CostPerNight: this.state.price,
+      Description: this.state.description,
+      Address: this.state.address,
+      City: this.state.city,
+      OwnerId: sessionStorage.getItem("userIdWebShop"),
+    });
+    window.location = "/owners-accommodations";
   }
 
   choosePost = async (event) => {
@@ -259,6 +189,6 @@ class CreateCourse extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default compose(connect(mapStateToProps, { createCourse }))(
-  CreateCourse
+export default compose(connect(mapStateToProps, { createAccommodation }))(
+  CreateAccommodation
 );

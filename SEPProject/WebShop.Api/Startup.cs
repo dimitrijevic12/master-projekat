@@ -54,6 +54,7 @@ namespace WebShop.Api
             services.AddScoped<ContentService>();
             services.AddScoped<ConferenceService>();
             services.AddScoped<CourseService>();
+            services.AddScoped<AccommodationService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

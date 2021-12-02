@@ -7,5 +7,6 @@ namespace WebShop.Core.Interface.Repository
     public interface ITransactionRepository : IRepository<Transaction>
     {
         public IEnumerable<Transaction> GetTransactionsForBuyer(Guid userId);
+        public IEnumerable<Transaction> GetTransactionsForSeller(Guid userId);
     }
 }

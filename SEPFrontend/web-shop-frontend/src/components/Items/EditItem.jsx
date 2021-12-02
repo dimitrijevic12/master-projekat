@@ -176,7 +176,7 @@ class EditItem extends Component {
       };
       localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
     }
-    window.location = "/items";
+    window.location = "/owners-items";
   }
 
   choosePost = async (event) => {

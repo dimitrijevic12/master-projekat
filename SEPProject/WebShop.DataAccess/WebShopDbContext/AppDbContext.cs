@@ -37,7 +37,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             );
 
             modelBuilder.Entity<Accommodation>().HasData(
-               new Accommodation(new Guid("12345678-1234-1234-1234-123412341234"), "AccomodationName", "AccomodationDesc", 1000.0, "Beogradska 14", "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Accommodation(new Guid("12345678-1234-1234-1234-123412341234"), "AccomodationName", "AccomodationDesc", 1000.0, "Beogradska 14", "Belgrade", "95024620.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Conference>().HasData(

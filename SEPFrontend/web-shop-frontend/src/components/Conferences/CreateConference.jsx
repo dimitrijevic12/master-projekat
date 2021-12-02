@@ -170,7 +170,7 @@ class CreateConference extends Component {
       Address: this.state.online === true ? "" : this.state.address,
       OwnerId: sessionStorage.getItem("userIdWebShop"),
     });
-    window.location = "/conferences";
+    window.location = "/owners-conferences";
   }
 
   choosePost = async (event) => {

@@ -20,5 +20,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Transactions.ToList().Where(transaction => transaction.BuyerId == userId).ToList();
         }
+
+        public IEnumerable<Transaction> GetTransactionsForSeller(Guid userId)
+        {
+            return dbContext.Transactions.ToList().Where(transaction => transaction.SellerId == userId).ToList();
+        }
     }
 }

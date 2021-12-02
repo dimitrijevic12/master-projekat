@@ -288,7 +288,7 @@ class EditCourse extends Component {
         };
         localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
       }
-      window.location = "/courses";
+      window.location = "/owners-courses";
     }
   }
 

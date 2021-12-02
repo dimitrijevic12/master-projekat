@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
@@ -12,13 +13,13 @@ namespace WebShop.Api.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;
-        private readonly TransactionService transactinService;
+        private readonly TransactionService transactionService;
 
         public TransactionsController(ITransactionRepository transactionRepository,
-            TransactionService transactinService)
+            TransactionService transactionService)
         {
             _transactionRepository = transactionRepository;
-            this.transactinService = transactinService;
+            this.transactionService = transactionService;
         }
 
         [HttpGet]
@@ -32,8 +33,26 @@ namespace WebShop.Api.Controllers
         public IActionResult Save(Transaction transaction)
         {
             transaction.Id = Guid.NewGuid();
-            transactinService.Save(transaction);
+            Result result = transactionService.Save(transaction);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
             return Created(Request.Path + transaction.Id, "");
+        }
+
+        [HttpGet("buyers/{userId}")]
+        public IActionResult GetTransactionsForBuyer(Guid userId)
+        {
+            return Ok(_transactionRepository.GetTransactionsForBuyer(userId));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            return _transactionRepository.GetById(id) is null ?
+                BadRequest() :
+                Ok(_transactionRepository.GetById(id));
         }
     }
 }

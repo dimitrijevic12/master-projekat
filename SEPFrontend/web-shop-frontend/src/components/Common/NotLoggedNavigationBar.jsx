@@ -20,9 +20,12 @@ class NotLoggedNavigationBar extends Component {
               <DropdownItem>
                 <NavLink to="/registration">Registration</NavLink>
               </DropdownItem>
-              <DropdownItem divider />
               <DropdownItem>
                 <NavLink to="/admin-registration">Admin Registration</NavLink>
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>
+                <NavLink to="/login">Login</NavLink>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

@@ -23,6 +23,8 @@ import ReviewCourseInShoppingCartPage from "./pages/ReviewCourseInShoppingCartPa
 import ReviewConferenceInShoppingCartPage from "./pages/ReviewConferenceInShoppingCartPage";
 import OwnerConferencesPage from "./pages/OwnerConferencesPage";
 import OwnerCoursesPage from "./pages/OwnerCoursesPage";
+import TransactionsForBuyerPage from "./pages/TransactionsForBuyerPage";
+import ReviewTransactionPage from "./pages/ReviewTransactionPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -48,6 +50,10 @@ function App() {
             path="/shopping-conference/:conferenceId"
             element={<ReviewConferenceInShoppingCartPage />}
           />
+          <Route
+            path="/transaction/:transactionId"
+            element={<ReviewTransactionPage />}
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/create-item" element={<CreateItemPage />} />
           <Route path="/items" element={<ItemsPage />} />
@@ -65,6 +71,10 @@ function App() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/create-course" element={<CreateCoursePage />} />
           <Route path="/edit-course" element={<EditCoursePage />} />
+          <Route
+            path="/buyers-transactions"
+            element={<TransactionsForBuyerPage />}
+          />
           <Route
             path="/admin-registration"
             element={<AdminRegistrationPage />}

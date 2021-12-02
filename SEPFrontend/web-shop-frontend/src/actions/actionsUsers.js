@@ -10,7 +10,7 @@ export const userRegistration = (user) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/registeredUsers",
+      "https://localhost:44326/api/registeredUsers",
       user,
       {
         headers: {
@@ -35,7 +35,7 @@ export const adminRegistration = (admin) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/admins",
+      "https://localhost:44326/api/admins",
       admin,
       {
         headers: {
@@ -57,9 +57,10 @@ export const adminRegistration = (admin) => async (dispatch) => {
 };
 
 export const userLoggedIn = (user) => async (dispatch) => {
+  debugger;
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/users/login",
+      "https://localhost:44326/api/users/login",
       user,
       {
         headers: {

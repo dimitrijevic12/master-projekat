@@ -223,7 +223,7 @@ class CreateCourse extends Component {
     try {
       const res = await axios({
         method: "post",
-        url: "https://localhost:5001/api/contents",
+        url: "https://localhost:44326/api/contents",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",

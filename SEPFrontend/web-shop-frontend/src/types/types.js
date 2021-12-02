@@ -38,3 +38,7 @@ export const GET_CONFERENCES_FOR_OWNER = "getConferencesForOwner";
 export const GET_CONFERENCES_FOR_OWNER_ERROR = "getConferencesForOwnerError";
 export const GET_COURSES_FOR_OWNER = "getCoursesForOwner";
 export const GET_COURSES_FOR_OWNER_ERROR = "getCoursesForOwnerError";
+export const GET_TRANSACTIONS_FOR_BUYER = "getTransactionsForBuyer";
+export const GET_TRANSACTIONS_FOR_BUYER_ERROR = "getTransactionsForBuyerError";
+export const GET_TRANSACTION_BY_ID = "getTransactionById";
+export const GET_TRANSACTION_BY_ID_ERROR = "getTransactionByIdError";

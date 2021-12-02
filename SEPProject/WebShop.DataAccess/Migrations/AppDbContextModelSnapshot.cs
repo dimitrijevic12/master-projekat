@@ -136,7 +136,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
-                            Date = new DateTime(2021, 11, 30, 17, 12, 34, 114, DateTimeKind.Local).AddTicks(2050),
+                            Date = new DateTime(2021, 12, 1, 18, 28, 43, 409, DateTimeKind.Local).AddTicks(3911),
                             Description = "ConferenceDesc",
                             ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
@@ -191,13 +191,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2021, 11, 30, 17, 12, 34, 118, DateTimeKind.Local).AddTicks(3445),
+                            EndDate = new DateTime(2021, 12, 1, 18, 28, 43, 412, DateTimeKind.Local).AddTicks(5311),
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2021, 11, 30, 17, 12, 34, 118, DateTimeKind.Local).AddTicks(3393)
+                            StartDate = new DateTime(2021, 12, 1, 18, 28, 43, 412, DateTimeKind.Local).AddTicks(5248)
                         });
                 });
 
@@ -277,7 +277,7 @@ namespace WebShop.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8b5722f2-09bc-43ed-b9c0-7cf7740eb312"),
+                            Id = new Guid("0b7f55b1-560c-450f-93be-fd233bd9cd12"),
                             Address = "Novosadska 14",
                             Email = "issuer@gmail.com",
                             FirstName = "issuer",
@@ -322,10 +322,10 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            BuyerId = new Guid("8b5722f2-09bc-43ed-b9c0-7cf7740eb312"),
+                            BuyerId = new Guid("0b7f55b1-560c-450f-93be-fd233bd9cd12"),
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Status = 0,
-                            Timestamp = new DateTime(2021, 11, 30, 17, 12, 34, 119, DateTimeKind.Local).AddTicks(1583),
+                            Timestamp = new DateTime(2021, 12, 1, 18, 28, 43, 413, DateTimeKind.Local).AddTicks(1675),
                             TotalPrice = 1640.0
                         });
                 });
@@ -341,6 +341,9 @@ namespace WebShop.DataAccess.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -363,6 +366,7 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Name = "ItemName",
                             Price = 150.0,
+                            ProductId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Quantity = 4,
                             TransactionId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Type = 4
@@ -372,6 +376,7 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
                             Name = "CourseName",
                             Price = 1400.0,
+                            ProductId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Quantity = 1,
                             TransactionId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Type = 1
@@ -418,7 +423,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2021, 11, 30, 17, 12, 34, 120, DateTimeKind.Local).AddTicks(3117),
+                            DepartureTime = new DateTime(2021, 12, 1, 18, 28, 43, 414, DateTimeKind.Local).AddTicks(2844),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "item.png",

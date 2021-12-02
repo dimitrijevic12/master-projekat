@@ -52,8 +52,8 @@ namespace WebShop.DataAccess.WebShopDbContext
                new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Pending, DateTime.Now, 1640.0, admin.Id, issuer.Id)
             );
 
-            TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));
-            TransactionItem transactionItem2 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341235"), TransactionItemType.Course, "CourseName", 1, 1400.0, new Guid("12345678-1234-1234-1234-123412341234"));
+            TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));
+            TransactionItem transactionItem2 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341235"), TransactionItemType.Course, new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", 1, 1400.0, new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<TransactionItem>().HasData(
                transactionItem1, transactionItem2
             );

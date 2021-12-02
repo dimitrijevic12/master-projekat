@@ -73,6 +73,19 @@ class NavigationBar extends Component {
               style={{ width: 24, height: 24, borderRadius: 50 }}
             />
           </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
+            to="/buyers-transactions"
+            onClick={() => {
+              window.location = "/buyers-transactions";
+            }}
+          >
+            <img
+              src="/images/transaction.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
           <UncontrolledDropdown style={{ float: "right" }}>
             <DropdownToggle nav caret></DropdownToggle>
             <DropdownMenu right>

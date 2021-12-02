@@ -110,15 +110,20 @@ class ItemsInShoppingCart extends Component {
     const items = this.state.itemsInShoppingCart;
     for (var i = 0; i < shoppingCartList.length; i++) {
       var type = 0;
+      var productId = 0;
       if (shoppingCartList[i].type === "item") {
         type = 4;
+        productId = items[i].productKey;
       } else if (shoppingCartList[i].type === "conference") {
         type = 0;
+        productId = items[i].id;
       } else if (shoppingCartList[i].type === "course") {
         type = 1;
+        productId = items[i].id;
       }
       var transactionItem = {
         Type: type,
+        ProductId: productId,
         Name: items[i].name,
         Quantity: shoppingCartList[i].quantity,
         Price: items[i].price * shoppingCartList[i].quantity,

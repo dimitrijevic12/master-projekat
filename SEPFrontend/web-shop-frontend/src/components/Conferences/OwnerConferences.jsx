@@ -68,7 +68,7 @@ class OwnerConferences extends Component {
       <div>
         <Grid>
           <GridControlBar>
-            <GridControlBarItem isActive>Yours Conferences</GridControlBarItem>
+            <GridControlBarItem isActive>Your Conferences</GridControlBarItem>
           </GridControlBar>
           <ItemsList />
         </Grid>

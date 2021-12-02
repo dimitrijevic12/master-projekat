@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
@@ -29,9 +30,10 @@ namespace WebShop.Api.Controllers
         public IActionResult Register(Admin admin)
         {
             admin.Id = Guid.NewGuid();
-            if (adminService.Register(admin) == null)
+            Result result = adminService.Register(admin);
+            if (result.IsFailure)
             {
-                return BadRequest();
+                return BadRequest(result.Error);
             }
             return Created(Request.Path + admin.Id, "");
         }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
+using WebShop.Core.Services;
 
 namespace WebShop.Api.Controllers
 {
@@ -12,12 +14,13 @@ namespace WebShop.Api.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IItemRepository _itemRepository;
-        private readonly IWebHostEnvironment _env;
+        private readonly ItemService itemService;
 
-        public ItemsController(IItemRepository itemRepository, IWebHostEnvironment env)
+        public ItemsController(IItemRepository itemRepository, 
+            ItemService itemService)
         {
             _itemRepository = itemRepository;
-            _env = env;
+            this.itemService = itemService;
         }
 
         [HttpPost]
@@ -25,7 +28,11 @@ namespace WebShop.Api.Controllers
         public IActionResult Save(Item item)
         {
             item.ProductKey = Guid.NewGuid();
-            _itemRepository.Save(item);
+            Result result = itemService.Save(item);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
             return Created(Request.Path + item.ProductKey, "");
         }
 
@@ -45,7 +52,9 @@ namespace WebShop.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            return Ok(_itemRepository.GetById(id));
+            return _itemRepository.GetById(id) is null ?
+                BadRequest() :
+                Ok(_itemRepository.GetById(id));
         }
 
         [HttpGet("users/{ownerId}")]

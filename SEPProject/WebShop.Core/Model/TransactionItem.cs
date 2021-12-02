@@ -7,6 +7,7 @@ namespace WebShop.Core.Model
     {
         public Guid Id { get; set; }
         public TransactionItemType Type { get; set; }
+        public Guid ProductId { get; set; }
         public string Name { get; set; }
         public int Quantity{ get; set; }
         public double Price { get; set; }
@@ -18,10 +19,11 @@ namespace WebShop.Core.Model
         {
         }
 
-        public TransactionItem(Guid id, TransactionItemType type, string name, int quantity, double price, Guid transactionId)
+        public TransactionItem(Guid id, TransactionItemType type, Guid productId, string name, int quantity, double price, Guid transactionId)
         {
             Id = id;
             Type = type;
+            ProductId = productId;
             Name = name;
             Quantity = quantity;
             Price = price;

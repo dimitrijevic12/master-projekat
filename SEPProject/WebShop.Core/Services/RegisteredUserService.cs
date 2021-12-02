@@ -1,4 +1,6 @@
-﻿using WebShop.Core.Interface.Repository;
+﻿using CSharpFunctionalExtensions;
+using System;
+using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 
 namespace WebShop.Core.Services
@@ -15,13 +17,19 @@ namespace WebShop.Core.Services
             _userRepository = userRepository;
         }
 
-        public RegisteredUser Register(RegisteredUser registeredUser)
+        public Result Register(RegisteredUser registeredUser)
         {
-            if (_userRepository.GetByUsername(registeredUser.Username)!= null)
+            if (_userRepository.GetByUsername(registeredUser.Username) != null)
             {
-                return null;
+                return Result.Failure("User with that username already exists!");
             }
-            return _registeredUserRepository.Save(registeredUser);
+            if (String.IsNullOrEmpty(registeredUser.Password) || 
+                String.IsNullOrEmpty(registeredUser.Username))
+            {
+                return Result.Failure("Username or password can't be empty!");
+            }
+            _registeredUserRepository.Save(registeredUser);
+            return Result.Success(registeredUser);
         }
     }
 }

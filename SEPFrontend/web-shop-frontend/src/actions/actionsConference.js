@@ -15,12 +15,15 @@ import axios from "axios";
 
 export const getConferences = () => async (dispatch) => {
   try {
-    const response = await axios.get(`https://localhost:5001/api/conferences`, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
-      },
-    });
+    const response = await axios.get(
+      `https://localhost:44326/api/conferences`,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
     dispatch({
       type: GET_CONFERENCES,
       payload: response.data,
@@ -37,7 +40,7 @@ export const createConference = (conference) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/conferences",
+      "https://localhost:44326/api/conferences",
       conference,
       {
         headers: {
@@ -62,7 +65,7 @@ export const getConferenceById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:5001/api/conferences/" + id, {
+      .get("https://localhost:44326/api/conferences/" + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -75,7 +78,7 @@ export const getConferenceById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:5001/api/contents/" + response.data.imagePath,
+            "https://localhost:44326/api/contents/" + response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -102,7 +105,7 @@ export const getConferenceById = (id) => async (dispatch) => {
 export const editConference = (conference) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:5001/api/conferences",
+      "https://localhost:44326/api/conferences",
       conference,
       {
         headers: {
@@ -127,7 +130,7 @@ export const getConferencesForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:5001/api/conferences/users/` + ownerId,
+      `https://localhost:44326/api/conferences/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

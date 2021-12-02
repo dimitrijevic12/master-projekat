@@ -3,6 +3,7 @@ import {
     GET_WEBSHOP,
     CHANGE_PAYMENTTYPES,
     GET_PAYMENTTYPES,
+    GET_TRANSACTIONS,
   } from "../types/types";
 
   const initialState = {
@@ -10,6 +11,7 @@ import {
     registeredWebShop: {},
     changedPaymentTypes: {},
     paymentTypes: [], 
+    transactions: [], 
   };
 
   function reducer(state = initialState, action) {
@@ -34,7 +36,11 @@ import {
           ...state,
           paymentTypes: action.payload,
         };
-        
+      case GET_TRANSACTIONS:
+        return {
+          ...state,
+          transactions: action.payload,
+        };       
       default:
         return state;
     }

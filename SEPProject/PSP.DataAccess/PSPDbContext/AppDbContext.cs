@@ -18,6 +18,7 @@ namespace PSP.DataAccess.PSPDbContext
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<RegisteredWebShop> RegisteredWebShops { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Merchant> Merchants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {          
@@ -63,6 +64,10 @@ namespace PSP.DataAccess.PSPDbContext
                 new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), 100.0, DateTime.Now, new Guid("12345678-1234-1234-1234-123412341232"), TransactionStatus.Pending,
                 new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName")
              );
+
+            modelBuilder.Entity<Merchant>().HasData(
+              new Merchant(new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123422641234"),"Password", "Name", new Guid("12345678-1234-1234-1234-123412341230"))
+           );
         }
     }
 }

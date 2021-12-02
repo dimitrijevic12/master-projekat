@@ -3,6 +3,8 @@ import "./App.css";
 import WebShopRegistrationPage from "./pages/WebShopRegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import ChangePaymentTypesPage from "./pages/ChangePaymentTypesPage";
+import TransactionsPage from "./pages/TransactionsPage";
+
 
 
 
@@ -16,7 +18,8 @@ function App() {
           <Route path="/registration" element={<WebShopRegistrationPage />} />  
           <Route path="/login" element={<LoginPage />} />       
           <Route path="/paymenttypes" element={<ChangePaymentTypesPage />} />  
-          
+          <Route path="/transactions" element={<TransactionsPage />} /> 
+
         </Routes>
       </div>
     </Router>

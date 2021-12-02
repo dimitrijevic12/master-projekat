@@ -9,5 +9,6 @@ namespace PSP.Core.Interface.Repository
 {
     public interface ITransactionRepository : IRepository<Transaction>
     {
+        public Transaction GetTransactionByOrderId(Guid orderId);
     }
 }

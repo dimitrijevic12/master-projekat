@@ -9,5 +9,6 @@ namespace Bank.Core.Interface.Repository
 {
     public interface IPaymentCardRepository : IRepository<PaymentCard>
     {
+        public PaymentCard GetByPAN(string pan);
     }
 }

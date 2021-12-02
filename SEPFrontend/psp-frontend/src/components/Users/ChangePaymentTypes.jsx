@@ -55,48 +55,58 @@ class ChangePaymentTypes extends Component {
     const registeredWebShop = this.props.getWebShop;
 
     return (
-      <div className="text-center">
-        <h2>Change your payment types </h2>
-        <br />
-        <label htmlFor="normal-switch" className="pt-4">
-          <span>Paypal</span>
-          <Switch
-            onChange={this.handleChangePayPal}
-            checked={this.state.payPal}
-            className="react-switch"
-            id="normal-switch"
-          />
-        </label>
-        <br />
-        <label htmlFor="normal-switch" className="pt-4">
-          <span>Crypto Valute</span>
-          <Switch
-            onChange={this.handleChangeCryptoValute}
-            checked={this.state.cryptoValute}
-            className="react-switch"
-            id="normal-switch"
-          />
-        </label>
-        <br />
-        <label htmlFor="normal-switch" className="pt-4">
-          <span>Bank</span>
-          <Switch
-            onChange={this.handleChangeBank}
-            checked={this.state.bank}
-            className="react-switch"
-            id="normal-switch"
-          />
-        </label>       
-        <br />
-        <button
-          className="btn btn-primary btn-block mt-4"
-          onClick={() => {
-            this.editPaymentTypes();
-          }}
-        >
-          Change
-        </button>
-      </div>
+    
+      <main
+        className="main d-flex pt-0 pb-0 text-center justify-content-center align-items-center"
+        style={{ height: "100vh", backgroundColor: "#82b0fa" }}
+      >
+        <div className="wrap bg-white p-5 w-50">
+          <div className="w-100" style={{ textAlign: "left" }}></div>
+              <div className="text-center">
+                <h2>Change your payment types </h2>
+                <br />
+                <label htmlFor="normal-switch" className="pt-4">
+                  <span>Paypal</span>
+                  <Switch
+                    onChange={this.handleChangePayPal}
+                    checked={this.state.payPal}
+                    className="react-switch"
+                    id="normal-switch"
+                  />
+                </label>
+                <br />
+                <label htmlFor="normal-switch" className="pt-4">
+                  <span>Crypto Valute</span>
+                  <Switch
+                    onChange={this.handleChangeCryptoValute}
+                    checked={this.state.cryptoValute}
+                    className="react-switch"
+                    id="normal-switch"
+                  />
+                </label>
+                <br />
+                <label htmlFor="normal-switch" className="pt-4">
+                  <span>Bank</span>
+                  <Switch
+                    onChange={this.handleChangeBank}
+                    checked={this.state.bank}
+                    className="react-switch"
+                    id="normal-switch"
+                  />
+                </label>       
+                <br />
+                <button
+                  className="btn btn-primary btn-block mt-4"
+                  onClick={() => {
+                    this.editPaymentTypes();
+                  }}
+                >
+                  Change
+                </button>
+              
+            </div>
+        </div>
+      </main>
     );
   }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211127195401_InitialCreate")]
+    [Migration("20211128195838_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
+                    b.Property<double>("ReservedBalance")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -48,6 +51,7 @@ namespace Bank.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             AccountNumber = "123456789",
                             Balance = 100000.0,
+                            ReservedBalance = 0.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341235")
                         },
                         new
@@ -55,6 +59,7 @@ namespace Bank.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
                             AccountNumber = "222222222",
                             Balance = 222222.0,
+                            ReservedBalance = 0.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341234")
                         });
                 });
@@ -103,9 +108,31 @@ namespace Bank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2021, 11, 27, 20, 54, 0, 794, DateTimeKind.Local).AddTicks(8188),
+                            MerchantTimestamp = new DateTime(2021, 11, 28, 20, 58, 37, 371, DateTimeKind.Local).AddTicks(9936),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
+                });
+
+            modelBuilder.Entity("Bank.Core.Model.PSPResponse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PSPRequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PaymentUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PSPRequestId");
+
+                    b.ToTable("PSPResponse");
                 });
 
             modelBuilder.Entity("Bank.Core.Model.PaymentCard", b =>
@@ -168,7 +195,7 @@ namespace Bank.DataAccess.Migrations
                     b.Property<string>("IssuerName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Timestamp")
@@ -190,8 +217,8 @@ namespace Bank.DataAccess.Migrations
                             Amount = 444.0,
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
-                            OrderId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2021, 11, 27, 20, 54, 0, 799, DateTimeKind.Local).AddTicks(8085),
+                            PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
+                            Timestamp = new DateTime(2021, 11, 28, 20, 58, 37, 376, DateTimeKind.Local).AddTicks(1468),
                             TransactionStatus = 1
                         });
                 });
@@ -223,6 +250,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<string>("MerchantPassword")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("Merchant");
 
                     b.HasData(
@@ -230,7 +260,8 @@ namespace Bank.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341232"),
-                            MerchantPassword = "password"
+                            MerchantPassword = "password",
+                            Name = "Merchant name"
                         });
                 });
 
@@ -276,6 +307,17 @@ namespace Bank.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bank.Core.Model.PSPResponse", b =>
+                {
+                    b.HasOne("Bank.Core.Model.PSPRequest", "PSPRequest")
+                        .WithMany()
+                        .HasForeignKey("PSPRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PSPRequest");
                 });
 
             modelBuilder.Entity("Bank.Core.Model.PaymentCard", b =>

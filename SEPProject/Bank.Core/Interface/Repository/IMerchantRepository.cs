@@ -10,5 +10,6 @@ namespace Bank.Core.Interface.Repository
 {
     public interface IMerchantRepository : IRepository<Merchant>
     {
+        public Merchant GetByMerchantId(Guid merchantId);
     }
 }

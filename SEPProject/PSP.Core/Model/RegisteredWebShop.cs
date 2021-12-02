@@ -23,6 +23,9 @@ namespace PSP.Core.Model
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual List<PaymentTypeRegisteredWebShop> PaymentTypeRegisteredWebShops { get; private set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
+        public virtual List<Merchant> Merchant { get; private set; }
+
         public RegisteredWebShop()
         {
         }

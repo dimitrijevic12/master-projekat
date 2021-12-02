@@ -12,7 +12,7 @@ namespace PSP.Core.Model
         public double Amount { get; private set; }
         public DateTime Timestamp { get; private set; }
         public Guid OrderId { get; private set; }
-        public TransactionStatus TransactionStatus { get; private set; }
+        public TransactionStatus TransactionStatus { get; set; }
         public Guid MerchantId { get; private set; }
         public string MerchantName { get; private set; }
         public Guid IssuerId { get; private set; }

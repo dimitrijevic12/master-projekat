@@ -17,5 +17,8 @@ namespace Bank.DataAccess.Implementation
         {
             dbContext = context;
         }
+
+        public PaymentCard GetByPAN(string pan) => dbContext.PaymentCards.ToList()
+            .Where(paymentCard => paymentCard.PAN.Equals(pan)).FirstOrDefault();
     }
 }

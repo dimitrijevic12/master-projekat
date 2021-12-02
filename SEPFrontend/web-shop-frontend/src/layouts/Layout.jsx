@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "../components/Common/Header";
+import background from "../images/background-login.jpg";
 
 class Layout extends Component {
   componentDidMount() {

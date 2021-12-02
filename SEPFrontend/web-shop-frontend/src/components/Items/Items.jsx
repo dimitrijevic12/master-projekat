@@ -68,14 +68,9 @@ class Items extends Component {
             <GridControlBarItem isActive>Items</GridControlBarItem>
           </GridControlBar>
           <ItemsList />
-          <button onClick={() => this.reset()}>Reset localstorage</button>
         </Grid>
       </div>
     );
-  }
-
-  reset() {
-    localStorage.setItem("shoppingCart", "");
   }
 
   view(f) {

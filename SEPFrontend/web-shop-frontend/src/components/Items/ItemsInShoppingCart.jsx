@@ -109,8 +109,21 @@ class ItemsInShoppingCart extends Component {
     }
     const items = this.state.itemsInShoppingCart;
     for (var i = 0; i < shoppingCartList.length; i++) {
+      var type = 0;
+      var productId = 0;
+      if (shoppingCartList[i].type === "item") {
+        type = 4;
+        productId = items[i].productKey;
+      } else if (shoppingCartList[i].type === "conference") {
+        type = 0;
+        productId = items[i].id;
+      } else if (shoppingCartList[i].type === "course") {
+        type = 1;
+        productId = items[i].id;
+      }
       var transactionItem = {
-        Type: 4,
+        Type: type,
+        ProductId: productId,
         Name: items[i].name,
         Quantity: shoppingCartList[i].quantity,
         Price: items[i].price * shoppingCartList[i].quantity,
@@ -154,9 +167,19 @@ class ItemsInShoppingCart extends Component {
   }
 
   view(f) {
-    localStorage.setItem("shoppingItem-productkey", f.item.productKey);
-    localStorage.setItem("quantity-for-shopping-item", f.quantity);
-    window.location = "/shopping-item/" + f.item.productKey;
+    if (f.type === "item") {
+      localStorage.setItem("shoppingItem-id", f.item.productKey);
+      localStorage.setItem("quantity-for-shopping-item", f.quantity);
+      window.location = "/shopping-item/" + f.item.productKey;
+    } else if (f.type === "conference") {
+      localStorage.setItem("shoppingItem-id", f.item.id);
+      localStorage.setItem("quantity-for-shopping-item", f.quantity);
+      window.location = "/shopping-conference/" + f.item.id;
+    } else if (f.type === "course") {
+      localStorage.setItem("shoppingItem-id", f.item.id);
+      localStorage.setItem("quantity-for-shopping-item", f.quantity);
+      window.location = "/shopping-course/" + f.item.id;
+    }
   }
 
   getAllImages = async (items) => {

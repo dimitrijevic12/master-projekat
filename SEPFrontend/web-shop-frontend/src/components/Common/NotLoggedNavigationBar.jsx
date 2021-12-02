@@ -18,17 +18,14 @@ class NotLoggedNavigationBar extends Component {
             <DropdownToggle nav caret></DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <NavLink to="/registration">Register</NavLink>
+                <NavLink to="/registration">Registration</NavLink>
+              </DropdownItem>
+              <DropdownItem>
+                <NavLink to="/admin-registration">Admin Registration</NavLink>
               </DropdownItem>
               <DropdownItem divider />
               <DropdownItem>
                 <NavLink to="/login">Login</NavLink>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                <NavLink to="/not-logged-agent-registration">
-                  Agent Registration
-                </NavLink>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

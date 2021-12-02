@@ -67,9 +67,7 @@ class LoginPage extends Component {
   }
 
   register() {
-    this.props.history.replace({
-      pathname: "/registration",
-    });
+    window.location = "/registration";
   }
 
   async login() {
@@ -81,7 +79,11 @@ class LoginPage extends Component {
     });
 
     if (successful === true) {
-      window.location = "/items";
+      if (sessionStorage.getItem("roleWebShop") === "RegisteredUser") {
+        window.location = "/items";
+      } else {
+        window.location = "/owners-items";
+      }
     } else {
       toast.configure();
       toast.error("Unsuccessful login!", {

@@ -77,7 +77,7 @@ class Items extends Component {
         ) : null} */}
         <Grid>
           <GridControlBar>
-            <GridControlBarItem isActive>Items</GridControlBarItem>
+            <GridControlBarItem isActive>Your Items</GridControlBarItem>
           </GridControlBar>
           <ItemsList />
         </Grid>

@@ -1,4 +1,6 @@
 using Bank.Core.Interface.Repository;
+using Bank.Core.Interface.Service;
+using Bank.Core.Services;
 using Bank.DataAccess.BankDbContext;
 using Bank.DataAccess.Implementation;
 using Microsoft.AspNetCore.Builder;
@@ -34,8 +36,20 @@ namespace Bank.Api
             services.AddScoped<IMerchantRepository, MerchantRepository>();
             services.AddScoped<IPaymentCardRepository, PaymentCardRepository>();
             services.AddScoped<IPSPRequestRepository, PSPRequestRepository>();
+            services.AddScoped<IPSPResponseRepository, PSPResponseRepository>();
             services.AddScoped<IRegisteredUserRepository, RegisteredUserRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IPaymentCardRepository, PaymentCardRepository>();
+            services.AddScoped<IMerchantService, MerchantService>();
+            services.AddScoped<IPSPRequestService, PSPRequestService>();
+            services.AddScoped<IPSPResponseService, PSPResponseService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IPaymentCardService, PaymentCardService>();
+            services.AddHttpClient();
+
+            services.AddDbContextPool<AppDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("bankdb"))
+                .UseLazyLoadingProxies());
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -43,10 +57,6 @@ namespace Bank.Api
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-
-            services.AddDbContextPool<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("bankdb"))
-                .UseLazyLoadingProxies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +72,8 @@ namespace Bank.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 

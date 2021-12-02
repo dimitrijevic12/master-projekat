@@ -1,33 +1,30 @@
-﻿using System;
+﻿using CSharpFunctionalExtensions;
+using System;
 using System.IO;
 using WebShop.Core.DTOs;
+using WebShop.Core.Interface.Repository;
+using WebShop.Core.Model;
 using WebShop.Core.Model.File;
 
 namespace WebShop.Core.Services
 {
     public class ItemService
     {
-        public Content GetImage(string path, string fileName)
+        private readonly IItemRepository _itemRepository;
+
+        public ItemService(IItemRepository itemRepository)
         {
-            var type = Path.GetExtension(fileName);
-            path = path + "\\images\\" + fileName;
-            return new Content() { Bytes = System.IO.File.ReadAllBytes(path), Type = type };
+            _itemRepository = itemRepository;
         }
 
-        public string ImageToSave(string path, FileModel file)
+        public Result Save(Item item)
         {
-            try
+            if (String.IsNullOrEmpty(item.Name) || String.IsNullOrEmpty(item.Price.ToString()))
             {
-                using (Stream stream = new FileStream(path + "\\images\\" + file.FileName, FileMode.Create))
-                {
-                    file.FormFile.CopyTo(stream);
-                }
-                return file.FileName;
+                return Result.Failure("Name or price can't be empty!");
             }
-            catch (Exception)
-            {
-                return null;
-            }
+            _itemRepository.Save(item);
+            return Result.Success(item);
         }
     }
 }

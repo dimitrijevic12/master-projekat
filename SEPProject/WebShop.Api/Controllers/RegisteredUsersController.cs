@@ -1,7 +1,7 @@
+﻿using CSharpFunctionalExtensions;
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using WebShop.Core.DTOs;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 using WebShop.Core.Services;
@@ -33,9 +33,10 @@ namespace WebShop.Api.Controllers
         public IActionResult Register(RegisteredUser registeredUser)
         {
             registeredUser.Id = Guid.NewGuid();
-            if (registeredUserService.Register(registeredUser) == null)
+            Result result = registeredUserService.Register(registeredUser);
+            if (result.IsFailure)
             {
-                return BadRequest();
+                return BadRequest(result.Error);
             }
             return Created(Request.Path + registeredUser.Id, "");
         }

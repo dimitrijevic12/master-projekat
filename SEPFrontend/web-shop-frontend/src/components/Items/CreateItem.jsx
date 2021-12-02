@@ -78,6 +78,11 @@ class CreateItem extends Component {
             onClick={() => {
               this.createItem();
             }}
+            disabled={
+              this.state.contentPath === "" ||
+              this.state.name === "" ||
+              this.state.price === ""
+            }
             className="btn btn-primary btn-block"
           >
             Create
@@ -113,7 +118,7 @@ class CreateItem extends Component {
     try {
       const res = await axios({
         method: "post",
-        url: "https://localhost:5001/api/contents",
+        url: "https://localhost:44326/api/contents",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",

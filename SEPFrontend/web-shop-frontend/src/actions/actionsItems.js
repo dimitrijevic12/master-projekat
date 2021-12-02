@@ -6,7 +6,6 @@ import {
   GET_ITEM_BY_ID,
   GET_ITEM_BY_ID_ERROR,
   LOAD_IMAGE,
-  LOAD_IMAGE_ERROR,
   CREATE_ITEM,
   CREATE_ITEM_ERROR,
   GET_ITEMS_FOR_OWNER,
@@ -18,7 +17,7 @@ import axios from "axios";
 
 export const getItems = () => async (dispatch) => {
   try {
-    const response = await axios.get(`https://localhost:5001/api/items`, {
+    const response = await axios.get(`https://localhost:44326/api/items`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -39,7 +38,7 @@ export const getItems = () => async (dispatch) => {
 export const getImagesForItems = (items) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/contents/images",
+      "https://localhost:44326/api/contents/images",
       items,
       {
         headers: {
@@ -64,7 +63,7 @@ export const getItemById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:5001/api/items/" + id, {
+      .get("https://localhost:44326/api/items/" + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -77,7 +76,7 @@ export const getItemById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:5001/api/contents/" + response.data.imagePath,
+            "https://localhost:44326/api/contents/" + response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -104,7 +103,7 @@ export const getItemById = (id) => async (dispatch) => {
 export const createItem = (item) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "https://localhost:5001/api/items",
+      "https://localhost:44326/api/items",
       item,
       {
         headers: {
@@ -129,7 +128,7 @@ export const getItemsForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:5001/api/items/users/` + ownerId,
+      `https://localhost:44326/api/items/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -151,12 +150,16 @@ export const getItemsForOwner = (ownerId) => async (dispatch) => {
 
 export const editItem = (item) => async (dispatch) => {
   try {
-    const response = await axios.put("https://localhost:5001/api/items", item, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
-      },
-    });
+    const response = await axios.put(
+      "https://localhost:44326/api/items",
+      item,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
     dispatch({
       type: EDIT_ITEM,
       payload: response.data,

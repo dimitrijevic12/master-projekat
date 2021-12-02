@@ -11,7 +11,7 @@ namespace Bank.Core.Model
         public Guid Id { get; private set; }
         public double Amount { get; private set; }
         public DateTime Timestamp { get; private set; }
-        public Guid OrderId { get; private set; }
+        public Guid PaymentId { get; private set; }
         public TransactionStatus TransactionStatus { get; private set; }
         public Guid AcquirerId { get; private set; }
         public string AcquirerName { get; private set; }
@@ -22,13 +22,13 @@ namespace Bank.Core.Model
         {
         }
 
-        public Transaction(Guid id, double amount, DateTime timestamp, Guid orderId, TransactionStatus transactionStatus,
+        public Transaction(Guid id, double amount, DateTime timestamp, Guid paymentId, TransactionStatus transactionStatus,
             Guid acquirerId, string acquirerName, Guid issuerId, string issuerName)
         {
             Id = id;
             Amount = amount;
             Timestamp = timestamp;
-            OrderId = orderId;
+            PaymentId = paymentId;
             TransactionStatus = transactionStatus;
             AcquirerId = acquirerId;
             AcquirerName = acquirerName;

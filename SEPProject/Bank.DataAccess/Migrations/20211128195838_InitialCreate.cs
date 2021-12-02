@@ -33,7 +33,7 @@ namespace Bank.DataAccess.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransactionStatus = table.Column<int>(type: "int", nullable: false),
                     AcquirerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AcquirerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -53,6 +53,7 @@ namespace Bank.DataAccess.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MerchantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     MerchantPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -65,12 +66,33 @@ namespace Bank.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PSPResponse",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PSPRequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PSPResponse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PSPResponse_PSPRequests_PSPRequestId",
+                        column: x => x.PSPRequestId,
+                        principalTable: "PSPRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Balance = table.Column<double>(type: "float", nullable: false),
+                    ReservedBalance = table.Column<double>(type: "float", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -109,17 +131,17 @@ namespace Bank.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "PSPRequests",
                 columns: new[] { "Id", "Amount", "ErrorUrl", "FailedUrl", "MerchantId", "MerchantOrderId", "MerchantPassword", "MerchantTimestamp", "SuccessUrl" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2021, 11, 27, 20, 54, 0, 794, DateTimeKind.Local).AddTicks(8188), "https://www.webshop.com/success" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2021, 11, 28, 20, 58, 37, 371, DateTimeKind.Local).AddTicks(9936), "https://www.webshop.com/success" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
-                columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "IssuerId", "IssuerName", "OrderId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 11, 27, 20, 54, 0, 799, DateTimeKind.Local).AddTicks(8085), 1 });
+                columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "IssuerId", "IssuerName", "PaymentId", "Timestamp", "TransactionStatus" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 11, 28, 20, 58, 37, 376, DateTimeKind.Local).AddTicks(1468), 1 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "Discriminator", "MerchantId", "MerchantPassword" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "Merchant", new Guid("12345678-1234-1234-1234-123412341232"), "password" });
+                columns: new[] { "Id", "Discriminator", "MerchantId", "MerchantPassword", "Name" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "Merchant", new Guid("12345678-1234-1234-1234-123412341232"), "password", "Merchant name" });
 
             migrationBuilder.InsertData(
                 table: "User",
@@ -128,13 +150,13 @@ namespace Bank.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "Id", "AccountNumber", "Balance", "UserId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "123456789", 100000.0, new Guid("12345678-1234-1234-1234-123412341235") });
+                columns: new[] { "Id", "AccountNumber", "Balance", "ReservedBalance", "UserId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "123456789", 100000.0, 0.0, new Guid("12345678-1234-1234-1234-123412341235") });
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "Id", "AccountNumber", "Balance", "UserId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "222222222", 222222.0, new Guid("12345678-1234-1234-1234-123412341234") });
+                columns: new[] { "Id", "AccountNumber", "Balance", "ReservedBalance", "UserId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "222222222", 222222.0, 0.0, new Guid("12345678-1234-1234-1234-123412341234") });
 
             migrationBuilder.InsertData(
                 table: "PaymentCards",
@@ -150,6 +172,11 @@ namespace Bank.DataAccess.Migrations
                 name: "IX_PaymentCards_CardOwnerId",
                 table: "PaymentCards",
                 column: "CardOwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PSPResponse_PSPRequestId",
+                table: "PSPResponse",
+                column: "PSPRequestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -161,13 +188,16 @@ namespace Bank.DataAccess.Migrations
                 name: "PaymentCards");
 
             migrationBuilder.DropTable(
-                name: "PSPRequests");
+                name: "PSPResponse");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "PSPRequests");
         }
     }
 }

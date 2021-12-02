@@ -37,30 +37,58 @@ class NavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
-            to={"/profile/" + sessionStorage.getItem("userId")}
+            to="/conferences"
             onClick={() => {
-              window.location = "/profile/" + sessionStorage.getItem("userId");
+              window.location = "/conferences";
             }}
           >
             <img
-              src="/images/user.png"
+              src="/images/conference.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
+            to="/courses"
+            onClick={() => {
+              window.location = "/courses";
+            }}
+          >
+            <img
+              src="/images/online-course.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
+            to="/items-in-shopping-cart"
+            onClick={() => {
+              window.location = "/items-in-shopping-cart";
+            }}
+          >
+            <img
+              src="/images/shopping-cart.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
+            to="/buyers-transactions"
+            onClick={() => {
+              window.location = "/buyers-transactions";
+            }}
+          >
+            <img
+              src="/images/transaction.png"
               style={{ width: 24, height: 24, borderRadius: 50 }}
             />
           </NavLink>
           <UncontrolledDropdown style={{ float: "right" }}>
             <DropdownToggle nav caret></DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>
-                <NavLink
-                  to="/edit"
-                  onClick={() => {
-                    window.location = "/edit";
-                  }}
-                >
-                  Edit profile
-                </NavLink>
-              </DropdownItem>
-              <DropdownItem divider />
               <DropdownItem>
                 <NavLink to="/login" onClick={this.logout.bind(this)}>
                   Logout
@@ -74,7 +102,22 @@ class NavigationBar extends Component {
     return <NavBar />;
   }
 
-  logout() {}
+  logout() {
+    this.removeLocalStorage();
+    this.removeSessionStorage();
+    this.props.history.push("/login");
+  }
+
+  removeLocalStorage() {
+    localStorage.setItem("shoppingCart", "");
+  }
+
+  removeSessionStorage() {
+    sessionStorage.setItem("tokenWebShop", "");
+    sessionStorage.setItem("userIdWebShop", "");
+    sessionStorage.setItem("roleWebShop", "");
+    sessionStorage.setItem("usernameWebShop", "");
+  }
 }
 
 export default NavigationBar;

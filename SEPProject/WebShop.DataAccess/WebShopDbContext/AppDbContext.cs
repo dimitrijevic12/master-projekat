@@ -33,7 +33,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             modelBuilder.Entity<Admin>().HasData(admin);
 
             modelBuilder.Entity<Item>().HasData(
-                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Accommodation>().HasData(
@@ -41,19 +41,19 @@ namespace WebShop.DataAccess.WebShopDbContext
             );
 
             modelBuilder.Entity<Conference>().HasData(
-               new Conference(new Guid("12345678-1234-1234-1234-123412341234"), "ConferenceName", "ConferenceDesc", false, 1400.0, "Beogradska 14", "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Conference(new Guid("12345678-1234-1234-1234-123412341234"), "ConferenceName", "ConferenceDesc", false, DateTime.Now, 1400.0, "Beogradska 14", "conference12345123.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Course>().HasData(
-               new Course(new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", "CourseDesc", false, DateTime.Now, DateTime.Now, 1400.0, "Beogradska 14", "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Course(new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", "CourseDesc", false, DateTime.Now, DateTime.Now, 1400.0, "Beogradska 14", "conferences-integrated-systems-events-1500x630-2.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Transaction>().HasData(
                new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Pending, DateTime.Now, 1640.0, admin.Id, issuer.Id)
             );
 
-            TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));
-            TransactionItem transactionItem2 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341235"), TransactionItemType.Course, "CourseName", 1, 1400.0, new Guid("12345678-1234-1234-1234-123412341234"));
+            TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));
+            TransactionItem transactionItem2 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341235"), TransactionItemType.Course, new Guid("12345678-1234-1234-1234-123412341234"), "CourseName", 1, 1400.0, new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<TransactionItem>().HasData(
                transactionItem1, transactionItem2
             );

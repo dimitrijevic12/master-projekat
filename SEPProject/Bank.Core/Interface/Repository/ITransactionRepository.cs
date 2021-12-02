@@ -9,5 +9,6 @@ namespace Bank.Core.Interface.Repository
 {
     public interface ITransactionRepository : IRepository<Transaction>
     {
+        public Transaction GetByPaymentId(Guid paymentId);
     }
 }

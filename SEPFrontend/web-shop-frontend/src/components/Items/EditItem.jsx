@@ -14,6 +14,7 @@ class EditItem extends Component {
     name: "",
     price: "",
     availableCount: "",
+    description: "",
   };
 
   async componentDidMount() {
@@ -95,7 +96,7 @@ class EditItem extends Component {
               <label for="location">Description:</label>
               <textarea
                 name="description"
-                value={this.props.item.description}
+                value={this.state.description}
                 cols="40"
                 rows="5"
                 class="form-control"
@@ -110,6 +111,7 @@ class EditItem extends Component {
             onClick={() => {
               this.createItem();
             }}
+            disabled={this.state.name === "" || this.state.price === ""}
             className="btn btn-primary btn-block"
           >
             Edit
@@ -152,14 +154,21 @@ class EditItem extends Component {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
     if (
-      shoppingCartList.some(
-        (shoppingProduct) =>
-          newItem.productKey === shoppingProduct.item.productKey
-      )
+      shoppingCartList.some((shoppingProduct) => {
+        if (shoppingProduct.type === "item") {
+          if (newItem.productKey === shoppingProduct.item.productKey) {
+            return shoppingProduct;
+          }
+        }
+      })
     ) {
-      const elementsIndex = shoppingCartList.findIndex(
-        (element) => element.item.productKey == newItem.productKey
-      );
+      const elementsIndex = shoppingCartList.findIndex((element) => {
+        if (element.type === "item") {
+          if (element.item.productKey === newItem.productKey) {
+            return element;
+          }
+        }
+      });
       let newArray = shoppingCartList;
       newArray[elementsIndex] = {
         ...newArray[elementsIndex],
@@ -184,7 +193,7 @@ class EditItem extends Component {
     try {
       const res = await axios({
         method: "post",
-        url: "https://localhost:5001/api/contents",
+        url: "https://localhost:44326/api/contents",
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",

@@ -11,15 +11,17 @@ namespace Bank.Core.Model
 
         public Guid MerchantId { get; private set; }
         public string MerchantPassword { get; private set; }
+        public string Name { get; private set; }
 
         public Merchant() : base()
         {
         }
 
-        public Merchant(Guid id, Guid merchantId, string merchantPassword) : base(id)
+        public Merchant(Guid id, Guid merchantId, string merchantPassword, string name) : base(id)
         {
             MerchantId = merchantId;
             MerchantPassword = merchantPassword;
+            Name = name;
         }
     }
 }

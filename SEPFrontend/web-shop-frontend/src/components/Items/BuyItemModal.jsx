@@ -62,21 +62,36 @@ class BuyItemModal extends Component {
     } else {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
-    const product = { item: this.state.item, quantity: this.state.quantity };
+    const product = {
+      item: this.state.item,
+      quantity: this.state.quantity,
+      type: "item",
+    };
     if (
-      shoppingCartList.some(
-        (shoppingProduct) =>
-          product.item.productKey === shoppingProduct.item.productKey
-      )
+      shoppingCartList.some((shoppingProduct) => {
+        if (shoppingProduct.type === "item") {
+          if (product.item.productKey === shoppingProduct.item.productKey) {
+            return shoppingProduct;
+          }
+        }
+      })
     ) {
-      var foundProduct = shoppingCartList.filter(
-        (request) => product.item.productKey === request.item.productKey
-      );
+      var foundProduct = shoppingCartList.filter((request) => {
+        if (request.type === "item") {
+          if (product.item.productKey === request.item.productKey) {
+            return request;
+          }
+        }
+      });
       const newQuantity =
         parseInt(foundProduct[0].quantity) + parseInt(product.quantity);
-      const elementsIndex = shoppingCartList.findIndex(
-        (element) => element.item.productKey == product.item.productKey
-      );
+      const elementsIndex = shoppingCartList.findIndex((element) => {
+        if (element.type === "item") {
+          if (element.item.productKey == product.item.productKey) {
+            return element;
+          }
+        }
+      });
       let newArray = shoppingCartList;
       newArray[elementsIndex] = {
         ...newArray[elementsIndex],

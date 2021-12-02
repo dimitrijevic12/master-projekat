@@ -83,7 +83,12 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "PaymentTypes",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "PayPal" });
+                values: new object[,]
+                {
+                    { new Guid("12345678-1234-1234-1234-123412341234"), "PayPal" },
+                    { new Guid("12345678-1234-1234-1234-223412341234"), "CryptoValute" },
+                    { new Guid("12345678-1234-1234-1234-323412341234"), "Bank" }
+                });
 
             migrationBuilder.InsertData(
                 table: "RegisteredWebShops",
@@ -93,12 +98,22 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "Amount", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new DateTime(2021, 11, 27, 16, 39, 18, 338, DateTimeKind.Local).AddTicks(2169), 0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new DateTime(2021, 11, 28, 19, 23, 6, 68, DateTimeKind.Local).AddTicks(4896), 0 });
 
             migrationBuilder.InsertData(
                 table: "PaymentTypeRegisteredWebShop",
                 columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
                 values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
+
+            migrationBuilder.InsertData(
+                table: "PaymentTypeRegisteredWebShop",
+                columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-223412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
+
+            migrationBuilder.InsertData(
+                table: "PaymentTypeRegisteredWebShop",
+                columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-323412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentTypeRegisteredWebShop_RegisteredWebShopId",

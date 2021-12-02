@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
@@ -21,6 +22,7 @@ namespace WebShop.Api.Controllers
             this.registeredUserService = registeredUserService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetAll()
         {

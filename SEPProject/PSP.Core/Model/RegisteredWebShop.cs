@@ -27,17 +27,31 @@ namespace PSP.Core.Model
         {
         }
 
-        public RegisteredWebShop(Guid id, int webStoreId, string webStoreName, string password, string emailAddress,
+        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, string emailAddress,
             Uri successUrl, Uri failedUrl, Uri errorUrl)
         {
             Id = id;
-            WebShopId = webStoreId;
-            WebShopName = webStoreName;
+            WebShopId = webShopId;
+            WebShopName = webShopName;
             Password = password;
             EmailAddress = emailAddress;
             SuccessUrl = successUrl;
             FailedUrl = failedUrl;
             ErrorUrl = errorUrl;
+        }
+
+        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, string emailAddress,
+            Uri successUrl, Uri failedUrl, Uri errorUrl, List<PaymentType> paymentTypes)
+        {
+            Id = id;
+            WebShopId = webShopId;
+            WebShopName = webShopName;
+            Password = password;
+            EmailAddress = emailAddress;
+            SuccessUrl = successUrl;
+            FailedUrl = failedUrl;
+            ErrorUrl = errorUrl;
+            PaymentTypes = paymentTypes;
         }
     }
 }

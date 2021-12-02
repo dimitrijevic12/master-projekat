@@ -37,6 +37,16 @@ namespace PSP.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Name = "PayPal"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-223412341234"),
+                            Name = "CryptoValute"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-323412341234"),
+                            Name = "Bank"
                         });
                 });
 
@@ -58,6 +68,16 @@ namespace PSP.DataAccess.Migrations
                         new
                         {
                             PaymentTypeId = new Guid("12345678-1234-1234-1234-123412341234"),
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        },
+                        new
+                        {
+                            PaymentTypeId = new Guid("12345678-1234-1234-1234-223412341234"),
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        },
+                        new
+                        {
+                            PaymentTypeId = new Guid("12345678-1234-1234-1234-323412341234"),
                             RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
                         });
                 });
@@ -151,7 +171,7 @@ namespace PSP.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341233"),
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
-                            Timestamp = new DateTime(2021, 11, 27, 16, 39, 18, 338, DateTimeKind.Local).AddTicks(2169),
+                            Timestamp = new DateTime(2021, 11, 28, 19, 23, 6, 68, DateTimeKind.Local).AddTicks(4896),
                             TransactionStatus = 0
                         });
                 });

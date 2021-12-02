@@ -1,0 +1,7 @@
+a.link {
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    display: inline-block;
+  }
+  

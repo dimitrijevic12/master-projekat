@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace PSP.Core.Interface.Repository
 {
-    public interface IRegisteredWebShopRepository : IRepository<RegisteredWebShop>
+    public interface IPaymentTypeRegisteredWebShopRepository : IRepository<PaymentTypeRegisteredWebShop>
     {
-        public RegisteredWebShop GetByEmail(string email);
     }
 }

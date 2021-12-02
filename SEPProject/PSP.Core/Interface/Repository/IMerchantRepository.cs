@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace PSP.Core.Interface.Repository
 {
-    public interface ITransactionRepository : IRepository<Transaction>
+    public interface IMerchantRepository : IRepository<Merchant>
     {
-        public Transaction GetTransactionByOrderId(Guid orderId);
+        public Merchant GetByMerchantId(Guid id);
     }
 }

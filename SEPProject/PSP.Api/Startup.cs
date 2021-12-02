@@ -35,6 +35,7 @@ namespace PSP.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpClient();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PSP.Api", Version = "v1" });
@@ -44,8 +45,13 @@ namespace PSP.Api
             services.AddScoped<IRegisteredWebShopRepository, RegisteredWebShopRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IPaymentTypeRegisteredWebShopRepository, PaymentTypeRegisteredWebShopRepository>();
+            services.AddScoped<IMerchantRepository, MerchantRepository>();  
             services.AddScoped<RegisteredWebShopService>();
             services.AddScoped<PaymentTypeRegisteredWebShopService>();
+            services.AddScoped<TransactionService>();
+            services.AddScoped<MerchantService>();
+           
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>

@@ -6,3 +6,5 @@ export const CHANGE_PAYMENTTYPES = "changePaymentTypes";
 export const CHANGE_PAYMENTTYPES_ERROR = "changePaymentTypesError";
 export const GET_PAYMENTTYPES = "getPaymentTypes";
 export const GET_PAYMENTTYPES_ERROR = "getPaymentTypesError";
+export const GET_TRANSACTIONS = "getTransactions";
+export const GET_TRANSACTIONS_ERROR = "getTransactionsError";

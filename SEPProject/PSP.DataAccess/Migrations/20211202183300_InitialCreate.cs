@@ -57,6 +57,27 @@ namespace PSP.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Merchants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MerchantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MerchantPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegisteredWebShopId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Merchants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Merchants_RegisteredWebShops_RegisteredWebShopId",
+                        column: x => x.RegisteredWebShopId,
+                        principalTable: "RegisteredWebShops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentTypeRegisteredWebShop",
                 columns: table => new
                 {
@@ -98,22 +119,27 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "Amount", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new DateTime(2021, 11, 28, 19, 23, 6, 68, DateTimeKind.Local).AddTicks(4896), 0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new DateTime(2021, 12, 2, 19, 32, 59, 680, DateTimeKind.Local).AddTicks(4966), 0 });
+
+            migrationBuilder.InsertData(
+                table: "Merchants",
+                columns: new[] { "Id", "MerchantId", "MerchantPassword", "Name", "RegisteredWebShopId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123422641234"), "Password", "Name", new Guid("12345678-1234-1234-1234-123412341230") });
 
             migrationBuilder.InsertData(
                 table: "PaymentTypeRegisteredWebShop",
                 columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
+                values: new object[,]
+                {
+                    { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230") },
+                    { new Guid("12345678-1234-1234-1234-223412341234"), new Guid("12345678-1234-1234-1234-123412341230") },
+                    { new Guid("12345678-1234-1234-1234-323412341234"), new Guid("12345678-1234-1234-1234-123412341230") }
+                });
 
-            migrationBuilder.InsertData(
-                table: "PaymentTypeRegisteredWebShop",
-                columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-223412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
-
-            migrationBuilder.InsertData(
-                table: "PaymentTypeRegisteredWebShop",
-                columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-323412341234"), new Guid("12345678-1234-1234-1234-123412341230") });
+            migrationBuilder.CreateIndex(
+                name: "IX_Merchants_RegisteredWebShopId",
+                table: "Merchants",
+                column: "RegisteredWebShopId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentTypeRegisteredWebShop_RegisteredWebShopId",
@@ -123,6 +149,9 @@ namespace PSP.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Merchants");
+
             migrationBuilder.DropTable(
                 name: "PaymentTypeRegisteredWebShop");
 

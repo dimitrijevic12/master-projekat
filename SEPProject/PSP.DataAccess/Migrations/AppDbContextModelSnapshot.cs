@@ -19,6 +19,41 @@ namespace PSP.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("PSP.Core.Model.Merchant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MerchantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MerchantPassword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RegisteredWebShopId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegisteredWebShopId");
+
+                    b.ToTable("Merchants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123422941234"),
+                            MerchantId = new Guid("12345678-1234-1234-1234-123422641234"),
+                            MerchantPassword = "Password",
+                            Name = "Name",
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        });
+                });
+
             modelBuilder.Entity("PSP.Core.Model.PaymentType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -171,9 +206,20 @@ namespace PSP.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341233"),
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
-                            Timestamp = new DateTime(2021, 11, 28, 19, 23, 6, 68, DateTimeKind.Local).AddTicks(4896),
+                            Timestamp = new DateTime(2021, 12, 2, 19, 32, 59, 680, DateTimeKind.Local).AddTicks(4966),
                             TransactionStatus = 0
                         });
+                });
+
+            modelBuilder.Entity("PSP.Core.Model.Merchant", b =>
+                {
+                    b.HasOne("PSP.Core.Model.RegisteredWebShop", "RegisteredWebShop")
+                        .WithMany("Merchant")
+                        .HasForeignKey("RegisteredWebShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RegisteredWebShop");
                 });
 
             modelBuilder.Entity("PSP.Core.Model.PaymentTypeRegisteredWebShop", b =>
@@ -202,6 +248,8 @@ namespace PSP.DataAccess.Migrations
 
             modelBuilder.Entity("PSP.Core.Model.RegisteredWebShop", b =>
                 {
+                    b.Navigation("Merchant");
+
                     b.Navigation("PaymentTypeRegisteredWebShops");
                 });
 #pragma warning restore 612, 618

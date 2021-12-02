@@ -17,5 +17,10 @@ namespace Bank.DataAccess.Implementation
         {
             dbContext = context;
         }
+
+        public Merchant GetByMerchantId(Guid merchantId)
+        {
+            return dbContext.Merchants.ToList().Where(merchant => merchant.MerchantId == merchantId).FirstOrDefault();
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Bank.Core.Interface.Repository
 {
     public interface IAccountRepository : IRepository<Account>
     {
+        public Account GetByUserId(Guid id);
     }
 }

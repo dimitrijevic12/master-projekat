@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Bank.Api.Controllers
 {
@@ -18,13 +22,17 @@ namespace Bank.Api.Controllers
         private readonly ITransactionRepository _transactionRepository;
         private readonly IPaymentCardService _paymentCardService;
         private readonly ITransactionService _transactionService;
+        private IHttpClientFactory _httpClientFactory;
+        private readonly IPSPResponseRepository _PSPResponseRepository;
 
-        public TransactionsController(ITransactionRepository transactionRepository, IPaymentCardService paymentCardService,
-            ITransactionService transactionService)
+        public TransactionsController(ITransactionRepository transactionRepository, IPaymentCardService paymentCardService, 
+            ITransactionService transactionService, IHttpClientFactory httpClientFactory, IPSPResponseRepository pSPResponseRepository)
         {
             _transactionRepository = transactionRepository;
             _paymentCardService = paymentCardService;
             _transactionService = transactionService;
+            _httpClientFactory = httpClientFactory;
+            _PSPResponseRepository = pSPResponseRepository;
         }
 
         [HttpGet]
@@ -36,8 +44,15 @@ namespace Bank.Api.Controllers
         [HttpPost]
         public IActionResult Create(CardInfo cardInfo)
         {
-            if(_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null)
-                return BadRequest("Transaction with given payment id already exists.");
+            Result<Transaction> transactionResult = null;
+            Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(cardInfo.PaymentId).PSPRequest;
+            if (_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null) 
+            {
+                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
+                    cardInfo.PAN, TransactionStatus.Error);
+                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+            }
             // TODO
             /*if (!cardInfo.PAN.Substring(0, 5).Equals("123456"))
             {
@@ -45,10 +60,38 @@ namespace Bank.Api.Controllers
             }*/
             Result result = _paymentCardService.Pay(new Core.Model.PaymentCard(Guid.Empty, cardInfo.PAN, cardInfo.SecurityCode, cardInfo.CardHolderName,
                 cardInfo.ExpirationDate, Guid.Empty), cardInfo.Amount);
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-            Result<Transaction> transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN);
-            return Ok(transactionResult.Value);
+            if (result.IsFailure && (result.Error.Equals("Amount can not be negative number") || 
+                result.Error.Equals("There is not enough resources on this bank account."))) 
+            {
+                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, 
+                    cardInfo.PAN, TransactionStatus.Failed);
+                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
+            }
+            else if (result.IsFailure)
+            {
+                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
+                    cardInfo.PAN, TransactionStatus.Error);
+                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+            }
+            transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
+                TransactionStatus.Success);
+            //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+            return Ok(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+        }
+
+        private async void ForwardTransaction(PSPTransaction transaction)
+        {
+            var transactionJson = new StringContent(
+              JsonSerializer.Serialize(transaction),
+              Encoding.UTF8,
+              Application.Json);
+
+            HttpClient client = _httpClientFactory.CreateClient();
+            using var httpResponseMessage =
+            await client.PutAsync("https://localhost:44315/api/Transactions", transactionJson);
+            httpResponseMessage.Dispose();
         }
     }
 }

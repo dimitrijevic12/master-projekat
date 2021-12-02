@@ -42,7 +42,7 @@ namespace Bank.Api.Controllers
             Result<Core.Model.PSPResponse> response = _PSPResponseService.Create(request.Id);
             if(response.IsFailure)
                 return BadRequest(result.Error);
-            return Created(this.Request.Path + "/" + id, new BankResponse(response.Value.PaymentUrl, response.Value.PaymentId));
+            return Created("http://localhost:3002/payment/" + id, new BankResponse(response.Value.PaymentUrl, response.Value.PaymentId));
         }
 
         [HttpGet]

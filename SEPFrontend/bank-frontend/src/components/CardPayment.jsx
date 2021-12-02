@@ -210,7 +210,6 @@ class CardPayment extends React.Component {
   }
 
   async pay() {
-    debugger;
     await this.props.postTransaction({
       PaymentId: window.location.pathname.slice(-36),
       PAN: this.state.pan,
@@ -222,8 +221,6 @@ class CardPayment extends React.Component {
       failedUrl: this.props.pspRequest.failedUrl,
       errorUrl: this.props.pspRequest.errorUrl,
     });
-    debugger;
-    console.log("123");
   }
 }
 

@@ -32,14 +32,7 @@ class QRPayment extends React.Component {
             <div className="mt-5" style={{ textAlign: "center" }}>
               <button
                 className="btn btn-lg btn-primary btn-block w-50"
-                onClick={this.props.postTransaction({
-                  PaymentId: window.location.pathname.slice(-36),
-                  PAN: this.state.pan,
-                  SecurityCode: this.state.securityCode,
-                  CardHolderName: this.state.cardHolderName,
-                  ExpirationDate: this.state.expirationDate,
-                  Amount: this.props.pspRequest.amount,
-                })}
+                onClick={() => this.pay()}
               >
                 Pay
               </button>
@@ -49,17 +42,19 @@ class QRPayment extends React.Component {
       </main>
     );
   }
-  handleChange = (event) => {
-    debugger;
-    const { name, value, type, checked } = event.target;
-    type === "checkbox"
-      ? this.setState({
-          [name]: checked,
-        })
-      : this.setState({
-          [name]: value,
-        });
-  };
+  async pay() {
+    await this.props.postTransaction({
+      PaymentId: window.location.pathname.slice(-36),
+      PAN: "1234561234561234",
+      SecurityCode: "1234",
+      CardHolderName: "Holder Name",
+      ExpirationDate: "04/22",
+      Amount: this.props.pspRequest.amount,
+      successUrl: this.props.pspRequest.successUrl,
+      failedUrl: this.props.pspRequest.failedUrl,
+      errorUrl: this.props.pspRequest.errorUrl,
+    });
+  }
 }
 
 const mapStateToProps = (state) => ({ pspRequest: state.pspRequest });

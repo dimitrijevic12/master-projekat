@@ -29,7 +29,7 @@ namespace Bank.Core.Services
             _paymentCardRepository = paymentCardRepository;
         }
 
-        public Result<Transaction> Create(double amount, DateTime timestamp, Guid paymentId, string pan)
+        public Result<Transaction> Create(double amount, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus)
         {
             if(amount < 0)
                 return Result.Failure<Transaction>("Amount can not be negative number.");
@@ -42,7 +42,7 @@ namespace Bank.Core.Services
                 return Result.Failure<Transaction>("Transaction with that id already exists.");
             Merchant acquirer = _merchantRepository.GetByMerchantId(pspRequest.MerchantId);
             PaymentCard card = _paymentCardRepository.GetByPAN(pan);
-            Transaction transaction = new Transaction(id, amount, timestamp, paymentId, TransactionStatus.Success, acquirer.Id,
+            Transaction transaction = new Transaction(id, amount, timestamp, paymentId, transactionStatus, acquirer.Id,
                 acquirer.Name, card.CardOwnerId, card.CardOwner.FirstName + " " + card.CardOwner.LastName);
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);

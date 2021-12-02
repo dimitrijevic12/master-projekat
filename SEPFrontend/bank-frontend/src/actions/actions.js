@@ -51,14 +51,19 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
       }
     );
     debugger;
+    window.location.replace(cardInfo.successUrl);
     dispatch({
       type: POST_TRANSACTION,
       payload: response.data,
     });
   } catch (e) {
+    debugger;
+    if (e.response.data.transactionStatus === "Failed")
+      window.location.replace(cardInfo.failedUrl);
+    else window.location.replace(cardInfo.errorUrl);
     dispatch({
       type: POST_TRANSACTION_ERROR,
-      payload: console.log(e),
+      payload: console.log(e.response),
     });
   }
 };

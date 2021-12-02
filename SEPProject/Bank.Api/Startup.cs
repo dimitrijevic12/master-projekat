@@ -45,6 +45,7 @@ namespace Bank.Api
             services.AddScoped<IPSPResponseService, PSPResponseService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IPaymentCardService, PaymentCardService>();
+            services.AddHttpClient();
 
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("bankdb"))

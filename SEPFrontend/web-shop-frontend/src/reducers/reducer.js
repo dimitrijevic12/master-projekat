@@ -32,6 +32,10 @@ import {
   GET_TRANSPORTATION_BY_ID,
   GET_TRANSPORTATIONS_FOR_OWNER,
   EDIT_TRANSPORTATION,
+  BANK_ADMIN_REGISTRATION,
+  EDIT_ADMIN,
+  PSP_ADMIN_REGISTRATION,
+  SEND_TRANSACTION_TO_PSP,
 } from "../types/types";
 
 const initialState = {
@@ -56,6 +60,9 @@ const initialState = {
   transportations: [],
   transportation: {},
   transportationsForOwner: [],
+  bankAdmin: {},
+  admin: {},
+  savedTransaction: {},
 };
 
 function reducer(state = initialState, action) {
@@ -96,6 +103,7 @@ function reducer(state = initialState, action) {
     case SAVE_TRANSACTION:
       return {
         ...state,
+        savedTransaction: action.payload,
       };
     case REGISTER_USER:
       return {
@@ -105,6 +113,7 @@ function reducer(state = initialState, action) {
     case ADMIN_REGISTRATION:
       return {
         ...state,
+        admin: action.payload,
       };
     case GET_CONFERENCES:
       return {
@@ -210,6 +219,23 @@ function reducer(state = initialState, action) {
         transportationsForOwner: action.payload,
       };
     case EDIT_TRANSPORTATION:
+      return {
+        ...state,
+      };
+    case BANK_ADMIN_REGISTRATION:
+      return {
+        ...state,
+        bankAdmin: action.payload,
+      };
+    case EDIT_ADMIN:
+      return {
+        ...state,
+      };
+    case PSP_ADMIN_REGISTRATION:
+      return {
+        ...state,
+      };
+    case SEND_TRANSACTION_TO_PSP:
       return {
         ...state,
       };

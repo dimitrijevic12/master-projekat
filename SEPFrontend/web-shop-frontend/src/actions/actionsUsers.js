@@ -3,6 +3,12 @@ import {
   REGISTER_USER_ERROR,
   ADMIN_REGISTRATION,
   ADMIN_REGISTRATION_ERROR,
+  BANK_ADMIN_REGISTRATION,
+  BANK_ADMIN_REGISTRATION_ERROR,
+  EDIT_ADMIN,
+  EDIT_ADMIN_ERROR,
+  PSP_ADMIN_REGISTRATION,
+  PSP_ADMIN_REGISTRATION_ERROR,
 } from "../types/types";
 import axios from "axios";
 
@@ -81,5 +87,79 @@ export const userLoggedIn = (user) => async (dispatch) => {
     return true;
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const bankAdminRegistration = (adminName) => async (dispatch) => {
+  debugger;
+  try {
+    const response = await axios.post(
+      "https://localhost:44375/api/merchants",
+      adminName,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
+    dispatch({
+      type: BANK_ADMIN_REGISTRATION,
+      payload: response.data,
+    });
+    return true;
+  } catch (e) {
+    dispatch({
+      type: BANK_ADMIN_REGISTRATION_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const editAdmin = (admin) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      "https://localhost:44326/api/admins",
+      admin,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
+    dispatch({
+      type: EDIT_ADMIN,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: EDIT_ADMIN_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const pspAdminRegistration = (admin) => async (dispatch) => {
+  debugger;
+  try {
+    const response = await axios.post(
+      "https://localhost:44315/api/merchants",
+      admin,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
+    dispatch({
+      type: PSP_ADMIN_REGISTRATION,
+      payload: response.data,
+    });
+    return true;
+  } catch (e) {
+    dispatch({
+      type: PSP_ADMIN_REGISTRATION_ERROR,
+      payload: console.log(e),
+    });
   }
 };

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using WebShop.Core.DTOs;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 using WebShop.Core.Services;
@@ -38,7 +39,22 @@ namespace WebShop.Api.Controllers
             {
                 return BadRequest(result.Error);
             }
-            return Created(Request.Path + transaction.Id, "");
+            return Created(Request.Path + transaction.Id, transaction);
+        }
+
+        [HttpPut]
+        public IActionResult EditStatus(TransactionDTO transactionDTO)
+        {
+            if (_transactionRepository.GetById(transactionDTO.TransactionId) is null)
+            {
+                return BadRequest();
+            }
+            Result result = transactionService.EditStatus(transactionDTO);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+            return Ok();
         }
 
         [HttpGet("buyers/{userId}")]

@@ -7,8 +7,8 @@ import {
   GET_TRANSACTION_BY_ID_ERROR,
   GET_TRANSACTIONS_FOR_SELLER,
   GET_TRANSACTIONS_FOR_SELLER_ERROR,
-  EDIT_TRANSPORTATION,
-  EDIT_TRANSPORTATION_ERROR,
+  SEND_TRANSACTION_TO_PSP,
+  SEND_TRANSACTION_TO_PSP_ERROR,
 } from "../types/types";
 import axios from "axios";
 
@@ -102,6 +102,30 @@ export const getTransactionsForSeller = (userId) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: GET_TRANSACTIONS_FOR_SELLER_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const sendTransactionToPsp = (transaction) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      "https://localhost:44315/api/transactions",
+      transaction,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
+    dispatch({
+      type: SEND_TRANSACTION_TO_PSP,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: SEND_TRANSACTION_TO_PSP_ERROR,
       payload: console.log(e),
     });
   }

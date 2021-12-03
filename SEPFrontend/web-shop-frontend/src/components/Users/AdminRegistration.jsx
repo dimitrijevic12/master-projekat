@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { adminRegistration } from "../../actions/actionsUsers";
+import {
+  adminRegistration,
+  bankAdminRegistration,
+  editAdmin,
+  pspAdminRegistration,
+} from "../../actions/actionsUsers";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { compose } from "redux";
@@ -148,6 +153,17 @@ class AdminRegistration extends Component {
     });
 
     if (successful === true) {
+      // await this.props.bankAdminRegistration(this.state.firstName);
+      // await this.props.editAdmin({
+      //   AdminId: this.props.admin.id,
+      //   MerchantId: this.props.bankAdmin.merchantId,
+      // });
+      // await this.props.pspAdminRegistration({
+      //   MerchantId: this.props.bankAdmin.merchantId,
+      //   MerchantPassword: this.props.bankAdmin.merchantPassword,
+      //   Name: this.state.firstName,
+      //   RegisteredWebShopId: "12345678-1234-1234-1234-123412341230",
+      // });
       window.location = "/login";
     } else {
       toast.configure();
@@ -158,10 +174,16 @@ class AdminRegistration extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  admin: state.admin,
+  bankAdmin: state.bankAdmin,
+});
 
 export default compose(
   connect(mapStateToProps, {
     adminRegistration,
+    bankAdminRegistration,
+    editAdmin,
+    pspAdminRegistration,
   })
 )(AdminRegistration);

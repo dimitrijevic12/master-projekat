@@ -8,7 +8,10 @@ import {
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { getItems, getImagesForItems } from "../../actions/actionsItems";
-import { saveTransaction } from "../../actions/actionsTransaction";
+import {
+  saveTransaction,
+  sendTransactionToPsp,
+} from "../../actions/actionsTransaction";
 
 class ItemsInShoppingCart extends Component {
   state = {
@@ -147,18 +150,33 @@ class ItemsInShoppingCart extends Component {
 
       transactionItems.push(transactionItem);
     }
+    debugger;
+    const totalPrice = this.getTotalPrice();
+    const timeStamp = new Date().toJSON();
     const transaction = {
       Status: 0,
-      TimeStamp: new Date().toJSON(),
-      TotalPrice: this.getTotalPrice(),
+      TimeStamp: timeStamp,
+      TotalPrice: totalPrice,
       SellerId: shoppingCartList[0].item.ownerId,
       BuyerId: sessionStorage.getItem("userIdWebShop"),
       TransactionItems: transactionItems,
     };
     debugger;
     await this.props.saveTransaction(transaction);
+    // await this.props.sendTransactionToPsp({
+    //   Amount: totalPrice,
+    //   TimeStamp: timeStamp,
+    //   OrderId: this.props.savedTransaction.id,
+    //   TransactionStatus: 0,
+    //   MerchantId: this.props.savedTransaction.seller.merchantId,
+    //   MerchantName: this.props.savedTransaction.seller.name,
+    //   IssuerId: this.props.savedTransaction.buyer.id,
+    //   IssuerName: this.props.savedTransaction.buyer.firstName,
+    // });
     localStorage.setItem("shoppingCart", "");
-    window.location = "/items-in-shopping-cart";
+    window.location.href =
+      "http://localhost:3001/psp/" + this.props.savedTransaction.id;
+    //window.location = "/items-in-shopping-cart";
   }
 
   getTotalPrice() {
@@ -270,6 +288,7 @@ class ItemsInShoppingCart extends Component {
 
 const mapStateToProps = (state) => ({
   items: state.items,
+  savedTransaction: state.savedTransaction,
   itemsImages: state.itemsImages,
 });
 
@@ -278,5 +297,6 @@ export default compose(
     getItems,
     getImagesForItems,
     saveTransaction,
+    sendTransactionToPsp,
   })
 )(ItemsInShoppingCart);

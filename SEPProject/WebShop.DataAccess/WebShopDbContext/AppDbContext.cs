@@ -29,7 +29,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14");
             modelBuilder.Entity<RegisteredUser>().HasData(issuer);
 
-            Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", "Admin");
+            Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<Admin>().HasData(admin);
 
             modelBuilder.Entity<Item>().HasData(

@@ -68,3 +68,11 @@ export const GET_TRANSPORTATIONS_FOR_OWNER_ERROR =
   "getTransportationsForOwnerError";
 export const EDIT_TRANSPORTATION = "editTransportation";
 export const EDIT_TRANSPORTATION_ERROR = "editTransportationError";
+export const BANK_ADMIN_REGISTRATION = "bankAdminRegistration";
+export const BANK_ADMIN_REGISTRATION_ERROR = "bankAdminRegistrationError";
+export const EDIT_ADMIN = "editAdmin";
+export const EDIT_ADMIN_ERROR = "editAdminError";
+export const PSP_ADMIN_REGISTRATION = "pspAdminRegistration";
+export const PSP_ADMIN_REGISTRATION_ERROR = "pspAdminRegistrationError";
+export const SEND_TRANSACTION_TO_PSP = "sendTransactionToPsp";
+export const SEND_TRANSACTION_TO_PSP_ERROR = "sendTransactionToPspError";

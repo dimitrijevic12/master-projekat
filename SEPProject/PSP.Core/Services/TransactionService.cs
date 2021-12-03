@@ -38,8 +38,8 @@ namespace PSP.Core.Services
         public RequestDTO CreateTransactionForBank(TransactionDTO transactionDTO)
         {
             var merchant = _merchantRepository.GetByMerchantId(transactionDTO.MerchantId);
-           return new RequestDTO(merchant.MerchantId, merchant.MerchantPassword, transactionDTO.Amount, transactionDTO.OrderId, transactionDTO.Timestamp,
-               merchant.RegisteredWebShop.SuccessUrl, merchant.RegisteredWebShop.FailedUrl, merchant.RegisteredWebShop.ErrorUrl)
+            return new RequestDTO(merchant.MerchantId, merchant.MerchantPassword, transactionDTO.Amount, transactionDTO.OrderId, transactionDTO.Timestamp,
+                merchant.RegisteredWebShop.SuccessUrl, merchant.RegisteredWebShop.FailedUrl, merchant.RegisteredWebShop.ErrorUrl);
         }
     }
 }

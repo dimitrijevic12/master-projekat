@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
+using WebShop.Core.DTOs;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 
@@ -33,6 +34,19 @@ namespace WebShop.Core.Services
                 return Result.Failure("Seller or buyer doesn't exists!");
             }
             _transactionRepository.Save(transaction);
+            return Result.Success(transaction);
+        }
+
+        public Result EditStatus(TransactionDTO transactionDTO)
+        {
+            Transaction transaction = _transactionRepository.GetById(transactionDTO.TransactionId);
+            bool result = Enum.TryParse(transactionDTO.TransactionStatus, out TransactionStatus transactionStatus);
+            if (!result)
+            {
+                return Result.Failure("Inappropriate Transaction Status!");
+            }
+            transaction.Status = transactionStatus;
+            _transactionRepository.Edit(transaction);
             return Result.Success(transaction);
         }
     }

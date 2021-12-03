@@ -46,9 +46,12 @@ namespace CardPayment.Core.Services
 
         private Transaction EditStatus(Transaction transaction, string status)
         {
-            if (status.Equals("Success")) transaction.TransactionStatus = TransactionStatus.Success;
-            else if (status.Equals("Failed")) transaction.TransactionStatus = TransactionStatus.Failed;
-            else transaction.TransactionStatus = TransactionStatus.Error;
+            bool result = Enum.TryParse(status, out TransactionStatus transactionStatus);
+            if (!result)
+            {
+                return null;
+            }
+            transaction.TransactionStatus = transactionStatus;
             return _transactionRepository.Edit(transaction);
         }
     }

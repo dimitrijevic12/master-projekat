@@ -4,7 +4,7 @@ import WebShopRegistrationPage from "./pages/WebShopRegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import ChangePaymentTypesPage from "./pages/ChangePaymentTypesPage";
 import TransactionsPage from "./pages/TransactionsPage";
-
+import ChoosePaymentTypesPage from "./pages/ChoosePaymentTypesPage";
 
 
 
@@ -19,6 +19,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />       
           <Route path="/paymenttypes" element={<ChangePaymentTypesPage />} />  
           <Route path="/transactions" element={<TransactionsPage />} /> 
+          <Route path="/psp/:orderId" element={<ChoosePaymentTypesPage />} /> 
+          
 
         </Routes>
       </div>

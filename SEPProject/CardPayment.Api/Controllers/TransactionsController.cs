@@ -36,7 +36,7 @@ namespace CardPayment.Api.Controllers
             return Ok(request);
         }
 
-        [HttpPut]
+        [HttpPut("paymentId")]
         public IActionResult SetTransactionsPaymentId(TransactionsPaymentIdDTO transactionsPaymentIdDTO)
         {
             if(_transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO) == null) return BadRequest();
@@ -48,7 +48,7 @@ namespace CardPayment.Api.Controllers
         {
             if (_transactionService.EditTransaction(transactionStatusDTO) == null)
             {
-                return BadRequest();
+                return BadRequest("Inappropriate Transaction Status Or That Transaction Does Not Exist.");
             }
             ForwardStatus(transactionStatusDTO);
             return Ok("Successfully edited transaction status.");

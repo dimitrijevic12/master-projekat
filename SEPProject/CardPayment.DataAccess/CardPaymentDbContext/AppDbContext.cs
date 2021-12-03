@@ -14,13 +14,29 @@ namespace CardPayment.DataAccess.CardPaymentDbContext
             : base(options)
         {
         }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<RegisteredWebShop> RegisteredWebShops { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Merchant> Merchants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {         
-            modelBuilder.Entity<Merchant>().HasData(
-                new Merchant(new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341232"), "password", "Name")
-             );
+        {
+            modelBuilder.Entity<PaymentType>()
+            .HasMany(p => p.RegisteredWebShops)
+            .WithMany(p => p.PaymentTypes)
+            .UsingEntity<PaymentTypeRegisteredWebShop>(
+                j => j
+                    .HasOne(pt => pt.RegisteredWebShop)
+                    .WithMany(t => t.PaymentTypeRegisteredWebShops)
+                    .HasForeignKey(pt => pt.RegisteredWebShopId),
+                j => j
+                    .HasOne(pt => pt.PaymentType)
+                    .WithMany(p => p.PaymentTypeRegisteredWebShops)
+                    .HasForeignKey(pt => pt.PaymentTypeId),
+                j =>
+                {
+                    j.HasKey(t => new { t.PaymentTypeId, t.RegisteredWebShopId });
+                });
         }
     }
 }

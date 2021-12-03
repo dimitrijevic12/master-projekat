@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PSP.DataAccess.Migrations
+namespace CardPayment.DataAccess.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -49,7 +49,8 @@ namespace PSP.DataAccess.Migrations
                     MerchantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MerchantName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IssuerName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    IssuerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,41 +100,6 @@ namespace PSP.DataAccess.Migrations
                         principalTable: "RegisteredWebShops",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "PaymentTypes",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("12345678-1234-1234-1234-123412341234"), "PayPal" },
-                    { new Guid("12345678-1234-1234-1234-223412341234"), "CryptoValute" },
-                    { new Guid("12345678-1234-1234-1234-323412341234"), "Bank" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "RegisteredWebShops",
-                columns: new[] { "Id", "EmailAddress", "ErrorUrl", "FailedUrl", "Password", "SuccessUrl", "WebShopId", "WebShopName" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", "password", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", 123, "WebShopName" });
-
-            migrationBuilder.InsertData(
-                table: "Transactions",
-                columns: new[] { "Id", "Amount", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new DateTime(2021, 12, 2, 19, 32, 59, 680, DateTimeKind.Local).AddTicks(4966), 0 });
-
-            migrationBuilder.InsertData(
-                table: "Merchants",
-                columns: new[] { "Id", "MerchantId", "MerchantPassword", "Name", "RegisteredWebShopId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123422641234"), "Password", "Name", new Guid("12345678-1234-1234-1234-123412341230") });
-
-            migrationBuilder.InsertData(
-                table: "PaymentTypeRegisteredWebShop",
-                columns: new[] { "PaymentTypeId", "RegisteredWebShopId" },
-                values: new object[,]
-                {
-                    { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341230") },
-                    { new Guid("12345678-1234-1234-1234-223412341234"), new Guid("12345678-1234-1234-1234-123412341230") },
-                    { new Guid("12345678-1234-1234-1234-323412341234"), new Guid("12345678-1234-1234-1234-123412341230") }
                 });
 
             migrationBuilder.CreateIndex(

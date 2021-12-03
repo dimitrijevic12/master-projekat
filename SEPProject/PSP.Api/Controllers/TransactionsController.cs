@@ -21,13 +21,11 @@ namespace PSP.Api.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly TransactionService _transactionService;
-        private IHttpClientFactory _httpClientFactory;
 
-        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService, IHttpClientFactory httpClientFactory)
+        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService)
         {
             _transactionRepository = transactionRepository;
             _transactionService = transactionService;
-            _httpClientFactory = httpClientFactory;
         }
 
         [HttpPost]
@@ -36,7 +34,6 @@ namespace PSP.Api.Controllers
             transactionDTO.Id = Guid.NewGuid();
             _transactionRepository.Save(new Transaction(transactionDTO.Id, transactionDTO.Amount, transactionDTO.Timestamp, transactionDTO.OrderId,
                 transactionDTO.TransactionStatus, transactionDTO.MerchantId, transactionDTO.MerchantName, transactionDTO.IssuerId, transactionDTO.IssuerName));
-            ForwardTransaction(_transactionService.CreateTransactionForBank(transactionDTO));
             return Created(Request.Path + transactionDTO.Id, "");
         }
 
@@ -45,43 +42,6 @@ namespace PSP.Api.Controllers
         public IActionResult GetAll()
         {
             return Ok(_transactionRepository.GetAll());
-        }
-
-        [HttpPut]
-        public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
-        {
-            if(_transactionService.EditTransaction(transactionStatusDTO) == null)
-            {
-                return BadRequest();
-            }
-            ForwardStatus(transactionStatusDTO);
-            return Ok("Successfully edited transaction status.");
-        }
-
-        private async void ForwardTransaction(RequestDTO requestDTO)
-        {
-            var requestJson = new StringContent(
-              JsonSerializer.Serialize(requestDTO),
-              Encoding.UTF8,
-              Application.Json);
-
-            HttpClient client = _httpClientFactory.CreateClient();
-            using var httpResponseMessage =
-            await client.PostAsync("https://localhost:5001/api/PSPRequests", requestJson);
-            httpResponseMessage.Dispose();
-        }
-
-        private async void ForwardStatus(TransactionStatusDTO transactionStatusDTO)
-        {
-            var transactionJson = new StringContent(
-              JsonSerializer.Serialize(transactionStatusDTO),
-              Encoding.UTF8,
-              Application.Json);
-
-            HttpClient client = _httpClientFactory.CreateClient();
-            using var httpResponseMessage =
-            await client.PutAsync("https://localhost:44326/api/transactions", transactionJson);
-            httpResponseMessage.Dispose();
-        }
+        }                
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PSP.Core.Model
+namespace CardPayment.Core.Model
 {
     public class Transaction
     {
@@ -17,7 +17,7 @@ namespace PSP.Core.Model
         public string MerchantName { get; private set; }
         public Guid IssuerId { get; private set; }
         public string IssuerName { get; private set; }
-        public Guid PaymentId { get; private set; }
+        public Guid PaymentId { get; set; }
 
         public Transaction()
         {

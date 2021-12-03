@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace CardPayment.DataAccess.Implementation
 {
-    public class MerchantRepository : Repository<Merchant>, IMerchantRepository
+    public class TransactionRepository : Repository<Transaction>, ITransactionRepository
     {
         private AppDbContext dbContext;
 
-        public MerchantRepository(AppDbContext context) : base(context)
+        public TransactionRepository(AppDbContext context) : base(context)
         {
             dbContext = context;
         }
 
-        public Merchant GetByMerchantId(Guid id)
+        public Transaction GetTransactionByOrderId(Guid orderId)
         {
-            return dbContext.Merchants.ToList().FirstOrDefault(merchant => merchant.MerchantId.Equals(id));
+            return dbContext.Transactions.ToList().FirstOrDefault(transaction => transaction.OrderId == orderId);
         }
     }
 }

@@ -8,6 +8,7 @@ import ItemReviewModal from "./ItemReviewModal";
 import ConferenceReviewModal from "./ConferenceReviewModal";
 import CourseReviewModal from "./CourseReviewModal";
 import AccommodationReviewModal from "./AccommodationReviewModal";
+import TransportationReviewModal from "./TransportationReviewModal";
 
 class TransactionReview extends Component {
   state = {
@@ -15,6 +16,7 @@ class TransactionReview extends Component {
     showConferenceModal: false,
     showCourseModal: false,
     showAccommodationModal: false,
+    showTransportationModal: false,
     productId: {},
   };
 
@@ -32,6 +34,13 @@ class TransactionReview extends Component {
     debugger;
     return (
       <div>
+        {this.state.showTransportationModal ? (
+          <TransportationReviewModal
+            show={this.state.showTransportationModal}
+            onShowChange={this.displayModalAccommodation.bind(this)}
+            productId={this.state.productId}
+          />
+        ) : null}
         {this.state.showAccommodationModal ? (
           <AccommodationReviewModal
             show={this.state.showAccommodationModal}
@@ -139,7 +148,15 @@ class TransactionReview extends Component {
       this.displayModalCourse();
     } else if (f.type === 2) {
       this.displayModalAccommodation();
+    } else if (f.type === 3) {
+      this.displayModalTransportation();
     }
+  }
+
+  displayModalTransportation() {
+    this.setState({
+      showTransportationModal: !this.state.showTransportationModal,
+    });
   }
 
   displayModalAccommodation() {

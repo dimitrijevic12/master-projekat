@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { createItem } from "../../actions/actionsItems";
+import { createTransportation } from "../../actions/actionsTransportations";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../css/datepicker.css";
+import DateTimePicker from "react-datetime-picker";
 
-class CreateItem extends Component {
+class CreateTransportation extends Component {
   state = {
     file: null,
     fileName: "",
@@ -14,6 +17,9 @@ class CreateItem extends Component {
     name: "",
     price: "",
     description: "",
+    departureTime: "",
+    startDestination: "",
+    finalDestination: "",
   };
   render() {
     return (
@@ -39,6 +45,53 @@ class CreateItem extends Component {
                 class="form-control"
                 id="name"
                 placeholder="Enter name of product"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Date:</label>
+              <div className="d-block w-100">
+                <DateTimePicker
+                  id="datepickerInput"
+                  name="start"
+                  value={this.state.departureTime}
+                  minDate={new Date()}
+                  selected={this.state.departureTime}
+                  onChange={this.handleChangeDate.bind(this)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Start Destination:</label>
+              <input
+                type="text"
+                name="startDestination"
+                value={this.state.startDestination}
+                onChange={this.handleChange}
+                class="form-control"
+                id="startDestination"
+                placeholder="Enter start destination"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="location">Final Destination:</label>
+              <input
+                type="text"
+                name="finalDestination"
+                value={this.state.finalDestination}
+                onChange={this.handleChange}
+                class="form-control"
+                id="finalDestination"
+                placeholder="Enter final destination"
               />
             </div>
           </div>
@@ -76,12 +129,15 @@ class CreateItem extends Component {
         <div className="mt-5 pb-5">
           <button
             onClick={() => {
-              this.createItem();
+              this.createTransportation();
             }}
             disabled={
               this.state.contentPath === "" ||
               this.state.name === "" ||
-              this.state.price === ""
+              this.state.price === "" ||
+              this.state.departureTime === "" ||
+              this.state.startDestination === "" ||
+              this.state.finalDestination === ""
             }
             className="btn btn-primary btn-block"
           >
@@ -92,16 +148,33 @@ class CreateItem extends Component {
     );
   }
 
-  async createItem() {
+  handleChangeDate = (event) => {
+    this.setState({
+      departureTime: event,
+    });
+  };
+
+  handleChangeOnline = (checked) => {
     debugger;
-    await this.props.createItem({
+    this.setState({ online: checked });
+  };
+
+  async createTransportation() {
+    debugger;
+    var departureTime = new Date(this.state.departureTime);
+    departureTime.setHours(departureTime.getHours() + 1);
+    debugger;
+    await this.props.createTransportation({
       Name: this.state.name,
       ImagePath: this.state.contentPath,
+      DepartureTime: departureTime,
       Price: this.state.price,
       Description: this.state.description,
+      StartDestination: this.state.startDestination,
+      FinalDestination: this.state.finalDestination,
       OwnerId: sessionStorage.getItem("userIdWebShop"),
     });
-    window.location = "/owners-items";
+    window.location = "/owners-transportations";
   }
 
   choosePost = async (event) => {
@@ -154,4 +227,6 @@ class CreateItem extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default compose(connect(mapStateToProps, { createItem }))(CreateItem);
+export default compose(connect(mapStateToProps, { createTransportation }))(
+  CreateTransportation
+);

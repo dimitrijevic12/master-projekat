@@ -123,6 +123,9 @@ class ItemsInShoppingCart extends Component {
       } else if (shoppingCartList[i].type === "accommodation") {
         type = 2;
         productId = items[i].id;
+      } else if (shoppingCartList[i].type === "transportation") {
+        type = 3;
+        productId = items[i].id;
       }
       if (shoppingCartList[i].type === "accommodation") {
         var transactionItem = {
@@ -225,6 +228,10 @@ class ItemsInShoppingCart extends Component {
       localStorage.setItem("quantity-for-shopping-item", f.quantity);
       localStorage.setItem("shopping-accommodation-name", f.item.name);
       window.location = "/shopping-accommodation/" + f.item.id;
+    } else if (f.type === "transportation") {
+      localStorage.setItem("shoppingTransportation-id", f.item.id);
+      localStorage.setItem("quantity-for-shopping-item", f.quantity);
+      window.location = "/shopping-transportation/" + f.item.id;
     }
   }
 

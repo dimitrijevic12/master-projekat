@@ -60,7 +60,7 @@ namespace WebShop.DataAccess.WebShopDbContext
 
 
             modelBuilder.Entity<Transportation>().HasData(
-               new Transportation(new Guid("12345678-1234-1234-1234-123412341234"), "TransportationName", "TransportationDesc", 1000.0, "Beograd", "Novi Sad", DateTime.Now, "item.png", new Guid("12345678-1234-1234-1234-123412341234"))
+               new Transportation(new Guid("12345678-1234-1234-1234-123412341234"), "TransportationName", "TransportationDesc", 1000.0, "Belgrade", "Novi Sad", DateTime.Now, "conferences-integrated-systems-events-1500x630-2.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             /*modelBuilder

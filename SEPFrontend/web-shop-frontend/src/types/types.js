@@ -57,3 +57,14 @@ export const GET_TRANSACTIONS_FOR_SELLER_ERROR =
   "getTransactionsForSellerError";
 export const EDIT_ACCOMMODATION = "editAccommodation";
 export const EDIT_ACCOMMODATION_ERROR = "editAccommodationError";
+export const GET_TRANSPORTATIONS = "getTransportations";
+export const GET_TRANSPORTATIONS_ERROR = "getTransportationsError";
+export const CREATE_TRANSPORTATION = "createTransportation";
+export const CREATE_TRANSPORTATION_ERROR = "createTransportationError";
+export const GET_TRANSPORTATION_BY_ID = "getTransportationById";
+export const GET_TRANSPORTATION_BY_ID_ERROR = "getTransportationByIdError";
+export const GET_TRANSPORTATIONS_FOR_OWNER = "getTransportationsForOwner";
+export const GET_TRANSPORTATIONS_FOR_OWNER_ERROR =
+  "getTransportationsForOwnerError";
+export const EDIT_TRANSPORTATION = "editTransportation";
+export const EDIT_TRANSPORTATION_ERROR = "editTransportationError";

@@ -76,6 +76,19 @@ class NavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
+            to="/transportations"
+            onClick={() => {
+              window.location = "/transportations";
+            }}
+          >
+            <img
+              src="/images/transportation.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
             to="/items-in-shopping-cart"
             onClick={() => {
               window.location = "/items-in-shopping-cart";

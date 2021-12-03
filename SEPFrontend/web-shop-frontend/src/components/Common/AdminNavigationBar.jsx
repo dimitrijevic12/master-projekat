@@ -76,6 +76,19 @@ class AdminNavigationBar extends Component {
           <span style={{ width: 25, display: "inline-block" }}></span>
           <NavLink
             exact
+            to="/owners-transportations"
+            onClick={() => {
+              window.location = "/owners-transportations";
+            }}
+          >
+            <img
+              src="/images/transportation.png"
+              style={{ width: 24, height: 24, borderRadius: 50 }}
+            />
+          </NavLink>
+          <span style={{ width: 25, display: "inline-block" }}></span>
+          <NavLink
+            exact
             to="/sellers-transactions"
             onClick={() => {
               window.location = "/sellers-transactions";

@@ -32,6 +32,12 @@ import ReviewAccommodationInShoppingCartPage from "./pages/ReviewAccommodationIn
 import OwnerAccommodationsPage from "./pages/OwnerAccommodationsPage";
 import TransactionsForSellerPage from "./pages/TransactionsForSellerPage";
 import EditAccommodationPage from "./pages/EditAccommodationPage";
+import TransportationsPage from "./pages/TransportationsPage";
+import CreateTransportationPage from "./pages/CreateTransportationPage";
+import ReviewTransportationPage from "./pages/ReviewTransportationPage";
+import ReviewTransportationInShoppingCartPage from "./pages/ReviewTransportationInShoppingCartPage";
+import OwnerTransportationsPage from "./pages/OwnerTransportationsPage";
+import EditTransportationPage from "./pages/EditTransportationPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -41,6 +47,10 @@ function App() {
         <Routes>
           <Route path="/item/:itemId" element={<ReviewItemPage />} />
           <Route path="/course/:courseId" element={<ReviewCoursePage />} />
+          <Route
+            path="/transportation/:transportationId"
+            element={<ReviewTransportationPage />}
+          />
           <Route
             path="/conference/:conferenceId"
             element={<ReviewConferencePage />}
@@ -52,6 +62,10 @@ function App() {
           <Route
             path="/shopping-course/:courseId"
             element={<ReviewCourseInShoppingCartPage />}
+          />
+          <Route
+            path="/shopping-transportation/:transportationId"
+            element={<ReviewTransportationInShoppingCartPage />}
           />
           <Route
             path="/shopping-conference/:conferenceId"
@@ -78,6 +92,10 @@ function App() {
             element={<OwnerConferencesPage />}
           />
           <Route
+            path="/owners-transportations"
+            element={<OwnerTransportationsPage />}
+          />
+          <Route
             path="/owners-accommodations"
             element={<OwnerAccommodationsPage />}
           />
@@ -87,6 +105,15 @@ function App() {
           <Route path="/conferences" element={<ConferencesPage />} />
           <Route path="/create-conference" element={<CreateConferencePage />} />
           <Route path="/edit-conference" element={<EditConferencePage />} />
+          <Route path="/transportations" element={<TransportationsPage />} />
+          <Route
+            path="/create-transportation"
+            element={<CreateTransportationPage />}
+          />
+          <Route
+            path="/edit-transportation"
+            element={<EditTransportationPage />}
+          />
           <Route
             path="/edit-accommodation"
             element={<EditAccommodationPage />}

@@ -10,7 +10,7 @@ using PSP.DataAccess.PSPDbContext;
 namespace PSP.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211202183300_InitialCreate")]
+    [Migration("20211203161926_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,6 +188,9 @@ namespace PSP.DataAccess.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
@@ -208,7 +211,8 @@ namespace PSP.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341233"),
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
-                            Timestamp = new DateTime(2021, 12, 2, 19, 32, 59, 680, DateTimeKind.Local).AddTicks(4966),
+                            PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Timestamp = new DateTime(2021, 12, 3, 17, 19, 26, 130, DateTimeKind.Local).AddTicks(623),
                             TransactionStatus = 0
                         });
                 });

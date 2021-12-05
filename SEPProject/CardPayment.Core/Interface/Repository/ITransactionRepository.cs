@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CardPayment.Core.Interface.Repository
 {
-    public interface IMerchantRepository : IRepository<Merchant>
+    public interface ITransactionRepository : IRepository<Transaction>
     {
-        public Merchant GetByMerchantId(Guid id);
+        public Transaction GetTransactionByOrderId(Guid orderId);
     }
 }

@@ -20,7 +20,7 @@ namespace PSP.DataAccess.Implementation
 
         public Merchant GetByMerchantId(Guid id)
         {
-            return dbContext.Merchants.ToList().FirstOrDefault(merchant => merchant.MerchantId.Equals(id));
+            return dbContext.Merchants.ToList().FirstOrDefault(merchant => merchant.MerchantId == id);
         }
     }
 }

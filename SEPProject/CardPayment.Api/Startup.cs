@@ -1,4 +1,5 @@
 using CardPayment.Core.Interface.Repository;
+using CardPayment.Core.Services;
 using CardPayment.DataAccess.CardPaymentDbContext;
 using CardPayment.DataAccess.Implementation;
 using Microsoft.AspNetCore.Builder;
@@ -25,12 +26,15 @@ namespace CardPayment.Api
         {
 
             services.AddControllers();
+            services.AddHttpClient();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CardPayment.Api", Version = "v1" });
             });
 
             services.AddScoped<IMerchantRepository, MerchantRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<TransactionService>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -39,14 +43,17 @@ namespace CardPayment.Api
                        .AllowAnyHeader();
             }));
 
+
+
             services.AddDbContextPool<AppDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("cardpaymentdb"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("pspdb"))
                 .UseLazyLoadingProxies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("MyPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

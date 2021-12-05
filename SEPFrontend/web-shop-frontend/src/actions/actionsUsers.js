@@ -90,15 +90,16 @@ export const userLoggedIn = (user) => async (dispatch) => {
   }
 };
 
-export const bankAdminRegistration = (adminName) => async (dispatch) => {
+export const bankAdminRegistration = (name) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
       "https://localhost:44375/api/merchants",
-      adminName,
+      name,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
         },
       }
     );
@@ -116,6 +117,7 @@ export const bankAdminRegistration = (adminName) => async (dispatch) => {
 };
 
 export const editAdmin = (admin) => async (dispatch) => {
+  debugger;
   try {
     const response = await axios.put(
       "https://localhost:44326/api/admins",
@@ -123,7 +125,6 @@ export const editAdmin = (admin) => async (dispatch) => {
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
         },
       }
     );

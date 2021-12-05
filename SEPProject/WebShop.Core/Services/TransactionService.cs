@@ -39,7 +39,7 @@ namespace WebShop.Core.Services
 
         public Result EditStatus(TransactionDTO transactionDTO)
         {
-            Transaction transaction = _transactionRepository.GetById(transactionDTO.TransactionId);
+            Transaction transaction = _transactionRepository.GetById(transactionDTO.MerchantOrderId);
             bool result = Enum.TryParse(transactionDTO.TransactionStatus, out TransactionStatus transactionStatus);
             if (!result)
             {

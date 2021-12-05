@@ -35,6 +35,7 @@ namespace WebShop.Api.Controllers
             {
                 return BadRequest();
             }
+            admin.MerchantId = adminDTO.MerchantId;
             return Ok(_adminRepository.Edit(admin));
         }
 

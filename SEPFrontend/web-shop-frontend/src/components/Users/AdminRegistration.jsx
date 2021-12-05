@@ -113,7 +113,9 @@ class AdminRegistration extends Component {
               <button
                 disabled={this.state.password != this.state.repeatPassword}
                 className="btn btn-lg btn-primary btn-block"
-                onClick={this.register.bind(this)}
+                onClick={() => {
+                  this.register();
+                }}
               >
                 Register
               </button>
@@ -150,20 +152,21 @@ class AdminRegistration extends Component {
       Email: this.state.email,
       Name: this.state.firstName,
       Password: this.state.password,
+      MerchantId: "00000000-0000-0000-0000-000000000000",
     });
 
     if (successful === true) {
-      // await this.props.bankAdminRegistration(this.state.firstName);
-      // await this.props.editAdmin({
-      //   AdminId: this.props.admin.id,
-      //   MerchantId: this.props.bankAdmin.merchantId,
-      // });
-      // await this.props.pspAdminRegistration({
-      //   MerchantId: this.props.bankAdmin.merchantId,
-      //   MerchantPassword: this.props.bankAdmin.merchantPassword,
-      //   Name: this.state.firstName,
-      //   RegisteredWebShopId: "12345678-1234-1234-1234-123412341230",
-      // });
+      await this.props.bankAdminRegistration(this.state.firstName);
+      await this.props.editAdmin({
+        AdminId: this.props.admin.id,
+        MerchantId: this.props.bankAdmin.merchantId,
+      });
+      await this.props.pspAdminRegistration({
+        MerchantId: this.props.bankAdmin.merchantId,
+        MerchantPassword: this.props.bankAdmin.merchantPassword,
+        Name: this.state.firstName,
+        RegisteredWebShopId: "12345678-1234-1234-1234-123412341230",
+      });
       window.location = "/login";
     } else {
       toast.configure();

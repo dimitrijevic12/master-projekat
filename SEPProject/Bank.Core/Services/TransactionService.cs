@@ -42,6 +42,8 @@ namespace Bank.Core.Services
                 return Result.Failure<Transaction>("Transaction with that id already exists.");
             Merchant acquirer = _merchantRepository.GetByMerchantId(pspRequest.MerchantId);
             PaymentCard card = _paymentCardRepository.GetByPAN(pan);
+            if (card == null)
+                return Result.Failure<Transaction>("Invalid PAN.");
             Transaction transaction = new Transaction(id, amount, timestamp, paymentId, transactionStatus, acquirer.Id,
                 acquirer.Name, card.CardOwnerId, card.CardOwner.FirstName + " " + card.CardOwner.LastName);
             _transactionRepository.Save(transaction);

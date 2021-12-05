@@ -24,7 +24,7 @@ class QRPayment extends React.Component {
               Payment ID: {window.location.pathname.slice(-36)}
             </div>
             <div className="pt-3" style={{ fontSize: 20 }}>
-              Total: {this.props.pspRequest.amount} RSD
+              Total: {this.props.pspRequest.amount} EUR
             </div>
             <div className="text-center pt-5">
               <QRCode value={JSON.stringify(this.props.pspRequest)} />

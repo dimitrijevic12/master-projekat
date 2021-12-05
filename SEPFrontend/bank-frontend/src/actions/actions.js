@@ -10,7 +10,7 @@ export const getPSPRequest = (paymentId) => async (dispatch) => {
   try {
     debugger;
     const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/psprequests`,
+      `${process.env.REACT_APP_API_URL}psprequests`,
       {
         params: { paymentId: paymentId },
 

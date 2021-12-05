@@ -45,7 +45,7 @@ namespace WebShop.Api.Controllers
         [HttpPut]
         public IActionResult EditStatus(TransactionDTO transactionDTO)
         {
-            if (_transactionRepository.GetById(transactionDTO.TransactionId) is null)
+            if (_transactionRepository.GetById(transactionDTO.MerchantOrderId) is null)
             {
                 return BadRequest();
             }

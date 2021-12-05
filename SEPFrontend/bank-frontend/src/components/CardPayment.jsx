@@ -34,7 +34,7 @@ class CardPayment extends React.Component {
               Payment ID: {window.location.pathname.slice(-36)}
             </div>
             <div className="pt-3" style={{ fontSize: 20 }}>
-              Total: {this.props.pspRequest.amount} RSD
+              Total: {this.props.pspRequest.amount} EUR
             </div>
             <div class="form-group w-100 pr-5 pt-5">
               <label for="pan">PAN:</label>

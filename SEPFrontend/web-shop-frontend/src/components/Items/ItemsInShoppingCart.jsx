@@ -163,20 +163,19 @@ class ItemsInShoppingCart extends Component {
     };
     debugger;
     await this.props.saveTransaction(transaction);
-    // await this.props.sendTransactionToPsp({
-    //   Amount: totalPrice,
-    //   TimeStamp: timeStamp,
-    //   OrderId: this.props.savedTransaction.id,
-    //   TransactionStatus: 0,
-    //   MerchantId: this.props.savedTransaction.seller.merchantId,
-    //   MerchantName: this.props.savedTransaction.seller.name,
-    //   IssuerId: this.props.savedTransaction.buyer.id,
-    //   IssuerName: this.props.savedTransaction.buyer.firstName,
-    // });
+    await this.props.sendTransactionToPsp({
+      Amount: totalPrice,
+      TimeStamp: timeStamp,
+      OrderId: this.props.savedTransaction.id,
+      TransactionStatus: 0,
+      MerchantId: this.props.savedTransaction.seller.merchantId,
+      MerchantName: this.props.savedTransaction.seller.name,
+      IssuerId: this.props.savedTransaction.buyer.id,
+      IssuerName: this.props.savedTransaction.buyer.firstName,
+    });
     localStorage.setItem("shoppingCart", "");
     window.location.href =
       "http://localhost:3001/psp/" + this.props.savedTransaction.id;
-    //window.location = "/items-in-shopping-cart";
   }
 
   getTotalPrice() {

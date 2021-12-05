@@ -54,7 +54,6 @@ class FailedTransaction extends Component {
                       <th style={{ textAlign: "center" }}>Timestamp</th>
                       <th style={{ textAlign: "center" }}>Total price</th>
                       <th style={{ textAlign: "center" }}>Seller</th>
-                      <th style={{ textAlign: "center" }}>Status</th>
                       <th style={{ textAlign: "center" }}>Transaction Items</th>
                     </tr>
                   </thead>
@@ -70,15 +69,6 @@ class FailedTransaction extends Component {
                       </td>
                       <td style={{ textAlign: "center" }}>
                         {this.props.transaction.seller.name}
-                      </td>
-                      <td style={{ textAlign: "center" }}>
-                        {this.props.transaction.status === 0
-                          ? "Pending"
-                          : this.props.transaction.status === 1
-                          ? "Success"
-                          : this.props.transaction.status === 2
-                          ? "Failed"
-                          : "Error"}
                       </td>
                       <td style={{ textAlign: "center" }}>
                         <img

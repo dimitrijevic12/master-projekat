@@ -24,7 +24,7 @@ namespace Bank.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string name)
+        public IActionResult Create([FromBody] string name)
         {
             Result<Merchant> result = _merchantService.Create(name);
             if (result.IsFailure)

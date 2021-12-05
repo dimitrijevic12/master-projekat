@@ -7,6 +7,8 @@ import {
     CHANGE_PAYMENTTYPES_ERROR,
     GET_PAYMENTTYPES,
     GET_PAYMENTTYPES_ERROR,
+    GET_PAYMENTTYPES_FOR_WEBSHOP,
+    GET_PAYMENTTYPES_FOR_WEBSHOP_ERROR
   } from "../types/types";
   import axios from "axios";
 
@@ -14,7 +16,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.post(
-        "https://localhost:44315/api/RegisteredWebShops",
+        "http://localhost:60212/api/RegisteredWebShops",
         webShop,
         {
             headers: {
@@ -38,7 +40,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
 export const userLoggedIn = (webShop) => async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://localhost:44315/api/RegisteredWebShops/login",
+        "http://localhost:60212/api/RegisteredWebShops/login",
         webShop,
         {
           headers: {
@@ -68,7 +70,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
       const response = await axios.get(
-        "https://localhost:44315/api/RegisteredWebShops/" + webShopEmail,
+        "http://localhost:60212/api/RegisteredWebShops/" + webShopEmail,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -93,7 +95,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.put(
-        "https://localhost:44315/api/RegisteredWebShops",
+        "http://localhost:60212/api/RegisteredWebShops",
         paymentTypes,
         {
             headers: {
@@ -117,7 +119,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
 export const getPaymentTypes = () => async (dispatch) => {  
     try {
       const response = await axios.get(
-        "https://localhost:44315/api/PaymentTypes",
+        "http://localhost:60212/api/PaymentTypes",
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -132,6 +134,31 @@ export const getPaymentTypes = () => async (dispatch) => {
     } catch (e) {
       dispatch({
         type: GET_PAYMENTTYPES_ERROR,
+        payload: console.log(e),
+      });
+    }
+  };
+
+  export const getPaymentTypesForWebShop = (orderId) => async (dispatch) => {
+    debugger;
+    try {
+      const response = await axios.get(
+        "http://localhost:60212/api/paymenttypes/" + orderId,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + sessionStorage.getItem("tokenPSP"),
+          },
+        }
+      );
+      dispatch({
+        type: GET_PAYMENTTYPES_FOR_WEBSHOP,
+        payload: response.data,
+      });
+    } catch (e) {
+        debugger;
+      dispatch({
+        type: GET_PAYMENTTYPES_FOR_WEBSHOP_ERROR,
         payload: console.log(e),
       });
     }

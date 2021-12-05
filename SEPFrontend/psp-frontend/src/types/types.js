@@ -14,3 +14,6 @@ export const SEND_REQUEST = "sendRequest";
 export const SEND_REQUEST_ERROR = "sendRequestError";
 export const SET_PAYMENT_ID = "setPaymentId";
 export const SET_PAYMENT_ID_ERROR = "setPaymentIdError";
+export const GET_PAYMENTTYPES_FOR_WEBSHOP = "getPaymentTypesForWebShop";
+export const GET_PAYMENTTYPES_FOR_WEBSHOP_ERROR = "getPaymentTypesForWebShop";
+

@@ -14,7 +14,7 @@ import {
     debugger;
     try {
       const response = await axios.get(
-        "https://localhost:44315/api/Transactions",
+        "http://localhost:60212/api/Transactions",
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -39,7 +39,7 @@ import {
     debugger;
     try {
       const response = await axios.get(
-        "https://localhost:44300/api/Transactions/" + orderId,
+        "http://localhost:60212/api/Transactions/" + orderId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -64,7 +64,7 @@ import {
     debugger;
     try {
         const response = await axios.post(
-        "https://localhost:5001/api/PSPRequests",
+        "https://localhost:44375/api/PSPRequests",
         request,
         {
             headers: {
@@ -89,7 +89,7 @@ export const setPaymentId = (transactionsPayment) => async (dispatch) => {
   debugger;
   try {
       const response = await axios.put(
-      "https://localhost:44300/api/Transactions/paymentId",
+      "http://localhost:60212/api/Transactions/paymentId",
       transactionsPayment,
       {
           headers: {

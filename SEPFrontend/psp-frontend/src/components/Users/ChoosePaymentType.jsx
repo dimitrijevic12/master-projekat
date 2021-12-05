@@ -4,6 +4,9 @@ import {
     sendRequest,
     setPaymentId
 } from "../../actions/actionsTransaction";
+import {
+  getPaymentTypesForWebShop,
+} from "../../actions/actionsWebShop";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { toast } from "react-toastify";
@@ -18,11 +21,17 @@ class ChoosePaymentTypes extends Component {
     var url = window.location.pathname;
     var orderId = url.substring(url.lastIndexOf('/') + 1);
     await this.props.getRequest(
-        orderId,
+        orderId
     );
+    await this.props.getPaymentTypesForWebShop(
+      orderId
+  );
+
   }
   render() {
-   
+    if (this.props.paymentTypes === undefined) {
+      return null;
+    }
 
     const registeredWebShop = this.props.getWebShop;
 
@@ -43,11 +52,17 @@ class ChoosePaymentTypes extends Component {
                     class="form-control"
                     onChange={this.handleChange}
                     name="paymentType"
-                  >
+                  >    
                     <option value=""> </option>
-                    <option value="payPal">PayPal</option>
-                    <option value="cryptoValute">Crypto Valute</option>
-                    <option value="bank">Bank</option>
+                    {
+                      this.props.paymentTypes.map((item, i) => {
+                        return (
+                          <option key={i} value={item.name}>
+                            {item.name}
+                          </option>
+                        );
+                      })
+                    }
                   </select>
                 </div>
               </div>
@@ -100,10 +115,11 @@ class ChoosePaymentTypes extends Component {
 const mapStateToProps = (state) => ({
     request: state.request,
     payment: state.payment,
+    paymentTypes: state.paymentTypes
 });
 
 export default compose(
   connect(mapStateToProps, {
-    getRequest, sendRequest, setPaymentId,
+    getRequest, sendRequest, setPaymentId, getPaymentTypesForWebShop,
   })
 )(ChoosePaymentTypes);

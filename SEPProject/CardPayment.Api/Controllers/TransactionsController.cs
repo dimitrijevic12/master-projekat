@@ -28,7 +28,7 @@ namespace CardPayment.Api.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("{OrderId}")]
+        [HttpGet("{orderId}")]
         public IActionResult GenerateRequestForBank(Guid orderId)
         {
             var request = _transactionService.CreateRequestForBank(orderId);
@@ -43,7 +43,7 @@ namespace CardPayment.Api.Controllers
             return Ok("Successfully edited payment id.");
         }
 
-        [HttpPut]
+        [HttpPut("status")]
         public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
         {
             if (_transactionService.EditTransaction(transactionStatusDTO) == null)

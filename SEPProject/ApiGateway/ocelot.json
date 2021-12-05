@@ -1,0 +1,117 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/merchants",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/merchants"
+    },
+    {
+      "DownstreamPathTemplate": "/api/paymenttypes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paymenttypes"
+    },
+    {
+      "DownstreamPathTemplate": "/api/paymenttypes/{orderId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paymenttypes/{orderId}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/registeredwebshops/login",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/registeredwebshops/login"
+    },
+    {
+      "DownstreamPathTemplate": "/api/registeredwebshops",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/registeredwebshops"
+    },
+    {
+      "DownstreamPathTemplate": "/api/registeredwebshops/{email}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/registeredwebshops/{email}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44315
+        }
+      ],
+      "UpstreamPathTemplate": "/api/transactions"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions/{orderId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/transactions/{orderId}"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions/paymentId",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/transactions/paymentId"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions/status",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/transactions/status"
+    }
+  ],
+"GlobalConfiguration":{
+      "BaseUrl": "http://localhost:60212"
+    }
+}

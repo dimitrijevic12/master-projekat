@@ -50,7 +50,10 @@ namespace PSP.Api
             services.AddScoped<PaymentTypeRegisteredWebShopService>();
             services.AddScoped<TransactionService>();
             services.AddScoped<MerchantService>();
-           
+            services.AddScoped<PaymentTypeService>();
+            
+
+
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

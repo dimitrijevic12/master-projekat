@@ -7,6 +7,7 @@ import {
     GET_REQUEST,
     SEND_REQUEST,
     SET_PAYMENT_ID,
+    GET_PAYMENTTYPES_FOR_WEBSHOP,
   } from "../types/types";
 
   const initialState = {
@@ -61,6 +62,11 @@ import {
         ...state,
         payment: action.payload,
       }; 
+    case GET_PAYMENTTYPES_FOR_WEBSHOP:
+      return {
+        ...state,
+        paymentTypes: action.payload,
+      };  
       
       default:
         return state;

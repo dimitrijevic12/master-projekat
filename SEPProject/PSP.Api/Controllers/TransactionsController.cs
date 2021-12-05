@@ -42,6 +42,6 @@ namespace PSP.Api.Controllers
         public IActionResult GetAll()
         {
             return Ok(_transactionRepository.GetAll());
-        }                
+        }
     }
 }

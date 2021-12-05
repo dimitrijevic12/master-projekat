@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSP.Core.Interface.Repository;
+using PSP.Core.Model;
+using PSP.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace PSP.Api.Controllers
     public class PaymentTypesController : Controller
     {
         private readonly IPaymentTypeRepository _paymentTypeRepository;
+        private readonly PaymentTypeService _paymentTypeService;
 
-        public PaymentTypesController(IPaymentTypeRepository paymentTypeRepository)
+        public PaymentTypesController(IPaymentTypeRepository paymentTypeRepository, PaymentTypeService paymentTypeService)
         {
             _paymentTypeRepository = paymentTypeRepository;
+            _paymentTypeService = paymentTypeService;
         }
 
         [HttpGet]
@@ -24,6 +28,14 @@ namespace PSP.Api.Controllers
         public IActionResult GetAll()
         {
             return Ok(_paymentTypeRepository.GetAll());
+        }
+
+        [HttpGet("{orderId}")]
+        public IActionResult GetPaymentTypesForWebShopByOrderId(Guid orderId)
+        {
+            ICollection<PaymentType>  paymentTypes = _paymentTypeService.GetPaymentTypesForWebShopByOrderId(orderId);
+            if (paymentTypes == null) return BadRequest();
+            return Ok(paymentTypes);
         }
     }
 }

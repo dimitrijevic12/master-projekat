@@ -42,9 +42,17 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpGet("buyers/{userId}")]
+        [Authorize(Roles = "RegisteredUserProxy, AdminProxy")]
         public IActionResult GetTransactionsForBuyer(Guid userId)
         {
             return Ok(_transactionRepository.GetTransactionsForBuyer(userId));
+        }
+
+        [HttpGet("sellers/{userId}")]
+        [Authorize(Roles = "AdminProxy")]
+        public IActionResult GetTransactionsForSeller(Guid userId)
+        {
+            return Ok(_transactionRepository.GetTransactionsForSeller(userId));
         }
 
         [HttpGet("{id}")]

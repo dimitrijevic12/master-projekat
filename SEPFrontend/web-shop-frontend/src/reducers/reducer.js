@@ -21,6 +21,12 @@ import {
   GET_CONFERENCES_FOR_OWNER,
   GET_TRANSACTIONS_FOR_BUYER,
   GET_TRANSACTION_BY_ID,
+  CREATE_ACCOMMODATION,
+  GET_ACCOMMODATIONS_FOR_CITY,
+  GET_ACCOMMODATION_BY_ID,
+  GET_ACCOMMODATIONS_FOR_OWNER,
+  GET_TRANSACTIONS_FOR_SELLER,
+  EDIT_ACCOMMODATION,
 } from "../types/types";
 
 const initialState = {
@@ -38,6 +44,10 @@ const initialState = {
   conferencesForOwner: [],
   transactionsForBuyer: [],
   transaction: {},
+  accommodationsForCity: [],
+  accommodation: {},
+  accommodationsForOwner: [],
+  transactionsForSeller: [],
 };
 
 function reducer(state = initialState, action) {
@@ -143,6 +153,34 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         transaction: action.payload,
+      };
+    case CREATE_ACCOMMODATION:
+      return {
+        ...state,
+      };
+    case GET_ACCOMMODATIONS_FOR_CITY:
+      return {
+        ...state,
+        accommodationsForCity: action.payload,
+      };
+    case GET_ACCOMMODATION_BY_ID:
+      return {
+        ...state,
+        accommodation: action.payload,
+      };
+    case GET_ACCOMMODATIONS_FOR_OWNER:
+      return {
+        ...state,
+        accommodationsForOwner: action.payload,
+      };
+    case GET_TRANSACTIONS_FOR_SELLER:
+      return {
+        ...state,
+        transactionsForSeller: action.payload,
+      };
+    case EDIT_ACCOMMODATION:
+      return {
+        ...state,
       };
     default:
       return state;

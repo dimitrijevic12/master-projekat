@@ -9,6 +9,7 @@ namespace WebShop.Core.Model
         public string Description { get; set; }
         public double CostPerNight { get; set; }
         public string Address { get; set; }
+        public string City { get; set; }
         public string ImagePath { get; set; }
         public Guid OwnerId { get; set; }
         public virtual Admin Owner { get; set; }
@@ -18,13 +19,14 @@ namespace WebShop.Core.Model
         }
 
         public Accommodation(Guid id, string name, string description, 
-            double costPerNight, string address, string imagePath, Guid ownerId)
+            double costPerNight, string address, string city, string imagePath, Guid ownerId)
         {
             Id = id;
             Name = name;
             Description = description;
             CostPerNight = costPerNight;
             Address = address;
+            City = city;
             ImagePath = imagePath;
             OwnerId = ownerId;
         }

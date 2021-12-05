@@ -120,14 +120,28 @@ class ItemsInShoppingCart extends Component {
       } else if (shoppingCartList[i].type === "course") {
         type = 1;
         productId = items[i].id;
+      } else if (shoppingCartList[i].type === "accommodation") {
+        type = 2;
+        productId = items[i].id;
       }
-      var transactionItem = {
-        Type: type,
-        ProductId: productId,
-        Name: items[i].name,
-        Quantity: shoppingCartList[i].quantity,
-        Price: items[i].price * shoppingCartList[i].quantity,
-      };
+      if (shoppingCartList[i].type === "accommodation") {
+        var transactionItem = {
+          Type: type,
+          ProductId: productId,
+          Name: items[i].name,
+          Quantity: shoppingCartList[i].quantity,
+          Price: items[i].costPerNight * shoppingCartList[i].quantity,
+        };
+      } else {
+        var transactionItem = {
+          Type: type,
+          ProductId: productId,
+          Name: items[i].name,
+          Quantity: shoppingCartList[i].quantity,
+          Price: items[i].price * shoppingCartList[i].quantity,
+        };
+      }
+
       transactionItems.push(transactionItem);
     }
     const transaction = {
@@ -156,10 +170,36 @@ class ItemsInShoppingCart extends Component {
     var totalPrice = 0;
     const items = this.state.itemsInShoppingCart;
     for (var i = 0; i < shoppingCartList.length; i++) {
-      totalPrice += items[i].price * shoppingCartList[i].quantity;
+      debugger;
+      if (shoppingCartList[i].type === "accommodation") {
+        totalPrice +=
+          items[i].costPerNight *
+          shoppingCartList[i].quantity *
+          this.getDaysBetween(items[i].name);
+      } else {
+        totalPrice += items[i].price * shoppingCartList[i].quantity;
+      }
     }
     return totalPrice;
   }
+
+  getDaysBetween = (name) => {
+    debugger;
+    const endDate = name.substring(name.length - 10, name.length);
+    const startDate = name.substring(name.length - 21, name.length - 11);
+    const date1 = this.parseDate(startDate);
+    const date2 = this.parseDate(endDate);
+    return this.dateDiff(date1, date2);
+  };
+
+  parseDate = (str) => {
+    var mdy = str.split("/");
+    return new Date(+mdy[2], mdy[1] - 1, +mdy[0]);
+  };
+
+  dateDiff = (first, second) => {
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
+  };
 
   removeFromShoppingCart() {
     localStorage.setItem("shoppingCart", "");
@@ -179,6 +219,12 @@ class ItemsInShoppingCart extends Component {
       localStorage.setItem("shoppingItem-id", f.item.id);
       localStorage.setItem("quantity-for-shopping-item", f.quantity);
       window.location = "/shopping-course/" + f.item.id;
+    } else if (f.type === "accommodation") {
+      debugger;
+      localStorage.setItem("shoppingAccommodation-id", f.item.id);
+      localStorage.setItem("quantity-for-shopping-item", f.quantity);
+      localStorage.setItem("shopping-accommodation-name", f.item.name);
+      window.location = "/shopping-accommodation/" + f.item.id;
     }
   }
 

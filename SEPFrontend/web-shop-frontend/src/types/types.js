@@ -42,3 +42,18 @@ export const GET_TRANSACTIONS_FOR_BUYER = "getTransactionsForBuyer";
 export const GET_TRANSACTIONS_FOR_BUYER_ERROR = "getTransactionsForBuyerError";
 export const GET_TRANSACTION_BY_ID = "getTransactionById";
 export const GET_TRANSACTION_BY_ID_ERROR = "getTransactionByIdError";
+export const CREATE_ACCOMMODATION = "createAccommodation";
+export const CREATE_ACCOMMODATION_ERROR = "createAccommodationError";
+export const GET_ACCOMMODATIONS_FOR_CITY = "getAccommodationsForCity";
+export const GET_ACCOMMODATIONS_FOR_CITY_ERROR =
+  "getAccommodationsForCityError";
+export const GET_ACCOMMODATION_BY_ID = "getAccommodationById";
+export const GET_ACCOMMODATION_BY_ID_ERROR = "getAccommodationByIdError";
+export const GET_ACCOMMODATIONS_FOR_OWNER = "getAccommodationsForUser";
+export const GET_ACCOMMODATIONS_FOR_OWNER_ERROR =
+  "getAccommodationsForUserError";
+export const GET_TRANSACTIONS_FOR_SELLER = "getTransactionsForSeller";
+export const GET_TRANSACTIONS_FOR_SELLER_ERROR =
+  "getTransactionsForSellerError";
+export const EDIT_ACCOMMODATION = "editAccommodation";
+export const EDIT_ACCOMMODATION_ERROR = "editAccommodationError";

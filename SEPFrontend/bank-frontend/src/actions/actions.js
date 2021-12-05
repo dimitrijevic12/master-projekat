@@ -9,14 +9,17 @@ import axios from "axios";
 export const getPSPRequest = (paymentId) => async (dispatch) => {
   try {
     debugger;
-    const response = await axios.get("https://localhost:5001/api/psprequests", {
-      params: { paymentId: paymentId },
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/psprequests`,
+      {
+        params: { paymentId: paymentId },
 
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
-      },
-    });
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+        },
+      }
+    );
     debugger;
     dispatch({
       type: GET_PSPREQUEST,
@@ -34,7 +37,7 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
   try {
     debugger;
     const response = await axios.post(
-      "https://localhost:5001/api/Transactions",
+      `${process.env.REACT_APP_API_URL}Transactions`,
       {
         PaymentId: cardInfo.PaymentId,
         PAN: cardInfo.PAN,

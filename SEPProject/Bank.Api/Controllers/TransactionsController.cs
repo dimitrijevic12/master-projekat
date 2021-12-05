@@ -50,7 +50,7 @@ namespace Bank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
             }
             // TODO
@@ -65,20 +65,21 @@ namespace Bank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, 
                     cardInfo.PAN, TransactionStatus.Failed);
-                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
             }
             else if (result.IsFailure)
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
             }
             transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
                 TransactionStatus.Success);
-            //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
-            return Ok(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+            ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+            return Created(this.Request.Path + "/" + transactionResult.Value.Id,
+                new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
         }
 
         private async void ForwardTransaction(PSPTransaction transaction)
@@ -90,7 +91,7 @@ namespace Bank.Api.Controllers
 
             HttpClient client = _httpClientFactory.CreateClient();
             using var httpResponseMessage =
-            await client.PutAsync("https://localhost:44315/api/Transactions", transactionJson);
+            await client.PutAsync("http://localhost:60212/api/transactions/status", transactionJson);
             httpResponseMessage.Dispose();
         }
     }

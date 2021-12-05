@@ -3,15 +3,11 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
-  getConferenceById,
-  editConference,
-} from "../../actions/actionsConference";
-import Switch from "react-switch";
-import DatePicker from "react-datepicker/dist/react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../../css/datepicker.css";
+  getAccommodationById,
+  editAccommodation,
+} from "../../actions/actionsAccommodation";
 
-class EditConference extends Component {
+class EditAccommodation extends Component {
   state = {
     file: null,
     fileName: "",
@@ -19,28 +15,29 @@ class EditConference extends Component {
     fileType: "",
     contentPath: "",
     name: "",
-    price: "",
-    address: "",
-    online: "",
+    costPerNight: "",
+    availableCount: "",
     description: "",
-    date: "",
+    address: "",
+    city: "",
   };
 
   async componentDidMount() {
-    await this.props.getConferenceById(localStorage.getItem("conference-id"));
+    await this.props.getAccommodationById(
+      localStorage.getItem("accommodation-id")
+    );
     debugger;
     this.setState({
-      name: this.props.conference.name,
-      price: this.props.conference.price,
-      description: this.props.conference.description,
-      address: this.props.conference.address,
-      online: this.props.conference.online,
-      date: new Date(this.props.conference.date),
+      name: this.props.accommodation.name,
+      costPerNight: this.props.accommodation.costPerNight,
+      description: this.props.accommodation.description,
+      address: this.props.accommodation.address,
+      city: this.props.accommodation.city,
     });
   }
 
   render() {
-    if (this.props.conference === undefined) {
+    if (this.props.accommodation === undefined) {
       return null;
     }
 
@@ -91,61 +88,15 @@ class EditConference extends Component {
         <div className="mt-5">
           <div className="d-inline-flex w-50">
             <div class="form-group w-100 pr-5">
-              <label for="tag">Online:</label>
-              <br />
-              <Switch
-                onChange={this.handleChangeOnline}
-                checked={this.state.online}
-                className="react-switch"
-                id="normal-switch"
-              />
-            </div>
-          </div>
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="location">Address:</label>
-              <input
-                type="text"
-                name="address"
-                class="form-control"
-                id="address"
-                disabled={this.state.online === true}
-                value={this.state.online === true ? "" : this.state.address}
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-5">
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="tag">Date:</label>
-              <div className="d-block w-100">
-                <DatePicker
-                  className="form-control w-100"
-                  id="date"
-                  name="date"
-                  dateFormat="dd/MM/yyyy"
-                  selected={this.state.date}
-                  minDate={new Date()}
-                  onChange={(e) => this.handleChangeDate(e)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mt-5">
-          <div className="d-inline-flex w-50">
-            <div class="form-group w-100 pr-5">
-              <label for="tag">Price:</label>
+              <label for="tag">Cost per night:</label>
               <input
                 type="number"
-                name="price"
-                value={this.state.price}
+                name="costPerNight"
+                value={this.state.costPerNight}
                 onChange={this.handleChange}
                 class="form-control"
-                id="price"
-                placeholder="Enter price"
+                id="costPerNight"
+                placeholder="Enter cost per night"
               />
             </div>
           </div>
@@ -157,23 +108,52 @@ class EditConference extends Component {
                 value={this.state.description}
                 cols="40"
                 rows="5"
-                class="form-control"
                 onChange={this.handleChange}
+                class="form-control"
                 placeholder="Enter description"
               ></textarea>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">Address:</label>
+              <input
+                type="text"
+                name="address"
+                value={this.state.address}
+                onChange={this.handleChange}
+                class="form-control"
+                id="address"
+                placeholder="Enter address"
+              />
+            </div>
+          </div>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="tag">City:</label>
+              <input
+                type="text"
+                name="city"
+                value={this.state.city}
+                onChange={this.handleChange}
+                class="form-control"
+                id="city"
+                placeholder="Enter city"
+              />
             </div>
           </div>
         </div>
         <div className="mt-5 pb-5">
           <button
             onClick={() => {
-              this.createItem();
+              this.createAccommodation();
             }}
             disabled={
-              this.state.date === "" ||
               this.state.name === "" ||
-              this.state.price === "" ||
-              (this.state.address === "" && this.state.online === false)
+              this.state.costPerNight === "" ||
+              this.state.address === ""
             }
             className="btn btn-primary btn-block"
           >
@@ -184,79 +164,66 @@ class EditConference extends Component {
     );
   }
 
-  handleChangeDate = (e) => {
-    this.setState({
-      date: e,
-    });
-  };
-
-  handleChangeOnline = (checked) => {
+  async createAccommodation() {
     debugger;
-    this.setState({ online: checked });
-  };
-
-  async createItem() {
-    debugger;
-    const newConference = {
-      id: this.props.conference.id,
+    const newItem = {
+      id: this.props.accommodation.id,
       name: this.state.name,
       imagePath:
         this.state.contentPath === ""
-          ? this.props.conference.imagePath
+          ? this.props.accommodation.imagePath
           : this.state.contentPath,
-      price: this.state.price,
-      date: this.state.date,
+      costPerNight: this.state.costPerNight,
       description: this.state.description,
-      address: this.state.online === true ? "" : this.state.address,
-      online: this.state.online,
-      ownerId: this.props.conference.ownerId,
+      address: this.state.address,
+      city: this.state.city,
+      ownerId: this.props.accommodation.ownerId,
     };
-    await this.props.editConference({
-      Id: this.props.conference.id,
+    await this.props.editAccommodation({
+      Id: this.props.accommodation.id,
       Name: this.state.name,
       ImagePath:
         this.state.contentPath === ""
-          ? this.props.conference.imagePath
+          ? this.props.accommodation.imagePath
           : this.state.contentPath,
-      Price: this.state.price,
-      Date: this.state.date,
+      CostPerNight: this.state.costPerNight,
       Description: this.state.description,
-      Address: this.state.online === true ? "" : this.state.address,
-      Online: this.state.online,
-      OwnerId: this.props.conference.ownerId,
+      Address: this.state.address,
+      City: this.state.city,
+      OwnerId: this.props.accommodation.ownerId,
     });
-    if (
-      localStorage.getItem("shoppingCart") === null ||
-      localStorage.getItem("shoppingCart") === ""
-    ) {
-      var shoppingCartList = [];
-    } else {
-      var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
-    }
-    if (
-      shoppingCartList.some((shoppingProduct) => {
-        if (shoppingProduct.type === "conference") {
-          if (newConference.id === shoppingProduct.item.id) {
-            return shoppingProduct;
-          }
-        }
-      })
-    ) {
-      const elementsIndex = shoppingCartList.findIndex((element) => {
-        if (element.type === "conference") {
-          if (element.item.id === newConference.id) {
-            return element;
-          }
-        }
-      });
-      let newArray = shoppingCartList;
-      newArray[elementsIndex] = {
-        ...newArray[elementsIndex],
-        item: newConference,
-      };
-      localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
-    }
-    window.location = "/owners-conferences";
+    // if (
+    //   localStorage.getItem("shoppingCart") === null ||
+    //   localStorage.getItem("shoppingCart") === ""
+    // ) {
+    //   var shoppingCartList = [];
+    // } else {
+    //   var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
+    // }
+    // if (
+    //   shoppingCartList.some((shoppingProduct) => {
+    //     if (shoppingProduct.type === "accommodation") {
+    //       if (newItem.id === shoppingProduct.item.id) {
+    //         return shoppingProduct;
+    //       }
+    //     }
+    //   })
+    // ) {
+    //   const elementsIndex = shoppingCartList.findIndex((element) => {
+    //     if (element.type === "accommodation") {
+    //       if (element.item.id === newItem.id) {
+    //         return element;
+    //       }
+    //     }
+    //   });
+    //   let newArray = shoppingCartList;
+    //   newArray[elementsIndex] = {
+    //     ...newArray[elementsIndex],
+    //     item: newItem,
+    //   };
+    //   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartList));
+    // }
+    window.location = "/owners-accommodations";
   }
 
   choosePost = async (event) => {
@@ -308,10 +275,10 @@ class EditConference extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  conference: state.conference,
+  accommodation: state.accommodation,
   loadedImage: state.loadedImage,
 });
 
 export default compose(
-  connect(mapStateToProps, { getConferenceById, editConference })
-)(EditConference);
+  connect(mapStateToProps, { getAccommodationById, editAccommodation })
+)(EditAccommodation);

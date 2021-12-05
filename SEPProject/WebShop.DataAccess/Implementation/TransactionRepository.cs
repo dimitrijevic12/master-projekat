@@ -18,12 +18,12 @@ namespace WebShop.DataAccess.Implementation
 
         public IEnumerable<Transaction> GetTransactionsForBuyer(Guid userId)
         {
-            return dbContext.Transactions.ToList().Where(transaction => transaction.BuyerId == userId).ToList();
+            return dbContext.Transactions.ToList().Where(transaction => transaction.BuyerId == userId).OrderByDescending(o => o.Timestamp).ToList();
         }
 
         public IEnumerable<Transaction> GetTransactionsForSeller(Guid userId)
         {
-            return dbContext.Transactions.ToList().Where(transaction => transaction.SellerId == userId).ToList();
+            return dbContext.Transactions.ToList().Where(transaction => transaction.SellerId == userId).OrderByDescending(o => o.Timestamp).ToList();
         }
     }
 }

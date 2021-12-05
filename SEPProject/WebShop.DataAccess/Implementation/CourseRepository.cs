@@ -20,5 +20,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Courses.ToList().Where(course => course.OwnerId == ownerId).ToList();
         }
+
+        public IEnumerable<Course> GetFutureCourses()
+        {
+            return dbContext.Courses.ToList().Where(course => course.StartDate > DateTime.Now).ToList();
+        }
     }
 }

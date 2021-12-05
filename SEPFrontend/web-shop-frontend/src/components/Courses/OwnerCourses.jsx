@@ -66,6 +66,16 @@ class OwnerCourses extends Component {
 
     return (
       <div>
+        <div className="mt-5 pb-5">
+          <button
+            onClick={() => {
+              this.createItem();
+            }}
+            className="btn btn-primary btn-block"
+          >
+            Create new course
+          </button>
+        </div>
         <Grid>
           <GridControlBar>
             <GridControlBarItem isActive>Your Courses</GridControlBarItem>
@@ -74,6 +84,10 @@ class OwnerCourses extends Component {
         </Grid>
       </div>
     );
+  }
+
+  createItem() {
+    window.location = "/create-course";
   }
 
   view(f) {

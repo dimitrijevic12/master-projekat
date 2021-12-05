@@ -66,15 +66,16 @@ class Items extends Component {
 
     return (
       <div>
-        {/* {this.state.showPostModal ? (
-          <PostModal
-            show={this.state.showPostModal}
-            postId={this.state.postId}
-            personPhoto="/images/download.jfif"
-            person={this.state.username}
-            onShowChange={() => this.displayModalPost()}
-          />
-        ) : null} */}
+        <div className="mt-5 pb-5">
+          <button
+            onClick={() => {
+              this.createItem();
+            }}
+            className="btn btn-primary btn-block"
+          >
+            Create new item
+          </button>
+        </div>
         <Grid>
           <GridControlBar>
             <GridControlBarItem isActive>Your Items</GridControlBarItem>
@@ -85,22 +86,14 @@ class Items extends Component {
     );
   }
 
+  createItem() {
+    window.location = "/create-item";
+  }
+
   view(f) {
     localStorage.setItem("item-productkey", f.productKey);
     window.location = "/item/" + f.productKey;
   }
-
-  //   displayModalPost = (post) => {
-  //     if (post != undefined) {
-  //       this.setState({
-  //         postId: post.id,
-  //         username: post.registeredUser.username,
-  //       });
-  //     }
-  //     this.setState({
-  //       showPostModal: !this.state.showPostModal,
-  //     });
-  //   };
 
   getAllImages = async (items) => {
     debugger;

@@ -28,14 +28,15 @@ namespace WebShop.DataAccess.Implementation
             }
             else
             {
-                return dbContext.Transportations.ToList();
+                return dbContext.Transportations.ToList().Where(transportation => transportation.DepartureTime > DateTime.Now).ToList();
             }
         }
 
         private IEnumerable<Transportation> GetOnlyForFinalDestination(string finalDestination)
         {
             return dbContext.Transportations.ToList().Where(transportation =>
-                                transportation.FinalDestination.Equals(finalDestination)).ToList();
+                                transportation.FinalDestination.Equals(finalDestination) && 
+                                transportation.DepartureTime > DateTime.Now).ToList();
         }
 
         private IEnumerable<Transportation> GetForStartDestinations(string startDestination, string finalDestination)
@@ -48,14 +49,16 @@ namespace WebShop.DataAccess.Implementation
         private IEnumerable<Transportation> GetOnlyForStartDestination(string startDestination)
         {
             return dbContext.Transportations.ToList().Where(transportation =>
-                            transportation.StartDestination.Equals(startDestination)).ToList();
+                            transportation.StartDestination.Equals(startDestination) &&
+                            transportation.DepartureTime > DateTime.Now).ToList();
         }
 
         private IEnumerable<Transportation> GetForBothDestinations(string startDestination, string finalDestination)
         {
             return dbContext.Transportations.ToList().Where(transportation =>
                             transportation.StartDestination.Equals(startDestination) &&
-                            transportation.FinalDestination.Equals(finalDestination)).ToList();
+                            transportation.FinalDestination.Equals(finalDestination) &&
+                            transportation.DepartureTime > DateTime.Now).ToList();
         }
 
         public IEnumerable<Transportation> GetTransportationsForOwner(Guid ownerId)

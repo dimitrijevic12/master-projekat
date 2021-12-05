@@ -7,5 +7,6 @@ namespace WebShop.Core.Interface.Repository
     public interface IConferenceRepository : IRepository<Conference>
     {
         public IEnumerable<Conference> GetConferencesForOwner(Guid ownerId);
+        public IEnumerable<Conference> GetFutureConferences();
     }
 }

@@ -7,5 +7,6 @@ namespace WebShop.Core.Interface.Repository
     public interface ICourseRepository : IRepository<Course>
     {
         public IEnumerable<Course> GetCoursesForOwner(Guid ownerId);
+        public IEnumerable<Course> GetFutureCourses();
     }
 }

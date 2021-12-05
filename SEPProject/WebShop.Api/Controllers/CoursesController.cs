@@ -25,7 +25,7 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_courseRepository.GetAll());
+            return Ok(_courseRepository.GetFutureCourses());
         }
 
         [HttpPost]

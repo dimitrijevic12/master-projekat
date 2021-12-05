@@ -38,6 +38,9 @@ import ReviewTransportationPage from "./pages/ReviewTransportationPage";
 import ReviewTransportationInShoppingCartPage from "./pages/ReviewTransportationInShoppingCartPage";
 import OwnerTransportationsPage from "./pages/OwnerTransportationsPage";
 import EditTransportationPage from "./pages/EditTransportationPage";
+import SuccessfulTransactionPage from "./pages/SuccessfulTransactionPage";
+import FailedTransactionPage from "./pages/FailedTransactionPage";
+import ErrorTransactionPage from "./pages/ErrorTransactionPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -46,6 +49,18 @@ function App() {
       <div>
         <Routes>
           <Route path="/item/:itemId" element={<ReviewItemPage />} />
+          <Route
+            path="/successful-transaction/:transactionId"
+            element={<SuccessfulTransactionPage />}
+          />
+          <Route
+            path="/failed-transaction/:transactionId"
+            element={<FailedTransactionPage />}
+          />
+          <Route
+            path="/error-transaction/:transactionId"
+            element={<ErrorTransactionPage />}
+          />
           <Route path="/course/:courseId" element={<ReviewCoursePage />} />
           <Route
             path="/transportation/:transportationId"

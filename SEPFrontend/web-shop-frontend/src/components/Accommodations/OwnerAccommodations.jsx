@@ -72,6 +72,16 @@ class OwnerAccommodations extends Component {
 
     return (
       <div>
+        <div className="mt-5 pb-5">
+          <button
+            onClick={() => {
+              this.createItem();
+            }}
+            className="btn btn-primary btn-block"
+          >
+            Create new accommodation
+          </button>
+        </div>
         <Grid>
           <GridControlBar>
             <GridControlBarItem isActive>Accommodations</GridControlBarItem>
@@ -80,6 +90,10 @@ class OwnerAccommodations extends Component {
         </Grid>
       </div>
     );
+  }
+
+  createItem() {
+    window.location = "/create-accommodation";
   }
 
   view(f) {

@@ -20,5 +20,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Conferences.ToList().Where(conference => conference.OwnerId == ownerId).ToList();
         }
+
+        public IEnumerable<Conference> GetFutureConferences()
+        {
+            return dbContext.Conferences.ToList().Where(conference => conference.Date > DateTime.Now).ToList();
+        }
     }
 }

@@ -74,6 +74,16 @@ class Transportations extends Component {
 
     return (
       <div>
+        <div className="mt-5 pb-5">
+          <button
+            onClick={() => {
+              this.createItem();
+            }}
+            className="btn btn-primary btn-block"
+          >
+            Create new transportation
+          </button>
+        </div>
         <Grid>
           <GridControlBar>
             <GridControlBarItem isActive>
@@ -84,6 +94,10 @@ class Transportations extends Component {
         </Grid>
       </div>
     );
+  }
+
+  createItem() {
+    window.location = "/create-transportation";
   }
 
   view(f) {

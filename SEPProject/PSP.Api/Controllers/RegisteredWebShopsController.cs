@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using PSP.Core.DTOs;
@@ -62,10 +63,11 @@ namespace PSP.Api.Controllers
         public IActionResult Save(RegisteredWebShopDTO registeredWebShopDTO)
         {
             registeredWebShopDTO.Id = Guid.NewGuid();
-            if (_registeredWebShopService.Save(registeredWebShopDTO) == null)
+            Result result = _registeredWebShopService.Save(registeredWebShopDTO);
+            if (result.IsFailure)
             {
-                return BadRequest();
-            }         
+                return BadRequest(result.Error);
+            }
             return Created(Request.Path + registeredWebShopDTO.Id, "");
         }
 

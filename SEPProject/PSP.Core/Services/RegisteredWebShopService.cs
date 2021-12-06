@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PSP.Core.DTOs;
 using PSP.Core.Interface.Repository;
@@ -25,12 +26,16 @@ namespace PSP.Core.Services
             _config = config;
         }
 
-        public RegisteredWebShop Save(RegisteredWebShopDTO registeredWebShopDTO)
+        public Result Save(RegisteredWebShopDTO registeredWebShopDTO)
         {
+            if (_registeredWebShopRepository.GetByEmail(registeredWebShopDTO.EmailAddress) != null) return Result.Failure("WebShop with that email already exists!");
+            if (registeredWebShopDTO.Password == "") return Result.Failure("Password can't be empty!");
+            if (registeredWebShopDTO.WebShopName == "") return Result.Failure("Name can't be empty!");
             registeredWebShopDTO.WebShopId = _registeredWebShopRepository.GetAll().ToList().Max(shop => shop.WebShopId) + 1;
-            if(_registeredWebShopRepository.GetByEmail(registeredWebShopDTO.EmailAddress) != null) { return null; }
-            return _registeredWebShopRepository.Save(new RegisteredWebShop(registeredWebShopDTO.Id, registeredWebShopDTO.WebShopId, registeredWebShopDTO.WebShopName,
+            
+            RegisteredWebShop webShop = _registeredWebShopRepository.Save(new RegisteredWebShop(registeredWebShopDTO.Id, registeredWebShopDTO.WebShopId, registeredWebShopDTO.WebShopName,
                 registeredWebShopDTO.Password, registeredWebShopDTO.EmailAddress, registeredWebShopDTO.SuccessUrl, registeredWebShopDTO.FailedUrl, registeredWebShopDTO.ErrorUrl));
+            return Result.Success(webShop);
         }
 
         public RegisteredWebShop GetWebShopByEmail(String email)

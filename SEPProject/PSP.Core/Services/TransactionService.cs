@@ -1,4 +1,5 @@
-﻿using PSP.Core.DTOs;
+﻿using CSharpFunctionalExtensions;
+using PSP.Core.DTOs;
 using PSP.Core.Interface.Repository;
 using PSP.Core.Model;
 using System;
@@ -25,6 +26,17 @@ namespace PSP.Core.Services
             var merchant = _merchantRepository.GetByMerchantId(transactionDTO.MerchantId);
             return new RequestDTO(merchant.MerchantId, merchant.MerchantPassword, transactionDTO.Amount, transactionDTO.OrderId, transactionDTO.Timestamp,
                 merchant.RegisteredWebShop.SuccessUrl, merchant.RegisteredWebShop.FailedUrl, merchant.RegisteredWebShop.ErrorUrl);
+        }
+
+        public Result Save(TransactionDTO transactionDTO)
+        {
+            if (_transactionRepository.GetTransactionByOrderId(transactionDTO.OrderId) != null) return Result.Failure("Transaction with that OrderId already exists!");
+            if (transactionDTO.Amount <= 0) return Result.Failure("Amount is not valid!");
+            if (_merchantRepository.GetByMerchantId(transactionDTO.MerchantId) == null) return Result.Failure("There is no Merchant with that MerchantId!");
+
+            Transaction transaction = _transactionRepository.Save(new Transaction(transactionDTO.Id, transactionDTO.Amount, transactionDTO.Timestamp, transactionDTO.OrderId,
+                transactionDTO.TransactionStatus, transactionDTO.MerchantId, transactionDTO.MerchantName, transactionDTO.IssuerId, transactionDTO.IssuerName));
+            return Result.Success(transaction);
         }
     }
 }

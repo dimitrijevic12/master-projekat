@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PSP.Core.DTOs;
 using PSP.Core.Interface.Repository;
@@ -32,8 +33,11 @@ namespace PSP.Api.Controllers
         public IActionResult Save(TransactionDTO transactionDTO)
         {
             transactionDTO.Id = Guid.NewGuid();
-            _transactionRepository.Save(new Transaction(transactionDTO.Id, transactionDTO.Amount, transactionDTO.Timestamp, transactionDTO.OrderId,
-                transactionDTO.TransactionStatus, transactionDTO.MerchantId, transactionDTO.MerchantName, transactionDTO.IssuerId, transactionDTO.IssuerName));
+            Result result = _transactionService.Save(transactionDTO);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
             return Created(Request.Path + transactionDTO.Id, "");
         }
 

@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebShop.Core.DTOs;
 using WebShop.Core.Model;
 using WebShop.Core.Services;
@@ -15,10 +11,12 @@ namespace WebShop.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserService userService;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(UserService userService)
+        public UsersController(UserService userService, ILogger<UsersController> logger)
         {
             this.userService = userService;
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -30,7 +28,10 @@ namespace WebShop.Api.Controllers
             {
                 string tokenString = userService.GenerateJSONWebToken(user);
                 response = Ok(new { token = tokenString });
+                _logger.LogInformation("Login for user: {username}", login.Username);
+                return response;
             }
+            _logger.LogError("Failed to login for user, {username}", login.Username);
             return response;
         }
     }

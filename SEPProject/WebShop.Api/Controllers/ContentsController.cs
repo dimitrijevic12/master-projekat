@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using WebShop.Core.Model.File;
 using WebShop.Core.Services;
@@ -12,18 +13,21 @@ namespace WebShop.Api.Controllers
     {
         private readonly ContentService contentService;
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger<ContentsController> _logger;
 
-        public ContentsController(ContentService contentService, IWebHostEnvironment env)
+        public ContentsController(ContentService contentService, IWebHostEnvironment env,
+            ILogger<ContentsController> logger)
         {
             this.contentService = contentService;
             _env = env;
+            _logger = logger;
         }
 
         [HttpPost]
         public IActionResult SaveImg([FromForm] FileModel file)
         {
             string fileName = contentService.ImageToSave(_env.WebRootPath, file);
-
+            _logger.LogInformation("Saving image: {name}", fileName);
             return Ok(fileName);
         }
 
@@ -32,6 +36,7 @@ namespace WebShop.Api.Controllers
         {
             FileContentResult fileContentResult = File(contentService.GetImage(_env.WebRootPath, fileName).Bytes,
                 "image/jpeg");
+            _logger.LogInformation("Getting image: {name}", fileName);
             return Ok(fileContentResult);
         }
 

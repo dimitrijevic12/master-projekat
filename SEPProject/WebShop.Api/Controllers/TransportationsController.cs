@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
@@ -14,18 +15,23 @@ namespace WebShop.Api.Controllers
     {
         private readonly ITransportationRepository _transportationRepository;
         private readonly TransportationService transportationService;
+        private readonly ILogger<TransportationsController> _logger;
 
         public TransportationsController(ITransportationRepository transportationRepository,
-            TransportationService transportationService)
+            TransportationService transportationService, ILogger<TransportationsController> logger)
         {
             _transportationRepository = transportationRepository;
             this.transportationService = transportationService;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult GetTransportations([FromQuery] string startDestination, 
             [FromQuery] string finalDestination)
         {
+            _logger.LogInformation("Getting transportations, start destination: " +
+                "{startDestination}, final destination: {finalDestination}", 
+                startDestination, finalDestination);
             return Ok(_transportationRepository.GetTransportationsForDestinations(
                 startDestination, finalDestination));
         }
@@ -38,23 +44,30 @@ namespace WebShop.Api.Controllers
             Result result = transportationService.Save(transportation);
             if (result.IsFailure)
             {
+                _logger.LogError("Failed to create transportation, {error}", result.Error);
                 return BadRequest(result.Error);
             }
+            _logger.LogInformation("Created transportation with id: {id}", transportation.Id);
             return Created(Request.Path + transportation.Id, "");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            return _transportationRepository.GetById(id) is null ?
-                BadRequest() :
-                Ok(_transportationRepository.GetById(id));
+            if (_transportationRepository.GetById(id) is null)
+            {
+                _logger.LogError("Failed to get transportation by id: {id}", id);
+                return BadRequest();
+            }
+            _logger.LogInformation("Getting transportation by id: {id}", id);
+            return Ok(_transportationRepository.GetById(id));
         }
 
         [HttpPut]
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Transportation transportation)
         {
+            _logger.LogInformation("Edited transportation by id: {id}", transportation.Id);
             return Ok(_transportationRepository.Edit(transportation));
         }
 
@@ -62,6 +75,7 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
+            _logger.LogInformation("Getting transportations for owner: {id}", ownerId);
             return Ok(_transportationRepository.GetTransportationsForOwner(ownerId));
         }
     }

@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
@@ -14,17 +15,20 @@ namespace WebShop.Api.Controllers
     {
         private readonly IConferenceRepository _conferenceRepository;
         private readonly ConferenceService conferenceService;
+        private readonly ILogger<ConferencesController> _logger;
 
         public ConferencesController(IConferenceRepository conferenceRepository,
-            ConferenceService conferenceService)
+            ConferenceService conferenceService, ILogger<ConferencesController> logger)
         {
             _conferenceRepository = conferenceRepository;
             this.conferenceService = conferenceService;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
+            _logger.LogInformation("Getting future conferences from date: {date}", DateTime.Now);
             return Ok(_conferenceRepository.GetFutureConferences());
         }
 
@@ -36,23 +40,31 @@ namespace WebShop.Api.Controllers
             Result result = conferenceService.Save(conference);
             if (result.IsFailure)
             {
+                _logger.LogError("Failed to create conference, {error}", result.Error);
                 return BadRequest(result.Error);
             }
+            _logger.LogInformation("Created conference with id: {id}", conference.Id);
             return Created(Request.Path + conference.Id, "");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            return _conferenceRepository.GetById(id) is null ? 
-                BadRequest() : 
-                Ok(_conferenceRepository.GetById(id));
+            if (_conferenceRepository.GetById(id) is null)
+            {
+                _logger.LogError("Failed to get conference by id: {id}", id);
+                return BadRequest();
+            }
+            _logger.LogInformation("Getting conference by id: {id}", id);
+            return Ok(_conferenceRepository.GetById(id));
+                
         }
 
         [HttpPut]
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Conference conference)
         {
+            _logger.LogInformation("Edited conference by id: {id}", conference.Id);
             return Ok(_conferenceRepository.Edit(conference));
         }
 
@@ -60,6 +72,7 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
+            _logger.LogInformation("Getting conferences for owner: {id}", ownerId);
             return Ok(_conferenceRepository.GetConferencesForOwner(ownerId));
         }
     }

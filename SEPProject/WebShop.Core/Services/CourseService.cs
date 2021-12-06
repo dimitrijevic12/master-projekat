@@ -16,9 +16,18 @@ namespace WebShop.Core.Services
 
         public Result Save(Course course)
         {
-            if (String.IsNullOrEmpty(course.Name) || String.IsNullOrEmpty(course.Price.ToString()))
+            if (String.IsNullOrEmpty(course.Name) || String.IsNullOrEmpty(course.Price.ToString()) ||
+                String.IsNullOrEmpty(course.ImagePath))
             {
-                return Result.Failure("Name or price can't be empty!");
+                return Result.Failure("Name, price or image can't be empty!");
+            }
+            if (course.StartDate == DateTime.MinValue || course.EndDate == DateTime.MinValue)
+            {
+                return Result.Failure("Invalid date!");
+            }
+            if (course.Price < 0)
+            {
+                return Result.Failure("Invalid price!");
             }
             _courseRepository.Save(course);
             return Result.Success(course);

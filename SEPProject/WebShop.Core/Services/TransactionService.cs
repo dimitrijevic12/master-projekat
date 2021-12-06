@@ -33,6 +33,14 @@ namespace WebShop.Core.Services
             {
                 return Result.Failure("Seller or buyer doesn't exists!");
             }
+            if (transaction.TotalPrice <= 0)
+            {
+                return Result.Failure("Invalid total price!");
+            }
+            if (transaction.TransactionItems.Count == 0)
+            {
+                return Result.Failure("Transaction must have transaction items!");
+            }
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);
         }

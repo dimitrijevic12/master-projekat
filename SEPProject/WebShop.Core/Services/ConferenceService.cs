@@ -20,9 +20,18 @@ namespace WebShop.Core.Services
 
         public Result Save(Conference conference)
         {
-            if (String.IsNullOrEmpty(conference.Name) || String.IsNullOrEmpty(conference.Price.ToString()))
+            if (String.IsNullOrEmpty(conference.Name) || String.IsNullOrEmpty(conference.Price.ToString()) ||
+                String.IsNullOrEmpty(conference.ImagePath))
             {
-                return Result.Failure("Name or price can't be empty!");
+                return Result.Failure("Name, price or image can't be empty!");
+            }
+            if (conference.Date == DateTime.MinValue)
+            {
+                return Result.Failure("Invalid date!");
+            }
+            if (conference.Price < 0)
+            {
+                return Result.Failure("Invalid price!");
             }
             _conferenceRepository.Save(conference);
             return Result.Success(conference);

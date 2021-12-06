@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using WebShop.Core.Interface.Repository;
@@ -25,7 +26,12 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Save(Accommodation accommodation)
         {
-            return Ok(_accommodationRepository.Save(accommodation));
+            Result result = accommodationService.Save(accommodation);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+            return Created(Request.Path + accommodation.Id, "");
         }
 
         [HttpGet]

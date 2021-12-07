@@ -41,7 +41,7 @@ namespace WebShop.Api.Controllers
                 _logger.LogError("Failed to edit admin with id: {id}", adminDTO.AdminId);
                 return BadRequest();
             }
-            _logger.LogInformation("Edited admin with id: {id}", adminDTO.AdminId);
+            _logger.LogInformation("Edited Admin: {@admin}", admin);
             admin.MerchantId = adminDTO.MerchantId;
             return Ok(_adminRepository.Edit(admin));
         }
@@ -53,10 +53,11 @@ namespace WebShop.Api.Controllers
             Result result = adminService.Register(admin);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create admin, {error}", result.Error);
+                _logger.LogError("Failed to create Admin: {@admin}, {error}", 
+                    admin, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created admin with id: {id}", admin.Id);
+            _logger.LogInformation("Created Admin: {@admin}", admin);
             return Created(Request.Path + admin.Id, admin);
         }
     }

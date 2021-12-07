@@ -41,10 +41,11 @@ namespace WebShop.Api.Controllers
             Result result = registeredUserService.Register(registeredUser);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create registered user, {error}", result.Error);
+                _logger.LogError("Failed to create Registered user: {@registeredUser}, {error}",
+                    registeredUser, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created registered user with id: {id}", registeredUser.Id);
+            _logger.LogInformation("Created Registered user: {@registeredUser}", registeredUser);
             return Created(Request.Path + registeredUser.Id, "");
         }
     }

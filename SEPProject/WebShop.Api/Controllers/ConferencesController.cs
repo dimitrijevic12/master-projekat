@@ -40,23 +40,25 @@ namespace WebShop.Api.Controllers
             Result result = conferenceService.Save(conference);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create conference, {error}", result.Error);
+                _logger.LogError("Failed to create Conference: {@conference}, Error: {error}",
+                    conference, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created conference with id: {id}", conference.Id);
+            _logger.LogInformation("Created Conference: {@conference}", conference);
             return Created(Request.Path + conference.Id, "");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_conferenceRepository.GetById(id) is null)
+            Conference conference = _conferenceRepository.GetById(id);
+            if (conference is null)
             {
                 _logger.LogError("Failed to get conference by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting conference by id: {id}", id);
-            return Ok(_conferenceRepository.GetById(id));
+            _logger.LogInformation("Getting Conference: {@conference}", conference);
+            return Ok(conference);
                 
         }
 
@@ -64,7 +66,7 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Conference conference)
         {
-            _logger.LogInformation("Edited conference by id: {id}", conference.Id);
+            _logger.LogInformation("Edited Conference: {@conference}", conference);
             return Ok(_conferenceRepository.Edit(conference));
         }
 

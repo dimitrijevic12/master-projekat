@@ -41,10 +41,11 @@ namespace WebShop.Api.Controllers
             Result result = transactionService.Save(transaction);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create transaction, {error}", result.Error);
+                _logger.LogError("Failed to create Transaction: {@transaction}, Error: {error}",
+                    transaction, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created transaction with id: {id}", transaction.Id);
+            _logger.LogInformation("Created Transaction: {@transaction}", transaction);
             return Created(Request.Path + transaction.Id, transaction);
         }
 
@@ -63,8 +64,8 @@ namespace WebShop.Api.Controllers
                 _logger.LogError("Failed to edit transaction, {error}", result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Edited transaction with id: {id}", 
-                transactionDTO.MerchantOrderId);
+            _logger.LogInformation("Edited status of Transaction: {@transaction}", 
+                transactionDTO);
             return Ok();
         }
 
@@ -87,12 +88,13 @@ namespace WebShop.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_transactionRepository.GetById(id) is null)
+            Transaction transaction = _transactionRepository.GetById(id);
+            if (transaction is null)
             {
                 _logger.LogError("Failed to get transaction by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting transaction by id: {id}", id);
+            _logger.LogInformation("Getting Transaction: {@transaction}", transaction);
             return Ok(_transactionRepository.GetById(id));                
         }
     }

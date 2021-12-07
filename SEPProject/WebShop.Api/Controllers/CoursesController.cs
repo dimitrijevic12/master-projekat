@@ -40,30 +40,32 @@ namespace WebShop.Api.Controllers
             Result result = courseService.Save(course);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create course, {error}", result.Error);
+                _logger.LogError("Failed to create Course: {@course}, Error: {error}",
+                    course, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created course with id: {id}", course.Id);
+            _logger.LogInformation("Created Course: {@course}", course);
             return Created(Request.Path + course.Id, "");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_courseRepository.GetById(id) is null)
+            Course course = _courseRepository.GetById(id);
+            if (course is null)
             {
                 _logger.LogError("Failed to get course by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting course by id: {id}", id);
-            return Ok(_courseRepository.GetById(id));
+            _logger.LogInformation("Getting Course: {@course}", course);
+            return Ok(course);
         }
 
         [HttpPut]
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Course course)
         {
-            _logger.LogInformation("Edited course by id: {id}", course.Id);
+            _logger.LogInformation("Edited Course: {@course}", course);
             return Ok(_courseRepository.Edit(course));
         }
 

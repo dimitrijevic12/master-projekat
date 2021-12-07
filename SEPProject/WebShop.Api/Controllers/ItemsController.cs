@@ -33,10 +33,11 @@ namespace WebShop.Api.Controllers
             Result result = itemService.Save(item);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create item, {error}", result.Error);
+                _logger.LogError("Failed to create Item: {@item}, {error}",
+                    item, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created item with id: {id}", item.ProductKey);
+            _logger.LogInformation("Created Item: {@item}", item);
             return Created(Request.Path + item.ProductKey, "");
         }
 
@@ -44,7 +45,7 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Item item)
         {
-            _logger.LogInformation("Edited item by id: {id}", item.ProductKey);
+            _logger.LogInformation("Edited Item: {@item}", item);
             return Ok(_itemRepository.Edit(item));
         }
 
@@ -58,13 +59,14 @@ namespace WebShop.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_itemRepository.GetById(id) is null)
+            Item item = _itemRepository.GetById(id);
+            if (item is null)
             {
                 _logger.LogError("Failed to get item by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting item by id: {id}", id);
-            return Ok(_itemRepository.GetById(id));                  
+            _logger.LogInformation("Getting Item: {@item}", item);
+            return Ok(item);                  
         }
 
         [HttpGet("users/{ownerId}")]

@@ -35,27 +35,28 @@ namespace WebShop.Api.Controllers
                 _logger.LogError("Failed to create accommodation, {error}", result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created accommodation with id: {id}", accommodation.Id);
+            _logger.LogInformation("Created Accommodation: {@accommodation}", accommodation);
             return Created(Request.Path + accommodation.Id, "");
         }
 
         [HttpGet]
         public IActionResult GetAccommodations([FromQuery] string city)
         {
-            _logger.LogInformation("Getting accommodation by city: {city}", city);
+            _logger.LogInformation("Getting accommodations by city: {city}", city);
             return Ok(accommodationService.GetAccommodations(city));
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_accommodationRepository.GetById(id) is null)
+            Accommodation accommodation = _accommodationRepository.GetById(id);
+            if (accommodation is null)
             {
                 _logger.LogError("Failed to get accommodation by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting accommodation by id: {id}", id);
-            return Ok(_accommodationRepository.GetById(id));
+            _logger.LogInformation("Getting Accommodation: {@accommodation}", accommodation);
+            return Ok(accommodation);
                 
         }
 
@@ -63,7 +64,7 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Accommodation accommodation)
         {
-            _logger.LogInformation("Edited accommodation by id: {id}", accommodation.Id);
+            _logger.LogInformation("Edited Accommodation: {@accommodation}", accommodation);
             return Ok(_accommodationRepository.Edit(accommodation));
         }
 

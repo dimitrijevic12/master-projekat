@@ -44,30 +44,32 @@ namespace WebShop.Api.Controllers
             Result result = transportationService.Save(transportation);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create transportation, {error}", result.Error);
+                _logger.LogError("Failed to create Transportation: {@transportation}, Error: {error}",
+                    transportation, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created transportation with id: {id}", transportation.Id);
+            _logger.LogInformation("Created Transportation: {@transportation}", transportation);
             return Created(Request.Path + transportation.Id, "");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            if (_transportationRepository.GetById(id) is null)
+            Transportation transportation = _transportationRepository.GetById(id);
+            if (transportation is null)
             {
                 _logger.LogError("Failed to get transportation by id: {id}", id);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting transportation by id: {id}", id);
-            return Ok(_transportationRepository.GetById(id));
+            _logger.LogInformation("Getting Transportation: {@transportation}", transportation);
+            return Ok(transportation);
         }
 
         [HttpPut]
         [Authorize(Roles = "AdminProxy")]
         public IActionResult Edit(Transportation transportation)
         {
-            _logger.LogInformation("Edited transportation by id: {id}", transportation.Id);
+            _logger.LogInformation("Edited Transportation: {@transportation}", transportation);
             return Ok(_transportationRepository.Edit(transportation));
         }
 

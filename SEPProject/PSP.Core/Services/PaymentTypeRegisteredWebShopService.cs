@@ -12,14 +12,19 @@ namespace PSP.Core.Services
     public class PaymentTypeRegisteredWebShopService
     {
         private readonly IPaymentTypeRegisteredWebShopRepository _paymentTypeRegisteredWebShopRepository;
+        private readonly IRegisteredWebShopRepository _registeredWebShopRepository;
 
-        public PaymentTypeRegisteredWebShopService(IPaymentTypeRegisteredWebShopRepository paymentTypeRegisteredWebShopRepository)
+        public PaymentTypeRegisteredWebShopService(IPaymentTypeRegisteredWebShopRepository paymentTypeRegisteredWebShopRepository, IRegisteredWebShopRepository registeredWebShopRepository)
         {
             _paymentTypeRegisteredWebShopRepository = paymentTypeRegisteredWebShopRepository;
+            _registeredWebShopRepository = registeredWebShopRepository;
         }
 
-        public void Save(PaymentTypeRegisteredWebShopDTO paymentTypeRegisteredWebShopDTO)
+        public RegisteredWebShop Save(PaymentTypeRegisteredWebShopDTO paymentTypeRegisteredWebShopDTO)
         {
+            RegisteredWebShop webShop = _registeredWebShopRepository.GetById(paymentTypeRegisteredWebShopDTO.RegisteredWebShopId);
+            if (webShop == null) return null;
+
             DeletePaymentTypesForRegisteredWebShop(paymentTypeRegisteredWebShopDTO.RegisteredWebShopId);
 
             if (paymentTypeRegisteredWebShopDTO.PayPal.Item2)
@@ -30,6 +35,8 @@ namespace PSP.Core.Services
             
             if (paymentTypeRegisteredWebShopDTO.Bank.Item2) 
                 _paymentTypeRegisteredWebShopRepository.Save(new PaymentTypeRegisteredWebShop(paymentTypeRegisteredWebShopDTO.Bank.Item1, paymentTypeRegisteredWebShopDTO.RegisteredWebShopId));
+
+            return webShop;
         }
 
         private void DeletePaymentTypesForRegisteredWebShop(Guid id)

@@ -204,8 +204,7 @@ function ReviewCourse(props) {
             Add to cart
           </button>
         </div>
-      ) : sessionStorage.getItem("userIdWebShop") ===
-        props.conference.ownerId ? (
+      ) : sessionStorage.getItem("userIdWebShop") === props.course.ownerId ? (
         <div style={{ textAlign: "center" }} className="mt-5 pb-5">
           <button
             onClick={() => edit(props.course)}

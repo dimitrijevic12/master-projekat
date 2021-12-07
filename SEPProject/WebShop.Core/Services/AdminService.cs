@@ -23,9 +23,10 @@ namespace WebShop.Core.Services
             {
                 return Result.Failure("User with that username already exists!");
             }
-            if (String.IsNullOrEmpty(admin.Password) || String.IsNullOrEmpty(admin.Username))
+            if (String.IsNullOrEmpty(admin.Password) || String.IsNullOrEmpty(admin.Username) 
+                || String.IsNullOrEmpty(admin.Name))
             {
-                return Result.Failure("Username or password can't be empty!");
+                return Result.Failure("Username, password or name can't be empty!");
             }
             _adminRepository.Save(admin);
             return Result.Success(admin);

@@ -19,9 +19,14 @@ namespace WebShop.Core.Services
 
         public Result Save(Item item)
         {
-            if (String.IsNullOrEmpty(item.Name) || String.IsNullOrEmpty(item.Price.ToString()))
+            if (String.IsNullOrEmpty(item.Name) || String.IsNullOrEmpty(item.Price.ToString()) ||
+                String.IsNullOrEmpty(item.ImagePath))
             {
-                return Result.Failure("Name or price can't be empty!");
+                return Result.Failure("Name, price or image can't be empty!");
+            }
+            if (item.Price < 0)
+            {
+                return Result.Failure("Invalid price!");
             }
             _itemRepository.Save(item);
             return Result.Success(item);

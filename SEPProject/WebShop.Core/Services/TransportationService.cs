@@ -20,13 +20,22 @@ namespace WebShop.Core.Services
 
         public Result Save(Transportation transportation)
         {
-            if (String.IsNullOrEmpty(transportation.Name) || String.IsNullOrEmpty(transportation.Price.ToString()))
+            if (String.IsNullOrEmpty(transportation.Name) || String.IsNullOrEmpty(transportation.Price.ToString()) ||
+                String.IsNullOrEmpty(transportation.ImagePath))
             {
-                return Result.Failure("Name or price can't be empty!");
+                return Result.Failure("Name, price or image can't be empty!");
             }
             if (String.IsNullOrEmpty(transportation.StartDestination) || String.IsNullOrEmpty(transportation.FinalDestination))
             {
                 return Result.Failure("Start or final destination can't be empty!");
+            }
+            if (transportation.DepartureTime == DateTime.MinValue)
+            {
+                return Result.Failure("Invalid date!");
+            }
+            if (transportation.Price < 0)
+            {
+                return Result.Failure("Invalid price!");
             }
             _transportationRepository.Save(transportation);
             return Result.Success(transportation);

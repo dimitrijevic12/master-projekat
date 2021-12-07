@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PSP.Core.Interface.Repository;
 using PSP.Core.Model;
 using PSP.Core.Services;
@@ -16,17 +17,20 @@ namespace PSP.Api.Controllers
     {
         private readonly IPaymentTypeRepository _paymentTypeRepository;
         private readonly PaymentTypeService _paymentTypeService;
+        private readonly ILogger<PaymentTypesController> _logger;
 
-        public PaymentTypesController(IPaymentTypeRepository paymentTypeRepository, PaymentTypeService paymentTypeService)
+        public PaymentTypesController(IPaymentTypeRepository paymentTypeRepository, PaymentTypeService paymentTypeService, ILogger<PaymentTypesController> logger)
         {
             _paymentTypeRepository = paymentTypeRepository;
             _paymentTypeService = paymentTypeService;
+            _logger = logger;
         }
 
         [HttpGet]
         //[Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {
+            _logger.LogInformation("Getting all payment types");
             return Ok(_paymentTypeRepository.GetAll());
         }
 
@@ -34,7 +38,12 @@ namespace PSP.Api.Controllers
         public IActionResult GetPaymentTypesForWebShopByOrderId(Guid orderId)
         {
             ICollection<PaymentType>  paymentTypes = _paymentTypeService.GetPaymentTypesForWebShopByOrderId(orderId);
-            if (paymentTypes == null) return BadRequest();
+            if (paymentTypes == null)
+            {
+                _logger.LogError("Failed to get payment types for webshop with transaction with order id: {id}", orderId);
+                return BadRequest();
+            }
+            _logger.LogInformation("Getting payment types for webshop with transaction with order id: {id}", orderId);
             return Ok(paymentTypes);
         }
     }

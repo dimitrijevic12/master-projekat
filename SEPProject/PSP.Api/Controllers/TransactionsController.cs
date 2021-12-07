@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PSP.Core.DTOs;
 using PSP.Core.Interface.Repository;
 using PSP.Core.Model;
@@ -22,11 +23,13 @@ namespace PSP.Api.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly TransactionService _transactionService;
+        private readonly ILogger<TransactionsController> _logger;
 
-        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService)
+        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService, ILogger<TransactionsController> logger)
         {
             _transactionRepository = transactionRepository;
             _transactionService = transactionService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -36,8 +39,10 @@ namespace PSP.Api.Controllers
             Result result = _transactionService.Save(transactionDTO);
             if (result.IsFailure)
             {
+                _logger.LogError("Failed to create transaction : {@transaction}, Error {error}", transactionDTO, result.Error);
                 return BadRequest(result.Error);
             }
+            _logger.LogInformation("Created transaction : {@transaction}", transactionDTO);
             return Created(Request.Path + transactionDTO.Id, "");
         }
 
@@ -45,6 +50,7 @@ namespace PSP.Api.Controllers
         [Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {
+            _logger.LogInformation("Getting all transactions");
             return Ok(_transactionRepository.GetAll());
         }
     }

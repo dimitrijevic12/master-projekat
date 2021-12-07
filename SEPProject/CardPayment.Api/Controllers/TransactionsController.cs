@@ -1,7 +1,9 @@
 ﻿using CardPayment.Core.DTOs;
 using CardPayment.Core.Interface.Repository;
+using CardPayment.Core.Model;
 using CardPayment.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,36 +22,53 @@ namespace CardPayment.Api.Controllers
         private readonly ITransactionRepository _transactionRepository;
         private readonly TransactionService _transactionService;
         private IHttpClientFactory _httpClientFactory;
+        private readonly ILogger<TransactionsController> _logger;
 
-        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService, IHttpClientFactory httpClientFactory)
+        public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService, IHttpClientFactory httpClientFactory,
+            ILogger<TransactionsController> logger)
         {
             _transactionRepository = transactionRepository;
             _transactionService = transactionService;
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
 
         [HttpGet("{orderId}")]
         public IActionResult GenerateRequestForBank(Guid orderId)
         {
             var request = _transactionService.CreateRequestForBank(orderId);
-            if (request == null) return BadRequest();
+            if (request == null)
+            {
+                _logger.LogError("Failed to create request for transaction with order id: {id}", orderId);
+                return BadRequest();
+            }
+            _logger.LogInformation("Created request : {@request}", request);
             return Ok(request);
         }
 
         [HttpPut("paymentId")]
         public IActionResult SetTransactionsPaymentId(TransactionsPaymentIdDTO transactionsPaymentIdDTO)
         {
-            if(_transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO) == null) return BadRequest();
+            Transaction transaction = _transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO);
+            if (transaction  == null)
+            {
+                _logger.LogError("Failed to edit payment types for transaction with order id: {id}", transactionsPaymentIdDTO.OrderId);
+                return BadRequest();
+            }
+            _logger.LogInformation("Edited payment id for transaction : {@transaction}", transaction);
             return Ok("Successfully edited payment id.");
         }
 
         [HttpPut("status")]
         public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
         {
-            if (_transactionService.EditTransaction(transactionStatusDTO) == null)
+            Transaction transaction = _transactionService.EditTransaction(transactionStatusDTO);
+            if (transaction == null)
             {
+                _logger.LogError("Failed to edit status for transaction with order id: {id}", transactionStatusDTO.MerchantOrderId);
                 return BadRequest("Inappropriate Transaction Status Or That Transaction Does Not Exist.");
             }
+            _logger.LogInformation("Edited status for transaction : {@transaction}", transaction);
             ForwardStatus(transactionStatusDTO);
             return Ok("Successfully edited transaction status.");
         }

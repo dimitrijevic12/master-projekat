@@ -39,10 +39,10 @@ namespace PSP.Api.Controllers
             Result result = _transactionService.Save(transactionDTO);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create transaction, {error}", result.Error);
+                _logger.LogError("Failed to create transaction : {@transaction}, Error {error}", transactionDTO, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created transaction with id: {id}", transactionDTO.Id);
+            _logger.LogInformation("Created transaction : {@transaction}", transactionDTO);
             return Created(Request.Path + transactionDTO.Id, "");
         }
 

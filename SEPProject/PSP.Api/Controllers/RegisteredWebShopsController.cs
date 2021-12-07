@@ -61,13 +61,13 @@ namespace PSP.Api.Controllers
         [Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetWebShopByEmail(string email)
         {
-            var webShop = _registeredWebShopService.GetWebShopByEmail(email);
+            RegisteredWebShop webShop = _registeredWebShopService.GetWebShopByEmail(email);
             if (webShop == null)
             {
                 _logger.LogError("Failed to get webshop with email: {email}", email);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting webshop with email: {email}", email);
+            _logger.LogInformation("Getting webshop : {@webshop}", webShop);
             return Ok(webShop);
         }
 
@@ -78,10 +78,10 @@ namespace PSP.Api.Controllers
             Result result = _registeredWebShopService.Save(registeredWebShopDTO);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create webshop, {error}", result.Error);
+                _logger.LogError("Failed to create webshop : {@webshop}, Error : {error}", registeredWebShopDTO, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created webshop with id: {id}", registeredWebShopDTO.Id);
+            _logger.LogInformation("Created webshop : {@webshop}", registeredWebShopDTO);
             return Created(Request.Path + registeredWebShopDTO.Id, "");
         }
 
@@ -94,7 +94,7 @@ namespace PSP.Api.Controllers
                 _logger.LogError("Failed to edit webshop with id: {id}", paymentTypeRegisteredWebShopDTO.RegisteredWebShopId);
                 return BadRequest();
             }
-            _logger.LogInformation("Edited payment types for webshop with id: {id}", paymentTypeRegisteredWebShopDTO.RegisteredWebShopId);
+            _logger.LogInformation("Edited payment types for webshop : {@webshop}", webShop);
             return Ok("Successfully edited payment types for this Web shop.");
         }
     }

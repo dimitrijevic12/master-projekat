@@ -1,5 +1,6 @@
 ﻿using CardPayment.Core.DTOs;
 using CardPayment.Core.Interface.Repository;
+using CardPayment.Core.Model;
 using CardPayment.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -38,34 +39,36 @@ namespace CardPayment.Api.Controllers
             var request = _transactionService.CreateRequestForBank(orderId);
             if (request == null)
             {
-                _logger.LogError("Failed to find transaction with order id: {id}", orderId);
+                _logger.LogError("Failed to create request for transaction with order id: {id}", orderId);
                 return BadRequest();
             }
-            _logger.LogInformation("Created request from transaction with order id: {id}", orderId);
+            _logger.LogInformation("Created request : {@request}", request);
             return Ok(request);
         }
 
         [HttpPut("paymentId")]
         public IActionResult SetTransactionsPaymentId(TransactionsPaymentIdDTO transactionsPaymentIdDTO)
         {
-            if (_transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO) == null)
+            Transaction transaction = _transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO);
+            if (transaction  == null)
             {
-                _logger.LogError("Failed to find transaction with order id: {id}", transactionsPaymentIdDTO.OrderId);
+                _logger.LogError("Failed to edit payment types for transaction with order id: {id}", transactionsPaymentIdDTO.OrderId);
                 return BadRequest();
             }
-            _logger.LogInformation("Edited payment id for transaction with order id: {id}", transactionsPaymentIdDTO.OrderId);
+            _logger.LogInformation("Edited payment id for transaction : {@transaction}", transaction);
             return Ok("Successfully edited payment id.");
         }
 
         [HttpPut("status")]
         public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
         {
-            if (_transactionService.EditTransaction(transactionStatusDTO) == null)
+            Transaction transaction = _transactionService.EditTransaction(transactionStatusDTO);
+            if (transaction == null)
             {
                 _logger.LogError("Failed to edit status for transaction with order id: {id}", transactionStatusDTO.MerchantOrderId);
                 return BadRequest("Inappropriate Transaction Status Or That Transaction Does Not Exist.");
             }
-            _logger.LogInformation("Edited status for transaction with order id: {id}", transactionStatusDTO.MerchantOrderId);
+            _logger.LogInformation("Edited status for transaction : {@transaction}", transaction);
             ForwardStatus(transactionStatusDTO);
             return Ok("Successfully edited transaction status.");
         }

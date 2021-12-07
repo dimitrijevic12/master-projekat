@@ -1,5 +1,6 @@
 ﻿using Bank.Core.Interface.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace Bank.Api.Controllers
     public class PaymentCardsController : Controller
     {
         private readonly IPaymentCardRepository _paymentCardRepository;
+        private readonly ILogger<PaymentCardsController> _logger;
 
-        public PaymentCardsController(IPaymentCardRepository paymentCardRepository)
+        public PaymentCardsController(IPaymentCardRepository paymentCardRepository, ILogger<PaymentCardsController> logger)
         {
             _paymentCardRepository = paymentCardRepository;
+            _logger = logger;
         }
 
         [HttpGet]

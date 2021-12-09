@@ -17,42 +17,6 @@ class NavigationBar extends Component {
         <React.Fragment>
           <NavLink
             exact
-            to="/item"
-            onClick={() => {
-              window.location = "/items";
-            }}
-          >
-            <img src="/images/boxes.png" />
-          </NavLink>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <NavLink
-            exact
-            to="/conferences"
-            onClick={() => {
-              window.location = "/conferences";
-            }}
-          >
-            <img
-              src="/images/conference.png"
-              style={{ width: 24, height: 24, borderRadius: 50 }}
-            />
-          </NavLink>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <NavLink
-            exact
-            to="/courses"
-            onClick={() => {
-              window.location = "/courses";
-            }}
-          >
-            <img
-              src="/images/online-course.png"
-              style={{ width: 24, height: 24, borderRadius: 50 }}
-            />
-          </NavLink>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <NavLink
-            exact
             to="/accommodations-for-city"
             onClick={() => {
               window.location = "/accommodations-for-city";

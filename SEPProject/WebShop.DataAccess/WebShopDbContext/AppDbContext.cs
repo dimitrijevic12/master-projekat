@@ -26,8 +26,10 @@ namespace WebShop.DataAccess.WebShopDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14");
-            modelBuilder.Entity<RegisteredUser>().HasData(issuer);
+            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14", "default");
+            RegisteredUser headOfAcquirement = new RegisteredUser(Guid.NewGuid(), "headOfAcquirement@gmail.com", "headOfAcquirement", "password", "headOfAcquirement", "headOfAcquirement", "1234", "123456789", "Beogradska 26", "headOfAcquirement");
+            RegisteredUser staff = new RegisteredUser(Guid.NewGuid(), "staff@gmail.com", "staff", "password", "staff", "staff", "1234", "123456789", "Novosadska 14", "staff");
+            modelBuilder.Entity<RegisteredUser>().HasData(issuer, headOfAcquirement, staff);
 
             Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<Admin>().HasData(admin);

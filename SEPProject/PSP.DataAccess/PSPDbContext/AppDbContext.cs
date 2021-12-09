@@ -50,8 +50,8 @@ namespace PSP.DataAccess.PSPDbContext
 
             modelBuilder.Entity<RegisteredWebShop>().HasData(
                new RegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341230"), 123, "WebShopName", "password", "gmail@gmail.com",
-               new System.Uri("http://farm4.static.flickr.com/2232/2232/someimage.jpg"), new System.Uri("http://farm4.static.flickr.com/2232/2232/someimage.jpg"),
-               new System.Uri("http://farm4.static.flickr.com/2232/2232/someimage.jpg"))
+               new System.Uri("http://localhost:3000/success-transaction"), new System.Uri("http://localhost:3000/failed-transaction"),
+               new System.Uri("http://localhost:3000/error-transaction"))
             );
 
             modelBuilder.Entity<PaymentTypeRegisteredWebShop>().HasData(
@@ -66,7 +66,7 @@ namespace PSP.DataAccess.PSPDbContext
              );
 
             modelBuilder.Entity<Merchant>().HasData(
-              new Merchant(new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123422641234"),"Password", "Name", new Guid("12345678-1234-1234-1234-123412341230"))
+              new Merchant(new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123412341234"),"Password", "Name", new Guid("12345678-1234-1234-1234-123412341230"))
            );
         }
     }

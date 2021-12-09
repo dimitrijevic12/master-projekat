@@ -144,7 +144,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
-                            Date = new DateTime(2021, 12, 3, 20, 52, 9, 680, DateTimeKind.Local).AddTicks(1078),
+                            Date = new DateTime(2021, 12, 9, 17, 19, 34, 0, DateTimeKind.Local).AddTicks(4372),
                             Description = "ConferenceDesc",
                             ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
@@ -199,13 +199,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(3523),
+                            EndDate = new DateTime(2021, 12, 9, 17, 19, 34, 2, DateTimeKind.Local).AddTicks(9516),
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(3475)
+                            StartDate = new DateTime(2021, 12, 9, 17, 19, 34, 2, DateTimeKind.Local).AddTicks(9487)
                         });
                 });
 
@@ -263,6 +263,9 @@ namespace WebShop.DataAccess.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ITRole")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -285,15 +288,42 @@ namespace WebShop.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("09215ff7-e4aa-4534-a9ef-ce8c57bb8d19"),
+                            Id = new Guid("7e56f5c9-12cb-4d71-b2ac-3fd7bfd7f09e"),
                             Address = "Novosadska 14",
                             Email = "issuer@gmail.com",
                             FirstName = "issuer",
+                            ITRole = "default",
                             LastName = "issuer",
                             Password = "password",
                             PhoneNumber = "123456789",
                             PostalCode = "1234",
                             Username = "issuer"
+                        },
+                        new
+                        {
+                            Id = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"),
+                            Address = "Beogradska 26",
+                            Email = "headOfAcquirement@gmail.com",
+                            FirstName = "headOfAcquirement",
+                            ITRole = "headOfAcquirement",
+                            LastName = "headOfAcquirement",
+                            Password = "password",
+                            PhoneNumber = "123456789",
+                            PostalCode = "1234",
+                            Username = "headOfAcquirement"
+                        },
+                        new
+                        {
+                            Id = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"),
+                            Address = "Novosadska 14",
+                            Email = "staff@gmail.com",
+                            FirstName = "staff",
+                            ITRole = "staff",
+                            LastName = "staff",
+                            Password = "password",
+                            PhoneNumber = "123456789",
+                            PostalCode = "1234",
+                            Username = "staff"
                         });
                 });
 
@@ -330,10 +360,10 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            BuyerId = new Guid("09215ff7-e4aa-4534-a9ef-ce8c57bb8d19"),
+                            BuyerId = new Guid("7e56f5c9-12cb-4d71-b2ac-3fd7bfd7f09e"),
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Status = 0,
-                            Timestamp = new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(9387),
+                            Timestamp = new DateTime(2021, 12, 9, 17, 19, 34, 3, DateTimeKind.Local).AddTicks(4540),
                             TotalPrice = 1640.0
                         });
                 });
@@ -431,7 +461,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2021, 12, 3, 20, 52, 9, 685, DateTimeKind.Local).AddTicks(8660),
+                            DepartureTime = new DateTime(2021, 12, 9, 17, 19, 34, 4, DateTimeKind.Local).AddTicks(2390),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",

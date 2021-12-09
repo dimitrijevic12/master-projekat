@@ -80,7 +80,13 @@ class LoginPage extends Component {
 
     if (successful === true) {
       if (sessionStorage.getItem("roleWebShop") === "RegisteredUser") {
-        window.location = "/items";
+        if (sessionStorage.getItem("itRoleWebShop") === "default") {
+          window.location = "/items";
+        } else if (sessionStorage.getItem("itRoleWebShop") === "staff") {
+          window.location = "/accommodations-for-city";
+        } else {
+          window.location = "/items";
+        }
       } else {
         window.location = "/owners-items";
       }

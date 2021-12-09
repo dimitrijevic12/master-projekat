@@ -18,6 +18,9 @@ namespace Bank.DataAccess.Implementation
             dbContext = context;
         }
 
+        public Account GetByAccountNumber(string accountNumber) => dbContext.Accounts.ToList()
+            .Where(account => account.AccountNumber.Equals(accountNumber)).FirstOrDefault();
+
         public Account GetByUserId(Guid id) => dbContext.Accounts.ToList().Where(account => account.UserId == id).FirstOrDefault();
     }
 }

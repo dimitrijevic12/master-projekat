@@ -17,12 +17,15 @@ namespace Bank.Api.Controllers
     {
         private readonly IMerchantRepository _merchantRepository;
         private readonly IMerchantService _merchantService;
+        private readonly IAccountService _accountService;
         private readonly ILogger<MerchantsController> _logger;
 
-        public MerchantsController(IMerchantRepository merchantRepository, IMerchantService merchantService, ILogger<MerchantsController> logger)
+        public MerchantsController(IMerchantRepository merchantRepository, IMerchantService merchantService, IAccountService accountService,
+            ILogger<MerchantsController> logger)
         {
             _merchantRepository = merchantRepository;
             _merchantService = merchantService;
+            _accountService = accountService;
             _logger = logger;
         }
 
@@ -35,6 +38,7 @@ namespace Bank.Api.Controllers
                 _logger.LogError("Failed to create Merchant {@Merchant}, Error: {@Error}", name, result.Error);
                 return BadRequest(result.Error);
             }
+            Result<Account> accountResult = _accountService.Create(result.Value.Id);
             _logger.LogInformation("Created Merchant {@Merchant}", result.Value);
             return Created(this.Request.Path + "/" + result.Value.Id, result.Value);
         }

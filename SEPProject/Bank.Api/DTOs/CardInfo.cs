@@ -13,5 +13,7 @@ namespace Bank.Api.DTOs
         public string CardHolderName { get; set; }
         public string ExpirationDate { get; set; }
         public double Amount { get; set; }
+        public Guid AcquirerAccountId { get; set; }
+        public string AcquirerName { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace Bank.Core.Services
             _accountRepository = accountRepository;
         }
 
-        public Result Pay(PaymentCard paymentCard, double amount)
+        public Result Pay(PaymentCard paymentCard, double amount, string acquirerAccountNumber)
         {
             PaymentCard card = _paymentCardRepository.GetByPAN(paymentCard.PAN);
             if (card == null)
@@ -32,12 +32,17 @@ namespace Bank.Core.Services
                 return Result.Failure("Invalid security code.");
             if (!paymentCard.HolderName.Equals(card.HolderName))
                 return Result.Failure("Invalid card holder name.");
-            Account account = _accountRepository.GetByUserId(card.CardOwnerId);
-            Result reserveBalanceResult = account.ReserveBalance(amount);
+            Account issuerAccount = _accountRepository.GetByUserId(card.CardOwnerId);
+            Result reserveBalanceResult = issuerAccount.ReserveBalance(amount);
             if (reserveBalanceResult.IsFailure)
                 return (reserveBalanceResult);
-            _accountRepository.Edit(account);
-            return reserveBalanceResult;
+            Account acquirerAccount = _accountRepository.GetByAccountNumber(acquirerAccountNumber);
+            Result increaseBalanceResult = acquirerAccount.IncreaseBalance(amount);
+            if (increaseBalanceResult.IsFailure)
+                return (increaseBalanceResult);
+            _accountRepository.Edit(issuerAccount);
+            _accountRepository.Edit(acquirerAccount);
+            return Result.Combine(reserveBalanceResult, increaseBalanceResult);
         }
     }
 }

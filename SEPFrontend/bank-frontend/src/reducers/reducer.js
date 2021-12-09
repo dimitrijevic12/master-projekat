@@ -1,6 +1,6 @@
-import { GET_PSPREQUEST } from "../types/types";
+import { GET_MERCHANT_BY_MERCHANTID, GET_PSPREQUEST } from "../types/types";
 
-const initialState = { pspRequest: {} };
+const initialState = { pspRequest: {}, merchant: {} };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -8,6 +8,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         pspRequest: action.payload,
+      };
+    case GET_MERCHANT_BY_MERCHANTID:
+      return {
+        ...state,
+        merchant: action.payload,
       };
     default:
       return state;

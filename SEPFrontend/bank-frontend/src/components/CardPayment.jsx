@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getPSPRequest, postTransaction } from "../actions/actions";
+import {
+  getPSPRequest,
+  postTransaction,
+  getMerchantByMerchantId,
+} from "../actions/actions";
 
 class CardPayment extends React.Component {
   state = {
@@ -15,8 +19,10 @@ class CardPayment extends React.Component {
     securityCodeError: false,
   };
 
-  componentWillMount() {
-    this.props.getPSPRequest(window.location.pathname.slice(-36));
+  async componentWillMount() {
+    debugger;
+    await this.props.getPSPRequest(window.location.pathname.slice(-36));
+    this.props.getMerchantByMerchantId(this.props.pspRequest.merchantId);
   }
 
   render() {
@@ -217,6 +223,8 @@ class CardPayment extends React.Component {
       CardHolderName: this.state.cardHolderName,
       ExpirationDate: this.state.expirationDate,
       Amount: this.props.pspRequest.amount,
+      AcquirerAccountNumber: this.props.merchant.acquirerAccountNumber,
+      AcquirerName: this.props.merchant.acquirerName,
       successUrl: this.props.pspRequest.successUrl,
       failedUrl: this.props.pspRequest.failedUrl,
       errorUrl: this.props.pspRequest.errorUrl,
@@ -224,8 +232,15 @@ class CardPayment extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ pspRequest: state.pspRequest });
+const mapStateToProps = (state) => ({
+  pspRequest: state.pspRequest,
+  merchant: state.merchant,
+});
 
 export default compose(
-  connect(mapStateToProps, { getPSPRequest, postTransaction })
+  connect(mapStateToProps, {
+    getPSPRequest,
+    postTransaction,
+    getMerchantByMerchantId,
+  })
 )(CardPayment);

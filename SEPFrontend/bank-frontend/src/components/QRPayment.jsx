@@ -2,15 +2,26 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import QRCode from "react-qr-code";
-import { getPSPRequest, postTransaction } from "../actions/actions";
+import {
+  getPSPRequest,
+  postTransaction,
+  getMerchantByMerchantId,
+} from "../actions/actions";
 
 class QRPayment extends React.Component {
   state = { pan: "", cardHolderName: "", securityCode: "", expirationDate: "" };
-  componentWillMount() {
-    this.props.getPSPRequest(window.location.pathname.slice(-36));
+
+  async componentWillMount() {
+    debugger;
+    await this.props.getPSPRequest(window.location.pathname.slice(-36));
+    this.props.getMerchantByMerchantId(this.props.pspRequest.merchantId);
   }
+
   render() {
-    if (this.props.pspRequest === undefined) {
+    if (
+      this.props.pspRequest === undefined ||
+      this.props.merchant === undefined
+    ) {
       return null;
     }
     return (
@@ -27,7 +38,16 @@ class QRPayment extends React.Component {
               Total: {this.props.pspRequest.amount} EUR
             </div>
             <div className="text-center pt-5">
-              <QRCode value={JSON.stringify(this.props.pspRequest)} />
+              <QRCode
+                value={JSON.stringify({
+                  paymentId: window.location.pathname.slice(-36),
+                  acquirerAccountNumber:
+                    this.props.merchant.acquirerAccountNumber,
+                  AcquirerName: this.props.merchant.acquirerName,
+                  Amount: this.props.pspRequest.amount,
+                  Currency: "EUR",
+                })}
+              />
             </div>
             <div className="mt-5" style={{ textAlign: "center" }}>
               <button
@@ -50,6 +70,9 @@ class QRPayment extends React.Component {
       CardHolderName: "Holder Name",
       ExpirationDate: "04/22",
       Amount: this.props.pspRequest.amount,
+      AcquirerAccountNumber: this.props.merchant.acquirerAccountNumber,
+      AcquirerName: this.props.merchant.acquirerName,
+      Amount: this.props.pspRequest.amount,
       successUrl: this.props.pspRequest.successUrl,
       failedUrl: this.props.pspRequest.failedUrl,
       errorUrl: this.props.pspRequest.errorUrl,
@@ -57,8 +80,15 @@ class QRPayment extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ pspRequest: state.pspRequest });
+const mapStateToProps = (state) => ({
+  pspRequest: state.pspRequest,
+  merchant: state.merchant,
+});
 
 export default compose(
-  connect(mapStateToProps, { getPSPRequest, postTransaction })
+  connect(mapStateToProps, {
+    getPSPRequest,
+    postTransaction,
+    getMerchantByMerchantId,
+  })
 )(QRPayment);

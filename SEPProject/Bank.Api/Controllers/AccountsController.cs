@@ -19,15 +19,9 @@ namespace Bank.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Find([FromQuery] Guid merchantId)
         {
             return Ok(_accountRepository.GetAll());
-        }
-
-        [HttpGet("{id}/user")]
-        public IActionResult GetRegisteredUser(string id)
-        {
-            return Ok(_accountRepository.GetById(new Guid(id)).User);
         }
     }
 }

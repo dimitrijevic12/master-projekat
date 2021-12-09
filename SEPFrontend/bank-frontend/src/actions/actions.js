@@ -1,4 +1,6 @@
 import {
+  GET_MERCHANT_BY_MERCHANTID,
+  GET_MERCHANT_BY_MERCHANTID_ERROR,
   GET_PSPREQUEST,
   GET_PSPREQUEST_ERROR,
   POST_TRANSACTION,
@@ -45,6 +47,8 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
         CardHolderName: cardInfo.CardHolderName,
         ExpirationDate: cardInfo.ExpirationDate,
         Amount: cardInfo.Amount,
+        AcquirerAccountNumber: cardInfo.AcquirerAccountNumber,
+        AcquirerName: cardInfo.acquirerName,
       },
       {
         headers: {
@@ -67,6 +71,32 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
     dispatch({
       type: POST_TRANSACTION_ERROR,
       payload: console.log(e.response),
+    });
+  }
+};
+
+export const getMerchantByMerchantId = (merchantId) => async (dispatch) => {
+  try {
+    debugger;
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}merchants`,
+      {
+        params: { merchantId: merchantId },
+
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+        },
+      }
+    );
+    dispatch({
+      type: GET_MERCHANT_BY_MERCHANTID,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: GET_MERCHANT_BY_MERCHANTID_ERROR,
+      payload: console.log(e),
     });
   }
 };

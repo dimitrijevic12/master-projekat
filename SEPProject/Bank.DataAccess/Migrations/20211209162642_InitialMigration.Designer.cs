@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211128195838_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211209162642_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,9 +33,6 @@ namespace Bank.DataAccess.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
-                    b.Property<double>("ReservedBalance")
-                        .HasColumnType("float");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -51,7 +48,6 @@ namespace Bank.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             AccountNumber = "123456789",
                             Balance = 100000.0,
-                            ReservedBalance = 0.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341235")
                         },
                         new
@@ -59,7 +55,6 @@ namespace Bank.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
                             AccountNumber = "222222222",
                             Balance = 222222.0,
-                            ReservedBalance = 0.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341234")
                         });
                 });
@@ -108,7 +103,7 @@ namespace Bank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2021, 11, 28, 20, 58, 37, 371, DateTimeKind.Local).AddTicks(9936),
+                            MerchantTimestamp = new DateTime(2021, 12, 9, 17, 26, 41, 888, DateTimeKind.Local).AddTicks(2232),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -167,9 +162,9 @@ namespace Bank.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             CardOwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            ExpirationDate = "4/22",
+                            ExpirationDate = "04/22",
                             HolderName = "Holder Name",
-                            PAN = "123456789",
+                            PAN = "1234561234561234",
                             SecurityCode = "1234"
                         });
                 });
@@ -218,7 +213,7 @@ namespace Bank.DataAccess.Migrations
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2021, 11, 28, 20, 58, 37, 376, DateTimeKind.Local).AddTicks(1468),
+                            Timestamp = new DateTime(2021, 12, 9, 17, 26, 41, 891, DateTimeKind.Local).AddTicks(7376),
                             TransactionStatus = 1
                         });
                 });
@@ -259,7 +254,7 @@ namespace Bank.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
-                            MerchantId = new Guid("12345678-1234-1234-1234-123412341232"),
+                            MerchantId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
                             Name = "Merchant name"
                         });

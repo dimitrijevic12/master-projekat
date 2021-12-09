@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.DataAccess.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,7 +92,6 @@ namespace Bank.DataAccess.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Balance = table.Column<double>(type: "float", nullable: false),
-                    ReservedBalance = table.Column<double>(type: "float", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -131,17 +130,17 @@ namespace Bank.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "PSPRequests",
                 columns: new[] { "Id", "Amount", "ErrorUrl", "FailedUrl", "MerchantId", "MerchantOrderId", "MerchantPassword", "MerchantTimestamp", "SuccessUrl" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2021, 11, 28, 20, 58, 37, 371, DateTimeKind.Local).AddTicks(9936), "https://www.webshop.com/success" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2021, 12, 9, 17, 26, 41, 888, DateTimeKind.Local).AddTicks(2232), "https://www.webshop.com/success" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "IssuerId", "IssuerName", "PaymentId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 11, 28, 20, 58, 37, 376, DateTimeKind.Local).AddTicks(1468), 1 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 12, 9, 17, 26, 41, 891, DateTimeKind.Local).AddTicks(7376), 1 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Discriminator", "MerchantId", "MerchantPassword", "Name" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "Merchant", new Guid("12345678-1234-1234-1234-123412341232"), "password", "Merchant name" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "Merchant", new Guid("12345678-1234-1234-1234-123412341234"), "password", "Merchant name" });
 
             migrationBuilder.InsertData(
                 table: "User",
@@ -150,18 +149,18 @@ namespace Bank.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "Id", "AccountNumber", "Balance", "ReservedBalance", "UserId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "123456789", 100000.0, 0.0, new Guid("12345678-1234-1234-1234-123412341235") });
+                columns: new[] { "Id", "AccountNumber", "Balance", "UserId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "123456789", 100000.0, new Guid("12345678-1234-1234-1234-123412341235") });
 
             migrationBuilder.InsertData(
                 table: "Accounts",
-                columns: new[] { "Id", "AccountNumber", "Balance", "ReservedBalance", "UserId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "222222222", 222222.0, 0.0, new Guid("12345678-1234-1234-1234-123412341234") });
+                columns: new[] { "Id", "AccountNumber", "Balance", "UserId" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341235"), "222222222", 222222.0, new Guid("12345678-1234-1234-1234-123412341234") });
 
             migrationBuilder.InsertData(
                 table: "PaymentCards",
                 columns: new[] { "Id", "CardOwnerId", "ExpirationDate", "HolderName", "PAN", "SecurityCode" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341234"), "4/22", "Holder Name", "123456789", "1234" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341234"), "04/22", "Holder Name", "1234561234561234", "1234" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",

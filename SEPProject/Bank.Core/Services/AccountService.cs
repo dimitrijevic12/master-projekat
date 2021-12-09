@@ -28,13 +28,13 @@ namespace Bank.Core.Services
             string accountNumber = "";
             for(int i = 0; i < 10; i++)
             {
-                accountNumber.Concat(rnd.Next(10).ToString());
+                accountNumber += rnd.Next(10).ToString();
             }
             while(_accountRepository.GetByAccountNumber(accountNumber) != null)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    accountNumber.Concat(rnd.Next(10).ToString());
+                    accountNumber += rnd.Next(10).ToString();
                 }
             }
             return _accountRepository.Save(new Account(id, accountNumber, 0, MerchantId));

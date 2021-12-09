@@ -33,20 +33,32 @@ namespace Bank.DataAccess.BankDbContext
 
             RegisteredUser registeredUser = new RegisteredUser(new Guid("12345678-1234-1234-1234-123412341234"), "FirstName", "LastName", new DateTime(1990, 4, 4),
                 "user@gmail.com", "123456789");
+            RegisteredUser headOfAcquirement = new RegisteredUser(new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"), "headOfAcquirement", "headOfAcquirement", new DateTime(1990, 4, 4), 
+                "headOfAcquirement@gmail.com", "123456790");
+            RegisteredUser staff = new RegisteredUser(new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"), "staff", "staff", new DateTime(1990, 4, 4),
+               "staff@gmail.com", "123456791");
             modelBuilder.Entity<RegisteredUser>().HasData(
-                registeredUser
+                registeredUser, headOfAcquirement, staff
              );
 
             modelBuilder.Entity<Account>().HasData(
                 new Account(new Guid("12345678-1234-1234-1234-123412341234"), "123456789", 100000.0,
                             new Guid("12345678-1234-1234-1234-123412341235")),
                 new Account(new Guid("12345678-1234-1234-1234-123412341235"), "222222222", 222222.0,
-                            new Guid("12345678-1234-1234-1234-123412341234"))
+                            new Guid("12345678-1234-1234-1234-123412341234")),
+                new Account(new Guid("12345678-1234-1234-1234-123412341236"), "333333333", 222222.0,
+                            new Guid("d969bb55-393a-4b22-9507-f4b492b3413f")),
+                new Account(new Guid("12345678-1234-1234-1234-123412341237"), "444444444", 222222.0,
+                            new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"))
              );
 
             modelBuilder.Entity<PaymentCard>().HasData(
                 new PaymentCard(new Guid("12345678-1234-1234-1234-123412341234"), "1234561234561234", "1234", "Holder Name", "04/22",
-                                new Guid("12345678-1234-1234-1234-123412341234"))
+                                new Guid("12345678-1234-1234-1234-123412341234")),
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341235"), "1234562222221234", "1234", "Acquirer Name", "04/22",
+                                new Guid("d969bb55-393a-4b22-9507-f4b492b3413f")),
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341236"), "1234563333331234", "1234", "Staff Name", "04/22",
+                                new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"))
              );
 
             modelBuilder.Entity<PSPRequest>().HasData(

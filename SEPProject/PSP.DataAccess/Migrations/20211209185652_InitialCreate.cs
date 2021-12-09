@@ -115,17 +115,17 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "RegisteredWebShops",
                 columns: new[] { "Id", "EmailAddress", "ErrorUrl", "FailedUrl", "Password", "SuccessUrl", "WebShopId", "WebShopName" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", "password", "http://farm4.static.flickr.com/2232/2232/someimage.jpg", 123, "WebShopName" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "http://localhost:3000/error-transaction", "http://localhost:3000/failed-transaction", "password", "http://localhost:3000/successful-transaction", 123, "WebShopName" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "Amount", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "PaymentId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2021, 12, 3, 17, 19, 26, 130, DateTimeKind.Local).AddTicks(623), 0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2021, 12, 9, 19, 56, 51, 336, DateTimeKind.Local).AddTicks(6818), 0 });
 
             migrationBuilder.InsertData(
                 table: "Merchants",
                 columns: new[] { "Id", "MerchantId", "MerchantPassword", "Name", "RegisteredWebShopId" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123422641234"), "Password", "Name", new Guid("12345678-1234-1234-1234-123412341230") });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123422941234"), new Guid("12345678-1234-1234-1234-123412341234"), "password", "Name", new Guid("12345678-1234-1234-1234-123412341230") });
 
             migrationBuilder.InsertData(
                 table: "PaymentTypeRegisteredWebShop",

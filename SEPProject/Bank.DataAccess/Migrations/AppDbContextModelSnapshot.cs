@@ -54,6 +54,20 @@ namespace Bank.DataAccess.Migrations
                             AccountNumber = "222222222",
                             Balance = 222222.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341234")
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341236"),
+                            AccountNumber = "333333333",
+                            Balance = 222222.0,
+                            UserId = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f")
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341237"),
+                            AccountNumber = "444444444",
+                            Balance = 222222.0,
+                            UserId = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500")
                         });
                 });
 
@@ -101,7 +115,7 @@ namespace Bank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2021, 12, 9, 17, 26, 41, 888, DateTimeKind.Local).AddTicks(2232),
+                            MerchantTimestamp = new DateTime(2021, 12, 9, 19, 57, 50, 150, DateTimeKind.Local).AddTicks(2009),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -164,6 +178,24 @@ namespace Bank.DataAccess.Migrations
                             HolderName = "Holder Name",
                             PAN = "1234561234561234",
                             SecurityCode = "1234"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341235"),
+                            CardOwnerId = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"),
+                            ExpirationDate = "04/22",
+                            HolderName = "Acquirer Name",
+                            PAN = "1234562222221234",
+                            SecurityCode = "1234"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341236"),
+                            CardOwnerId = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"),
+                            ExpirationDate = "04/22",
+                            HolderName = "Staff Name",
+                            PAN = "1234563333331234",
+                            SecurityCode = "1234"
                         });
                 });
 
@@ -211,7 +243,7 @@ namespace Bank.DataAccess.Migrations
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2021, 12, 9, 17, 26, 41, 891, DateTimeKind.Local).AddTicks(7376),
+                            Timestamp = new DateTime(2021, 12, 9, 19, 57, 50, 153, DateTimeKind.Local).AddTicks(3222),
                             TransactionStatus = 1
                         });
                 });
@@ -288,6 +320,24 @@ namespace Bank.DataAccess.Migrations
                             FirstName = "FirstName",
                             LastName = "LastName",
                             UniquePersonalRegistrationNumber = "123456789"
+                        },
+                        new
+                        {
+                            Id = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"),
+                            DateOfBirth = new DateTime(1990, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmailAddress = "headOfAcquirement@gmail.com",
+                            FirstName = "headOfAcquirement",
+                            LastName = "headOfAcquirement",
+                            UniquePersonalRegistrationNumber = "123456790"
+                        },
+                        new
+                        {
+                            Id = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"),
+                            DateOfBirth = new DateTime(1990, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmailAddress = "staff@gmail.com",
+                            FirstName = "staff",
+                            LastName = "staff",
+                            UniquePersonalRegistrationNumber = "123456791"
                         });
                 });
 

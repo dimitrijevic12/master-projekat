@@ -26,7 +26,7 @@ namespace Bank.DataAccess.BankDbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Merchant merchant = new Merchant(new Guid("12345678-1234-1234-1234-123412341235"), 
-                new Guid("12345678-1234-1234-1234-123412341232"), "password", "Merchant name");
+                new Guid("12345678-1234-1234-1234-123412341234"), "password", "Merchant name");
             modelBuilder.Entity<Merchant>().HasData(
                 merchant
              );
@@ -45,7 +45,7 @@ namespace Bank.DataAccess.BankDbContext
              );
 
             modelBuilder.Entity<PaymentCard>().HasData(
-                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341234"), "123456789", "1234", "Holder Name", "4/22",
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341234"), "1234561234561234", "1234", "Holder Name", "04/22",
                                 new Guid("12345678-1234-1234-1234-123412341234"))
              );
 

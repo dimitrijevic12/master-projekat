@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import NavigationBar from "./NavigationBar";
 import NotLoggedNavigationBar from "./NotLoggedNavigationBar";
 import AdminNavigationBar from "./AdminNavigationBar";
+import HeadOfAcquirementNavigationBar from "./HeadOfAcquirementNavigationBar";
+import StaffNavigationBar from "./StaffNavigationBar";
 import SearchBar from "./SearchBar";
 
 class Header extends Component {
@@ -28,11 +30,23 @@ class Header extends Component {
           >
             <AdminNavigationBar />
           </span>
-        ) : (
+        ) : sessionStorage.getItem("itRoleWebShop") === "default" ? (
           <span
             style={{ display: "inline-block", float: "right", zIndex: "4" }}
           >
             <NavigationBar />
+          </span>
+        ) : sessionStorage.getItem("itRoleWebShop") === "headOfAcquirement" ? (
+          <span
+            style={{ display: "inline-block", float: "right", zIndex: "4" }}
+          >
+            <HeadOfAcquirementNavigationBar />
+          </span>
+        ) : (
+          <span
+            style={{ display: "inline-block", float: "right", zIndex: "4" }}
+          >
+            <StaffNavigationBar />
           </span>
         )}
         <hr />

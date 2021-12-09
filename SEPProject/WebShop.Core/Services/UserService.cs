@@ -15,13 +15,15 @@ namespace WebShop.Core.Services
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRegisteredUserRepository _registeredUserRepository;
         private IConfiguration _config;
 
         public UserService(IUserRepository userRepository,
-            IConfiguration config)
+            IConfiguration config, IRegisteredUserRepository registeredUserRepository)
         {
             _userRepository = userRepository;
             _config = config;
+            _registeredUserRepository = registeredUserRepository;
         }
 
         public User FindUser(String username, String password)
@@ -34,11 +36,16 @@ namespace WebShop.Core.Services
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            string itRole = "";
+            if (userInfo.GetType().Name == "RegisteredUserProxy")
+            {
+                itRole = _registeredUserRepository.GetById(userInfo.Id).ITRole;
+            }
             var claims = new[] {
                 new Claim("user_id", userInfo.Id.ToString()),
                 new Claim("username", userInfo.Username),
                 new Claim("role", userInfo.GetType().Name),
+                new Claim("itRole", itRole),
                 new Claim (ClaimTypes.Role, userInfo.GetType().Name)
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],

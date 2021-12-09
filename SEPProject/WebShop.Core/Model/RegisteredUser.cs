@@ -14,13 +14,14 @@ namespace WebShop.Core.Model
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
+        public string ITRole { get; set; }
 
         public RegisteredUser() : base()
         {
         }
 
         public RegisteredUser(Guid id, string email, string username, string password,
-            string firstName, string lastName, string postalCode, string phoneNumber, string address)
+            string firstName, string lastName, string postalCode, string phoneNumber, string address, string itrole)
             : base(id, email, username, password)
         {
             FirstName = firstName;
@@ -28,6 +29,7 @@ namespace WebShop.Core.Model
             PostalCode = postalCode;
             PhoneNumber = phoneNumber;
             Address = address;
+            ITRole = itrole;
         }
     }
 }

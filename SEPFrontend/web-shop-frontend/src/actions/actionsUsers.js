@@ -78,6 +78,7 @@ export const userLoggedIn = (user) => async (dispatch) => {
     var userInfo = JSON.parse(atob(parts[1]));
     sessionStorage.setItem("tokenWebShop", response.data.token);
     sessionStorage.setItem("userIdWebShop", userInfo.user_id);
+    sessionStorage.setItem("itRoleWebShop", userInfo.itRole);
     sessionStorage.setItem(
       "roleWebShop",
       userInfo.role.substring(0, userInfo.role.length - 5)

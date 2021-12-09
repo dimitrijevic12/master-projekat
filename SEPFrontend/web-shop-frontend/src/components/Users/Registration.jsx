@@ -215,6 +215,7 @@ class Registration extends Component {
       PhoneNumber: this.state.phoneNumber,
       PostalCode: this.state.postalCode,
       Password: this.state.password,
+      ITRole: "default",
     });
 
     if (successful === true) {

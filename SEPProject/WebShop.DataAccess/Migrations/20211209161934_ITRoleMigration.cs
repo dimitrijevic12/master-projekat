@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebShop.DataAccess.Migrations
 {
-    public partial class MerchantMigration : Migration
+    public partial class ITRoleMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,7 @@ namespace WebShop.DataAccess.Migrations
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ITRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -222,8 +223,13 @@ namespace WebShop.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "RegisteredUsers",
-                columns: new[] { "Id", "Address", "Email", "FirstName", "LastName", "Password", "PhoneNumber", "PostalCode", "Username" },
-                values: new object[] { new Guid("09215ff7-e4aa-4534-a9ef-ce8c57bb8d19"), "Novosadska 14", "issuer@gmail.com", "issuer", "issuer", "password", "123456789", "1234", "issuer" });
+                columns: new[] { "Id", "Address", "Email", "FirstName", "ITRole", "LastName", "Password", "PhoneNumber", "PostalCode", "Username" },
+                values: new object[,]
+                {
+                    { new Guid("7e56f5c9-12cb-4d71-b2ac-3fd7bfd7f09e"), "Novosadska 14", "issuer@gmail.com", "issuer", "default", "issuer", "password", "123456789", "1234", "issuer" },
+                    { new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"), "Beogradska 26", "headOfAcquirement@gmail.com", "headOfAcquirement", "headOfAcquirement", "headOfAcquirement", "password", "123456789", "1234", "headOfAcquirement" },
+                    { new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"), "Novosadska 14", "staff@gmail.com", "staff", "staff", "staff", "password", "123456789", "1234", "staff" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Accommodations",
@@ -233,12 +239,12 @@ namespace WebShop.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Conferences",
                 columns: new[] { "Id", "Address", "Date", "Description", "ImagePath", "Name", "Online", "OwnerId", "Price" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", new DateTime(2021, 12, 3, 20, 52, 9, 680, DateTimeKind.Local).AddTicks(1078), "ConferenceDesc", "conference12345123.jpg", "ConferenceName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", new DateTime(2021, 12, 9, 17, 19, 34, 0, DateTimeKind.Local).AddTicks(4372), "ConferenceDesc", "conference12345123.jpg", "ConferenceName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0 });
 
             migrationBuilder.InsertData(
                 table: "Courses",
                 columns: new[] { "Id", "Address", "Description", "EndDate", "ImagePath", "Name", "Online", "OwnerId", "Price", "StartDate" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", "CourseDesc", new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(3523), "conferences-integrated-systems-events-1500x630-2.jpg", "CourseName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0, new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(3475) });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", "CourseDesc", new DateTime(2021, 12, 9, 17, 19, 34, 2, DateTimeKind.Local).AddTicks(9516), "conferences-integrated-systems-events-1500x630-2.jpg", "CourseName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0, new DateTime(2021, 12, 9, 17, 19, 34, 2, DateTimeKind.Local).AddTicks(9487) });
 
             migrationBuilder.InsertData(
                 table: "Items",
@@ -248,12 +254,12 @@ namespace WebShop.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "BuyerId", "SellerId", "Status", "Timestamp", "TotalPrice" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("09215ff7-e4aa-4534-a9ef-ce8c57bb8d19"), new Guid("12345678-1234-1234-1234-123412341234"), 0, new DateTime(2021, 12, 3, 20, 52, 9, 684, DateTimeKind.Local).AddTicks(9387), 1640.0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("7e56f5c9-12cb-4d71-b2ac-3fd7bfd7f09e"), new Guid("12345678-1234-1234-1234-123412341234"), 0, new DateTime(2021, 12, 9, 17, 19, 34, 3, DateTimeKind.Local).AddTicks(4540), 1640.0 });
 
             migrationBuilder.InsertData(
                 table: "Transportations",
                 columns: new[] { "Id", "DepartureTime", "Description", "FinalDestination", "ImagePath", "Name", "OwnerId", "Price", "StartDestination" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 12, 3, 20, 52, 9, 685, DateTimeKind.Local).AddTicks(8660), "TransportationDesc", "Novi Sad", "conferences-integrated-systems-events-1500x630-2.jpg", "TransportationName", new Guid("12345678-1234-1234-1234-123412341234"), 1000.0, "Belgrade" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 12, 9, 17, 19, 34, 4, DateTimeKind.Local).AddTicks(2390), "TransportationDesc", "Novi Sad", "conferences-integrated-systems-events-1500x630-2.jpg", "TransportationName", new Guid("12345678-1234-1234-1234-123412341234"), 1000.0, "Belgrade" });
 
             migrationBuilder.InsertData(
                 table: "TransactionItems",

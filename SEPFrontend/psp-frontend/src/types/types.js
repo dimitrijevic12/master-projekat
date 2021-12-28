@@ -16,4 +16,8 @@ export const SET_PAYMENT_ID = "setPaymentId";
 export const SET_PAYMENT_ID_ERROR = "setPaymentIdError";
 export const GET_PAYMENTTYPES_FOR_WEBSHOP = "getPaymentTypesForWebShop";
 export const GET_PAYMENTTYPES_FOR_WEBSHOP_ERROR = "getPaymentTypesForWebShop";
-
+export const SET_PAYPAL_TRANSACTION_STATUS = "setPayPalTransactionStatus";
+export const SET_PAYPAL_TRANSACTION_STATUS_ERROR =
+  "setPayPalTransactionStatusError";
+export const GET_PAYPAL_TRANSACTION = "getPayPalTransaction";
+export const GET_PAYPAL_TRANSACTION_ERROR = "getPayPalTransactionError";

@@ -109,6 +109,28 @@
         }
       ],
       "UpstreamPathTemplate": "/api/transactions/status"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44338
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paypal-transactions"
+    },
+    {
+      "DownstreamPathTemplate": "/api/transactions/{orderId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44338
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paypal-transactions/{orderId}"
     }
   ],
 "GlobalConfiguration":{

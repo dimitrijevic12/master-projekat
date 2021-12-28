@@ -8,6 +8,8 @@ import {
   SEND_REQUEST,
   SET_PAYMENT_ID,
   GET_PAYMENTTYPES_FOR_WEBSHOP,
+  SET_PAYPAL_TRANSACTION_STATUS,
+  GET_PAYPAL_TRANSACTION,
 } from "../types/types";
 
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
   transactions: [],
   request: {},
   payment: {},
+  paypalTransaction: {},
 };
 
 function reducer(state = initialState, action) {
@@ -65,7 +68,15 @@ function reducer(state = initialState, action) {
         ...state,
         paymentTypes: action.payload,
       };
-
+    case SET_PAYPAL_TRANSACTION_STATUS:
+      return {
+        ...state,
+      };
+    case GET_PAYPAL_TRANSACTION:
+      return {
+        ...state,
+        paypalTransaction: action.payload,
+      };
     default:
       return state;
   }

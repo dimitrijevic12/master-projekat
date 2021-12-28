@@ -14,10 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
 class ChoosePaymentTypes extends Component {
   state = {
     paymentType: "",
+    orderId: "",
   };
   async componentDidMount() {
     var url = window.location.pathname;
     var orderId = url.substring(url.lastIndexOf("/") + 1);
+    this.setState({ orderId: orderId });
     await this.props.getRequest(orderId);
     await this.props.getPaymentTypesForWebShop(orderId);
   }
@@ -85,23 +87,27 @@ class ChoosePaymentTypes extends Component {
 
   async choose() {
     debugger;
-    var successful = false;
-    successful = await this.props.sendRequest(this.props.request);
-
-    if (successful === true) {
-      debugger;
-      var url = window.location.pathname;
-      var orderId = url.substring(url.lastIndexOf("/") + 1);
-      await this.props.setPaymentId({
-        OrderId: orderId,
-        PaymentId: this.props.payment.paymentId,
-      });
-      window.location = this.props.payment.paymentUrl;
+    if (this.state.paymentType === "PayPal") {
+      window.location = "/paypal/" + this.state.orderId;
     } else {
-      toast.configure();
-      toast.error("Unsuccessful registration!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      var successful = false;
+      successful = await this.props.sendRequest(this.props.request);
+
+      if (successful === true) {
+        debugger;
+        var url = window.location.pathname;
+        var orderId = url.substring(url.lastIndexOf("/") + 1);
+        await this.props.setPaymentId({
+          OrderId: orderId,
+          PaymentId: this.props.payment.paymentId,
+        });
+        window.location = this.props.payment.paymentUrl;
+      } else {
+        toast.configure();
+        toast.error("Unsuccessful registration!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     }
   }
 }

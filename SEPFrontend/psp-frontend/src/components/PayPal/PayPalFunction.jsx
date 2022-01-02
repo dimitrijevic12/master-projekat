@@ -60,6 +60,9 @@ function PayPalFunction(props) {
             MerchantOrderId: props.paypalTransaction.orderId,
             TransactionStatus: "Error",
           });
+          window.location.href =
+            "http://localhost:3000/error-transaction/" +
+            props.paypalTransaction.orderId;
         },
       })
       .render(paypal.current);

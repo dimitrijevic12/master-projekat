@@ -88,7 +88,7 @@ class ChoosePaymentTypes extends Component {
   async choose() {
     debugger;
     if (this.state.paymentType === "PayPal") {
-      window.location = "/paypal/" + this.state.orderId;
+      window.location = "/paypal-page/" + this.state.orderId;
     } else {
       var successful = false;
       successful = await this.props.sendRequest(this.props.request);

@@ -171,6 +171,9 @@ namespace PSP.DataAccess.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("IssuerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -204,13 +207,14 @@ namespace PSP.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Amount = 100.0,
+                            Currency = "EUR",
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341235"),
                             IssuerName = "IssuerName",
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341233"),
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
                             PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Timestamp = new DateTime(2021, 12, 9, 19, 56, 51, 336, DateTimeKind.Local).AddTicks(6818),
+                            Timestamp = new DateTime(2022, 1, 4, 15, 4, 3, 497, DateTimeKind.Local).AddTicks(8653),
                             TransactionStatus = 0
                         });
                 });

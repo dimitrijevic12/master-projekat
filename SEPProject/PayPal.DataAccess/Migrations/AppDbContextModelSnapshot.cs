@@ -114,6 +114,9 @@ namespace PayPal.DataAccess.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("IssuerId")
                         .HasColumnType("uniqueidentifier");
 

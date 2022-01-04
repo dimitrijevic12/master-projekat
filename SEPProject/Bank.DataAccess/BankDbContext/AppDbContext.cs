@@ -63,13 +63,13 @@ namespace Bank.DataAccess.BankDbContext
 
             modelBuilder.Entity<PSPRequest>().HasData(
                 new PSPRequest(new Guid("12345678-1234-1234-1234-123412341234"),
-                                new Guid("12345678-1234-1234-1234-123412341235"), "password", 123.0, 
+                                new Guid("12345678-1234-1234-1234-123412341235"), "password", 123.0, "EUR",
                                 new Guid("12345678-1234-1234-1234-123412341234"), DateTime.Now, new Uri("https://www.webshop.com/success"),
                                 new Uri("https://www.webshop.com/failure"), new Uri("https://www.webshop.com/error"))
              );
 
             modelBuilder.Entity<Transaction>().HasData(
-                new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), 444.0, DateTime.Now, 
+                new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), 444.0, "EUR", DateTime.Now, 
                                 new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Success, 
                                 new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 
                                 new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name")

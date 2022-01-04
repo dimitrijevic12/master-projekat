@@ -52,7 +52,7 @@ namespace Bank.Api.Controllers
             Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(cardInfo.PaymentId).PSPRequest;
             if (_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null) 
             {
-                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
+                transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, "Transaction with that id already exists");
@@ -64,11 +64,11 @@ namespace Bank.Api.Controllers
                 send to pcc
             }*/
             Result result = _paymentCardService.Pay(new Core.Model.PaymentCard(Guid.Empty, cardInfo.PAN, cardInfo.SecurityCode, cardInfo.CardHolderName,
-                cardInfo.ExpirationDate, Guid.Empty), cardInfo.Amount, cardInfo.AcquirerAccountNumber);
+                cardInfo.ExpirationDate, Guid.Empty), cardInfo.Amount, request.Currency, cardInfo.AcquirerAccountNumber);
             if (result.IsFailure && (result.Error.Equals("Amount can not be negative number") || 
                 result.Error.Equals("There is not enough resources on this bank account."))) 
             {
-                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, 
+                transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId, 
                     cardInfo.PAN, TransactionStatus.Failed);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
@@ -76,13 +76,13 @@ namespace Bank.Api.Controllers
             }
             else if (result.IsFailure)
             {
-                transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId,
+                transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
             }
-            transactionResult = _transactionService.Create(cardInfo.Amount, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
+            transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
                 TransactionStatus.Success);
             ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);

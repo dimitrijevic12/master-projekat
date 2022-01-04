@@ -29,6 +29,7 @@ class CardPayment extends React.Component {
     if (this.props.pspRequest === undefined) {
       return null;
     }
+    debugger;
     return (
       <main
         className="main d-flex pt-0 pb-0 text-center justify-content-center align-items-center"
@@ -40,7 +41,10 @@ class CardPayment extends React.Component {
               Payment ID: {window.location.pathname.slice(-36)}
             </div>
             <div className="pt-3" style={{ fontSize: 20 }}>
-              Total: {this.props.pspRequest.amount} EUR
+              Total:{" "}
+              {this.props.pspRequest.amount.toFixed(2) +
+                " " +
+                this.props.pspRequest.currency}
             </div>
             <div class="form-group w-100 pr-5 pt-5">
               <label for="pan">PAN:</label>

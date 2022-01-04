@@ -12,6 +12,7 @@ namespace Bank.Core.Model
         public Guid MerchantId { get; private set; }
         public string MerchantPassword{ get; private set; }
         public double Amount{ get; set; }
+        public string Currency { get; set; }
         public Guid MerchantOrderId { get; private set; }
         public DateTime MerchantTimestamp { get; private set; }
         public Uri SuccessUrl{ get; private set; }
@@ -22,13 +23,14 @@ namespace Bank.Core.Model
         {
         }
 
-        public PSPRequest(Guid id, Guid merchantId, string merchantPassword, double amount, Guid merchantOrderId, DateTime merchantTimestamp,
+        public PSPRequest(Guid id, Guid merchantId, string merchantPassword, double amount, string currency, Guid merchantOrderId, DateTime merchantTimestamp,
             Uri successUrl, Uri failedUrl, Uri errorUrl)
         {
             Id = id;
             MerchantId = merchantId;
             MerchantPassword = merchantPassword;
             Amount = amount;
+            Currency = currency;
             MerchantOrderId = merchantOrderId;
             MerchantTimestamp = merchantTimestamp;
             SuccessUrl = successUrl;

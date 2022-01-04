@@ -21,7 +21,7 @@ namespace Bank.Core.Services
             _accountRepository = accountRepository;
         }
 
-        public Result Pay(PaymentCard paymentCard, double amount, string acquirerAccountNumber)
+        public Result Pay(PaymentCard paymentCard, double amount, string currency, string acquirerAccountNumber)
         {
             PaymentCard card = _paymentCardRepository.GetByPAN(paymentCard.PAN);
             if (card == null)
@@ -33,6 +33,7 @@ namespace Bank.Core.Services
             if (!paymentCard.HolderName.Equals(card.HolderName))
                 return Result.Failure("Invalid card holder name.");
             Account issuerAccount = _accountRepository.GetByUserId(card.CardOwnerId);
+            amount = GetAmountBasedOnCurrency(amount, currency);
             Result reserveBalanceResult = issuerAccount.ReserveBalance(amount);
             if (reserveBalanceResult.IsFailure)
                 return (reserveBalanceResult);
@@ -43,6 +44,17 @@ namespace Bank.Core.Services
             _accountRepository.Edit(issuerAccount);
             _accountRepository.Edit(acquirerAccount);
             return Result.Combine(reserveBalanceResult, increaseBalanceResult);
+        }
+
+        private static double GetAmountBasedOnCurrency(double amount, string currency)
+        {
+            return currency switch
+            {
+                "EUR" => amount,
+                "USD" => amount / 1.13,
+                "RSD" => amount / 117.57,
+                _ => amount,
+            };
         }
     }
 }

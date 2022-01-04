@@ -53,6 +53,7 @@ class ErrorTransaction extends Component {
                     <tr>
                       <th style={{ textAlign: "center" }}>Timestamp</th>
                       <th style={{ textAlign: "center" }}>Total price</th>
+                      <th style={{ textAlign: "center" }}>Currency</th>
                       <th style={{ textAlign: "center" }}>Seller</th>
                       <th style={{ textAlign: "center" }}>Transaction Items</th>
                     </tr>
@@ -65,7 +66,10 @@ class ErrorTransaction extends Component {
                         )}
                       </td>
                       <td style={{ textAlign: "center" }}>
-                        {this.props.transaction.totalPrice}
+                        {this.props.transaction.totalPrice.toFixed(2)}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {this.props.transaction.currency}
                       </td>
                       <td style={{ textAlign: "center" }}>
                         {this.props.transaction.seller.name}

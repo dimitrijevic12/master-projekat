@@ -33,7 +33,7 @@ namespace CardPayment.Core.Services
             var transaction = _transactionRepository.GetTransactionByOrderId(orderId);
             if (transaction == null) return null;
             var merchant = _merchantRepository.GetByMerchantId(transaction.MerchantId);
-            return new RequestDTO(merchant.MerchantId, merchant.MerchantPassword, transaction.Amount, transaction.OrderId, transaction.Timestamp,
+            return new RequestDTO(merchant.MerchantId, merchant.MerchantPassword, transaction.Amount, transaction.Currency, transaction.OrderId, transaction.Timestamp,
                 new Uri(merchant.RegisteredWebShop.SuccessUrl + "/" + orderId), new Uri(merchant.RegisteredWebShop.FailedUrl + "/" + orderId), new Uri(merchant.RegisteredWebShop.ErrorUrl + "/" + orderId));
         }
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PSP.DataAccess.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,6 +43,7 @@ namespace PSP.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransactionStatus = table.Column<int>(type: "int", nullable: false),
@@ -119,8 +120,8 @@ namespace PSP.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Transactions",
-                columns: new[] { "Id", "Amount", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "PaymentId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2021, 12, 9, 19, 56, 51, 336, DateTimeKind.Local).AddTicks(6818), 0 });
+                columns: new[] { "Id", "Amount", "Currency", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "PaymentId", "Timestamp", "TransactionStatus" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2022, 1, 4, 15, 4, 3, 497, DateTimeKind.Local).AddTicks(8653), 0 });
 
             migrationBuilder.InsertData(
                 table: "Merchants",

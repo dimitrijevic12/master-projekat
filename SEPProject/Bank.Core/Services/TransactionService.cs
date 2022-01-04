@@ -29,7 +29,7 @@ namespace Bank.Core.Services
             _paymentCardRepository = paymentCardRepository;
         }
 
-        public Result<Transaction> Create(double amount, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus)
+        public Result<Transaction> Create(double amount, string currency, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus)
         {
             if(amount < 0)
                 return Result.Failure<Transaction>("Amount can not be negative number.");
@@ -44,7 +44,7 @@ namespace Bank.Core.Services
             PaymentCard card = _paymentCardRepository.GetByPAN(pan);
             if (card == null)
                 return Result.Failure<Transaction>("Invalid PAN.");
-            Transaction transaction = new Transaction(id, amount, timestamp, paymentId, transactionStatus, acquirer.Id,
+            Transaction transaction = new Transaction(id, amount, currency, timestamp, paymentId, transactionStatus, acquirer.Id,
                 acquirer.Name, card.CardOwnerId, card.CardOwner.FirstName + " " + card.CardOwner.LastName);
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);

@@ -11,6 +11,7 @@ namespace PSP.Core.DTOs
     {
         public Guid Id { get; set; }
         public double Amount { get; set; }
+        public string Currency { get; set; }
         public DateTime Timestamp { get; set; }
         public Guid OrderId { get; set; }
         public TransactionStatus TransactionStatus { get; set; }

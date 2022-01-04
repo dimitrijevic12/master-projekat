@@ -51,6 +51,7 @@ class TransactionsForBuyer extends Component {
                     <tr>
                       <th style={{ textAlign: "center" }}>Timestamp</th>
                       <th style={{ textAlign: "center" }}>Total price</th>
+                      <th style={{ textAlign: "center" }}>Currency</th>
                       <th style={{ textAlign: "center" }}>Seller</th>
                       <th style={{ textAlign: "center" }}>Status</th>
                       <th style={{ textAlign: "center" }}>Transaction Items</th>
@@ -62,7 +63,10 @@ class TransactionsForBuyer extends Component {
                         <td style={{ textAlign: "center" }}>
                           {moment(f.timestamp).format("DD/MM/YYYY HH:mm")}
                         </td>
-                        <td style={{ textAlign: "center" }}>{f.totalPrice}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {f.totalPrice.toFixed(2)}
+                        </td>
+                        <td style={{ textAlign: "center" }}>{f.currency}</td>
                         <td style={{ textAlign: "center" }}>{f.seller.name}</td>
                         <td style={{ textAlign: "center" }}>
                           {f.status === 0

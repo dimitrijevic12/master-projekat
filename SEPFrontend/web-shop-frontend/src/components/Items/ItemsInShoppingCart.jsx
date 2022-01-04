@@ -19,6 +19,8 @@ class ItemsInShoppingCart extends Component {
     postId: 0,
     username: "",
     itemsInShoppingCart: [],
+    currency: "EUR",
+    currencyList: ["EUR", "USD", "RSD"],
   };
   async componentDidMount() {
     debugger;
@@ -87,17 +89,49 @@ class ItemsInShoppingCart extends Component {
           >
             Remove everything from shopping cart
           </button>
+          <div className="d-inline-flex w-50">
+            <div class="form-group w-100 pr-5">
+              <label for="lastName">Choose currency:</label>
+              <select
+                value={this.state.currency}
+                class="form-control"
+                onChange={this.handleChange}
+                name="currency"
+              >
+                {this.state.currencyList.map((item, i) => {
+                  return (
+                    <option key={i} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
           <hr />
           <br />
           <ItemsList />
           <br />
           <button onClick={() => this.buy()} className="btn btn-primary">
-            Buy, Total price: {this.getTotalPrice()}€
+            Buy, Total price:{" "}
+            {this.getTotalPrice().toFixed(2) + " " + this.state.currency}
           </button>
         </Grid>
       </div>
     );
   }
+
+  handleChange = (event) => {
+    debugger;
+    const { name, value, type, checked } = event.target;
+    type === "checkbox"
+      ? this.setState({
+          [name]: checked,
+        })
+      : this.setState({
+          [name]: value,
+        });
+  };
 
   async buy() {
     debugger;
@@ -157,6 +191,7 @@ class ItemsInShoppingCart extends Component {
       Status: 0,
       TimeStamp: timeStamp,
       TotalPrice: totalPrice,
+      Currency: this.state.currency,
       SellerId: shoppingCartList[0].item.ownerId,
       BuyerId: sessionStorage.getItem("userIdWebShop"),
       TransactionItems: transactionItems,
@@ -168,6 +203,7 @@ class ItemsInShoppingCart extends Component {
       TimeStamp: timeStamp,
       OrderId: this.props.savedTransaction.id,
       TransactionStatus: 0,
+      Currency: this.state.currency,
       MerchantId: this.props.savedTransaction.seller.merchantId,
       MerchantName: this.props.savedTransaction.seller.name,
       IssuerId: this.props.savedTransaction.buyer.id,
@@ -199,6 +235,11 @@ class ItemsInShoppingCart extends Component {
       } else {
         totalPrice += items[i].price * shoppingCartList[i].quantity;
       }
+    }
+    if (this.state.currency === "USD") {
+      totalPrice = 1.13 * totalPrice;
+    } else if (this.state.currency === "RSD") {
+      totalPrice = 117.57 * totalPrice;
     }
     return totalPrice;
   }

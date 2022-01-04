@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.DataAccess.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace Bank.DataAccess.Migrations
                     MerchantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MerchantPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<double>(type: "float", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MerchantOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MerchantTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SuccessUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -32,6 +33,7 @@ namespace Bank.DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransactionStatus = table.Column<int>(type: "int", nullable: false),
@@ -129,13 +131,13 @@ namespace Bank.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "PSPRequests",
-                columns: new[] { "Id", "Amount", "ErrorUrl", "FailedUrl", "MerchantId", "MerchantOrderId", "MerchantPassword", "MerchantTimestamp", "SuccessUrl" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2021, 12, 9, 19, 57, 50, 150, DateTimeKind.Local).AddTicks(2009), "https://www.webshop.com/success" });
+                columns: new[] { "Id", "Amount", "Currency", "ErrorUrl", "FailedUrl", "MerchantId", "MerchantOrderId", "MerchantPassword", "MerchantTimestamp", "SuccessUrl" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "EUR", "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2022, 1, 4, 16, 18, 43, 619, DateTimeKind.Local).AddTicks(4908), "https://www.webshop.com/success" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
-                columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "IssuerId", "IssuerName", "PaymentId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2021, 12, 9, 19, 57, 50, 153, DateTimeKind.Local).AddTicks(3222), 1 });
+                columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "Currency", "IssuerId", "IssuerName", "PaymentId", "Timestamp", "TransactionStatus" },
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, "EUR", new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2022, 1, 4, 16, 18, 43, 623, DateTimeKind.Local).AddTicks(1829), 1 });
 
             migrationBuilder.InsertData(
                 table: "User",

@@ -10,6 +10,7 @@ namespace WebShop.Core.Model
         public TransactionStatus Status { get; set; }
         public DateTime Timestamp { get; set; }
         public double TotalPrice { get; set; }
+        public string Currency { get; set; }
         public Guid SellerId { get; set; }
         public virtual Admin Seller { get; set; }
         public Guid BuyerId { get; set; }
@@ -20,12 +21,13 @@ namespace WebShop.Core.Model
         {
         }
 
-        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, Guid sellerId, Guid buyerId)
+        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, string currency, Guid sellerId, Guid buyerId)
         {
             Id = id;
             Status = status;
             Timestamp = timestamp;
             TotalPrice = totalPrice;
+            Currency = currency;
             SellerId = sellerId;
             BuyerId = buyerId;
         }

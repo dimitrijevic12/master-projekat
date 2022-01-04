@@ -80,6 +80,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ErrorUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -110,12 +113,13 @@ namespace Bank.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Amount = 123.0,
+                            Currency = "EUR",
                             ErrorUrl = "https://www.webshop.com/error",
                             FailedUrl = "https://www.webshop.com/failure",
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2021, 12, 9, 19, 57, 50, 150, DateTimeKind.Local).AddTicks(2009),
+                            MerchantTimestamp = new DateTime(2022, 1, 4, 16, 18, 43, 619, DateTimeKind.Local).AddTicks(4908),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -214,6 +218,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("IssuerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -240,10 +247,11 @@ namespace Bank.DataAccess.Migrations
                             AcquirerId = new Guid("12345678-1234-1234-1234-123412341235"),
                             AcquirerName = "Acquirer name",
                             Amount = 444.0,
+                            Currency = "EUR",
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2021, 12, 9, 19, 57, 50, 153, DateTimeKind.Local).AddTicks(3222),
+                            Timestamp = new DateTime(2022, 1, 4, 16, 18, 43, 623, DateTimeKind.Local).AddTicks(1829),
                             TransactionStatus = 1
                         });
                 });

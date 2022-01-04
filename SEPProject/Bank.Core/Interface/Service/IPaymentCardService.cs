@@ -10,6 +10,6 @@ namespace Bank.Core.Interface.Service
 {
     public interface IPaymentCardService
     {
-        public Result Pay(PaymentCard paymentCard, double amount, string acquirerAccountNumber);
+        public Result Pay(PaymentCard paymentCard, double amount, string currency, string acquirerAccountNumber);
     }
 }

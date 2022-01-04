@@ -10,6 +10,7 @@ namespace PayPal.Core.Model
     {
         public Guid Id { get; private set; }
         public double Amount { get; private set; }
+        public string Currency { get; private set; }
         public DateTime Timestamp { get; private set; }
         public Guid OrderId { get; private set; }
         public TransactionStatus TransactionStatus { get; set; }
@@ -23,11 +24,12 @@ namespace PayPal.Core.Model
         {
         }
 
-        public Transaction(Guid id, double amount, DateTime timestamp, Guid orderId, TransactionStatus transactionStatus,
+        public Transaction(Guid id, double amount, string currency, DateTime timestamp, Guid orderId, TransactionStatus transactionStatus,
             Guid merchantId, string merchantName, Guid issuerId, string issuerName)
         {
             Id = id;
             Amount = amount;
+            Currency = currency;
             Timestamp = timestamp;
             OrderId = orderId;
             TransactionStatus = transactionStatus;

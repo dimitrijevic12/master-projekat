@@ -35,7 +35,7 @@ namespace Bank.Api.Controllers
         {
             Guid id = Guid.NewGuid();
             Core.Model.PSPRequest request = new Core.Model.PSPRequest(id, pspRequest.MerchantId, pspRequest.MerchantPassword, pspRequest.Amount,
-                pspRequest.MerchantOrderId, pspRequest.MerchantTimestamp, pspRequest.SuccessUrl, pspRequest.FailedUrl, pspRequest.ErrorUrl);
+                pspRequest.Currency, pspRequest.MerchantOrderId, pspRequest.MerchantTimestamp, pspRequest.SuccessUrl, pspRequest.FailedUrl, pspRequest.ErrorUrl);
             Result<Core.Model.PSPRequest> result = _PSPRequestService.Create(request);
             if (result.IsFailure)
             {

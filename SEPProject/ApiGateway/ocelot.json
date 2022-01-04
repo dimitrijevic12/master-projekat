@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/merchants"
@@ -17,7 +17,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/paymenttypes"
@@ -28,7 +28,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/paymenttypes/{orderId}"
@@ -39,7 +39,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/registeredwebshops/login"
@@ -50,7 +50,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/registeredwebshops"
@@ -61,7 +61,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/registeredwebshops/{email}"
@@ -72,7 +72,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44315
+          "Port": 44370
         }
       ],
       "UpstreamPathTemplate": "/api/transactions"

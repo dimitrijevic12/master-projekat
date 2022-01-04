@@ -20,7 +20,7 @@ class ItemsInShoppingCart extends Component {
     username: "",
     itemsInShoppingCart: [],
     currency: "EUR",
-    currencyList: ["EUR", "USD", "RSD"],
+    currencyList: ["EUR", "USD", "CAD"],
   };
   async componentDidMount() {
     debugger;
@@ -238,8 +238,8 @@ class ItemsInShoppingCart extends Component {
     }
     if (this.state.currency === "USD") {
       totalPrice = 1.13 * totalPrice;
-    } else if (this.state.currency === "RSD") {
-      totalPrice = 117.57 * totalPrice;
+    } else if (this.state.currency === "CAD") {
+      totalPrice = 1.43 * totalPrice;
     }
     return totalPrice;
   }

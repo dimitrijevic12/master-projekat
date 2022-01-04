@@ -31,7 +31,7 @@ class PayPalButtonV2 extends Component {
               {
                 description: "Web Shop Transaction",
                 amount: {
-                  currency_code: "USD",
+                  //currency_code: "USD",
                   value: paypalTransaction.amount,
                 },
               },
@@ -74,6 +74,7 @@ class PayPalButtonV2 extends Component {
           clientId:
             "AQ7aLujHi-QtZjK3LDKqyHOsQo1A1mdujEgYSR83W3QkM6vYpOwsTBNgCmcu-X3S5yYqCf7knSybUY7u",
           merchantId: "WFKR8VRZ85X2S",
+          currency: paypalTransaction.currency,
         }}
       />
     );

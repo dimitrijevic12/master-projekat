@@ -108,6 +108,7 @@ export const getTransactionsForSeller = (userId) => async (dispatch) => {
 };
 
 export const sendTransactionToPsp = (transaction) => async (dispatch) => {
+  debugger;
   try {
     const response = await axios.post(
       "http://localhost:60212/api/transactions",

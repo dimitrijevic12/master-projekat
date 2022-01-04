@@ -53,6 +53,7 @@ namespace Bank.Core.Services
                 "EUR" => amount,
                 "USD" => amount / 1.13,
                 "RSD" => amount / 117.57,
+                "CAD" => amount / 1.43,
                 _ => amount,
             };
         }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.Core.Model
 {
@@ -13,7 +9,7 @@ namespace Bank.Core.Model
         public string Currency { get; private set; }
         public DateTime Timestamp { get; private set; }
         public Guid PaymentId { get; private set; }
-        public TransactionStatus TransactionStatus { get; private set; }
+        public TransactionStatus TransactionStatus { get;  set; }
         public Guid AcquirerId { get; private set; }
         public string AcquirerName { get; private set; }
         public Guid IssuerId { get; private set; }
@@ -36,6 +32,11 @@ namespace Bank.Core.Model
             AcquirerName = acquirerName;
             IssuerId = issuerId;
             IssuerName = issuerName;
+        }
+
+        public void UpdateStatus(TransactionStatus transactionStatus)
+        {
+            TransactionStatus = transactionStatus;
         }
     }
 }

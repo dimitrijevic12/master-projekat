@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using static System.Net.Mime.MediaTypeNames;
+using TransactionStatus = Bank.Core.Model.TransactionStatus;
 
 namespace Bank.Api.Controllers
 {
@@ -45,6 +46,12 @@ namespace Bank.Api.Controllers
             return Ok(_transactionRepository.GetAll());
         }
 
+        [HttpGet("{id}/transaction-status")]
+        public IActionResult GetTransactionStatusById(Guid id)
+        {
+            return Ok(new DTOs.TransactionStatus(_transactionRepository.GetById(id).TransactionStatus.ToString()));
+        }
+
         [HttpPost]
         public IActionResult Create(CardInfo cardInfo)
         {
@@ -54,20 +61,20 @@ namespace Bank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, "Transaction with that id already exists");
-                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
             }
-            transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
-                TransactionStatus.Pending);
             if (!cardInfo.PAN.Substring(0, 6).Equals(Config.BankPan))
             {
                 //send to pcc
+                transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId, cardInfo.PAN,
+                TransactionStatus.Pending);
                 ForwardToPCC(new PCCRequest(transactionResult.Value.Id, transactionResult.Value.Timestamp, cardInfo.PaymentId, cardInfo.PAN, Config.BankPan,
                     cardInfo.SecurityCode, cardInfo.CardHolderName, cardInfo.ExpirationDate, cardInfo.Amount, cardInfo.AcquirerAccountNumber,
                     cardInfo.AcquirerName, request.Currency));
                 return Created(this.Request.Path + "/" + transactionResult.Value.Id,
-                new PSPTransaction(request.MerchantOrderId, TransactionStatus.Pending.ToString()));
+                new PSPTransaction(request.MerchantOrderId, TransactionStatus.Pending.ToString(), transactionResult.Value.Id));
             }
             Result result = _paymentCardService.Pay(new Core.Model.PaymentCard(Guid.Empty, cardInfo.PAN, cardInfo.SecurityCode, cardInfo.CardHolderName,
                 cardInfo.ExpirationDate, Guid.Empty), cardInfo.Amount, request.Currency, cardInfo.AcquirerAccountNumber);
@@ -76,24 +83,25 @@ namespace Bank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Failed);
-                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString(), transactionResult.Value.Id));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
-                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString(), transactionResult.Value.Id));
             }
             else if (result.IsFailure)
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
                 _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
-                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString()));
+                return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
             }
-            transactionResult.Value.UpdateStatus(TransactionStatus.Success);
+            transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
+                    cardInfo.PAN, TransactionStatus.Success);
             _transactionRepository.Edit(transactionResult.Value);
-            ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+            ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id,
-                new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString()));
+                new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
         }
 
         [HttpPatch("{id}")]
@@ -108,7 +116,8 @@ namespace Bank.Api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
+                if (transaction.TransactionStatus == TransactionStatus.Success)
+                    _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
                 return new NoContentResult();
             }
             return BadRequest(ModelState);

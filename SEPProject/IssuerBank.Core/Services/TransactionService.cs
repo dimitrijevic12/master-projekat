@@ -27,18 +27,34 @@ namespace IssuerBank.Core.Services
 
         public Result<Transaction> Create(double amount, string currency, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus)
         {
-            if (amount < 0)
-                return Result.Failure<Transaction>("Amount can not be negative number.");
-            if (timestamp > DateTime.Now)
-                return Result.Failure<Transaction>("Invalid timestamp.");
+            Transaction transaction = null;
             Guid id = Guid.NewGuid();
-            if (_transactionRepository.GetById(id) != null)
-                return Result.Failure<Transaction>("Transaction with that id already exists.");
+            while (_transactionRepository.GetById(id) != null)
+                id = Guid.NewGuid();
             PaymentCard card = _paymentCardRepository.GetByPAN(pan);
             if (card == null)
-                return Result.Failure<Transaction>("Invalid PAN.");
+            {
+                transaction = new Transaction(id, amount, currency, timestamp, paymentId, TransactionStatus.Error, Guid.Empty, "Unknown",
+                Guid.Empty, "Unknown");
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
             RegisteredUser issuer = _registeredUserRepository.GetById(card.CardOwnerId);
-            Transaction transaction = new Transaction(id, amount, currency, timestamp, paymentId, transactionStatus, Guid.Empty, "Unknown",
+            if (amount < 0)
+            {
+                transaction = new Transaction(id, amount, currency, timestamp, paymentId, TransactionStatus.Failed, Guid.Empty, "Unknown",
+                issuer.Id, issuer.FirstName + " " + issuer.LastName);
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
+            if (timestamp > DateTime.Now)
+            {
+                transaction = new Transaction(id, amount, currency, timestamp, paymentId, TransactionStatus.Failed, Guid.Empty, "Unknown",
+                issuer.Id, issuer.FirstName + " " + issuer.LastName);
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
+            transaction = new Transaction(id, amount, currency, timestamp, paymentId, transactionStatus, Guid.Empty, "Unknown",
                 issuer.Id, issuer.FirstName + " " + issuer.LastName);
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);

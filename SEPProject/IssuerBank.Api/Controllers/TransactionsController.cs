@@ -43,6 +43,7 @@ namespace IssuerBank.Api.Controllers
         public IActionResult Create(CardInfo cardInfo)
         {
             Result<Transaction> transactionResult = null;
+            DateTime timestamp = DateTime.Now;
             if (_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null)
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
@@ -58,7 +59,7 @@ namespace IssuerBank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Failed);
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
                 return BadRequest(new PCCResponse(TransactionStatus.Failed.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
@@ -66,7 +67,7 @@ namespace IssuerBank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
                 return BadRequest(new PCCResponse(TransactionStatus.Error.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }

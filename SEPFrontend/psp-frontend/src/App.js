@@ -7,6 +7,7 @@ import TransactionsPage from "./pages/TransactionsPage";
 import ChoosePaymentTypesPage from "./pages/ChoosePaymentTypesPage";
 import PayPalPayment from "./components/PayPal/PayPalPayment";
 import PayPalButtonV2Page from "./pages/PayPalButtonV2Page";
+import PayPalButtonSubscriptionPage from "./pages/PayPalButtonSubscriptionPage";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -24,6 +25,10 @@ function App() {
           <Route
             path="/paypal-page/:orderId"
             element={<PayPalButtonV2Page />}
+          />
+          <Route
+            path="/paypal-page/subscription-paypal/:orderId"
+            element={<PayPalButtonSubscriptionPage />}
           />
         </Routes>
       </div>

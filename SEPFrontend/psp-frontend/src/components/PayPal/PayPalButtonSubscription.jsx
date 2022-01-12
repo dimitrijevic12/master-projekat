@@ -8,9 +8,11 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import Paypal from "./PayPalFunction";
 
-class PayPalButtonV2 extends Component {
+class PayPalButtonSubscription extends Component {
   state = {
     paymentType: "",
+    choosenType: "Monthly",
+    types: ["Monthly", "Yearly"],
   };
   async componentDidMount() {
     var url = window.location.pathname;
@@ -25,27 +27,45 @@ class PayPalButtonV2 extends Component {
     const paypalTransaction = this.props.paypalTransaction;
     return (
       <React.Fragment>
+        <div className="d-inline-flex w-50">
+          <div class="form-group w-100 pr-5">
+            <label for="lastName">Choose type of subscription:</label>
+            <select
+              value={this.state.choosenType}
+              class="form-control"
+              onChange={this.handleChange}
+              name="choosenType"
+            >
+              {this.state.types.map((item, i) => {
+                return (
+                  <option key={i} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        <br />
+        <hr />
         <PayPalButton
-          createOrder={(data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  description: "Web Shop Transaction",
-                  amount: {
-                    //currency_code: "USD",
-                    value: paypalTransaction.amount,
-                  },
-                },
-              ],
-              // application_context: {
-              //   shipping_preference: "NO_SHIPPING" // default is "GET_FROM_FILE"
-              // }
-            });
+          amount={paypalTransaction.amount}
+          currency={paypalTransaction.currency}
+          options={{
+            vault: true,
+            clientId:
+              "AQ7aLujHi-QtZjK3LDKqyHOsQo1A1mdujEgYSR83W3QkM6vYpOwsTBNgCmcu-X3S5yYqCf7knSybUY7u",
+          }}
+          createSubscription={(data, actions) => {
+            return this.state.paymentType === "Monthly"
+              ? actions.subscription.create({
+                  plan_id: "P-1DN593649J0344710MHPOSUI",
+                })
+              : actions.subscription.create({
+                  plan_id: "P-9BG28056U4335781RMHPO6YI",
+                });
           }}
           onApprove={async (data, actions) => {
-            const order = await actions.order.capture();
-            debugger;
-            console.log(order);
             await this.props.setPayPalTransactionStatus({
               MerchantOrderId: paypalTransaction.orderId,
               TransactionStatus: "Success",
@@ -71,30 +91,22 @@ class PayPalButtonV2 extends Component {
               "http://localhost:3000/error-transaction/" +
               paypalTransaction.orderId;
           }}
-          options={{
-            clientId:
-              "AQ7aLujHi-QtZjK3LDKqyHOsQo1A1mdujEgYSR83W3QkM6vYpOwsTBNgCmcu-X3S5yYqCf7knSybUY7u",
-            merchantId: "WFKR8VRZ85X2S",
-            currency: paypalTransaction.currency,
-          }}
         />
-        <button
-          onClick={() => {
-            this.goToSubscription();
-          }}
-          className="btn btn-primary"
-          style={{ textAlign: "center" }}
-        >
-          Go to subscription
-        </button>
       </React.Fragment>
     );
   }
 
-  goToSubscription() {
-    window.location =
-      "subscription-paypal/" + this.props.paypalTransaction.orderId;
-  }
+  handleChange = (event) => {
+    debugger;
+    const { name, value, type, checked } = event.target;
+    type === "checkbox"
+      ? this.setState({
+          [name]: checked,
+        })
+      : this.setState({
+          [name]: value,
+        });
+  };
 }
 
 const mapStateToProps = (state) => ({
@@ -106,4 +118,4 @@ export default compose(
     getPayPalTransaction,
     setPayPalTransactionStatus,
   })
-)(PayPalButtonV2);
+)(PayPalButtonSubscription);

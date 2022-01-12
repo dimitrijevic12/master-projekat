@@ -14,7 +14,7 @@
         {
             get
             {
-                return "http://localhost:60212/api/transactions/status";
+                return "https://localhost:44390/api/transactions/status";
             }
         }
 

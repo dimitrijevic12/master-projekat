@@ -111,7 +111,7 @@ export const sendTransactionToPsp = (transaction) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "http://localhost:60212/api/transactions",
+      "https://localhost:44390/api/transactions",
       transaction,
       {
         headers: {

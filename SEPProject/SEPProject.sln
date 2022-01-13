@@ -49,11 +49,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayPal.DataAccess", "PayPal
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CryptoValuteMicroservice", "CryptoValuteMicroservice", "{DB1BB758-7EEB-4516-AB4D-785A72A8E738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoValute.Api", "CryptoValute.Api\CryptoValute.Api.csproj", "{8302554C-9501-4833-8DA8-C12C8A7CAEC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoValute.Api", "CryptoValute.Api\CryptoValute.Api.csproj", "{8302554C-9501-4833-8DA8-C12C8A7CAEC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoValute.DataAccess", "CryptoValute.DataAccess\CryptoValute.DataAccess.csproj", "{A31856E4-A03C-4428-AA08-F6E9C75081EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoValute.DataAccess", "CryptoValute.DataAccess\CryptoValute.DataAccess.csproj", "{A31856E4-A03C-4428-AA08-F6E9C75081EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoValute.Core", "CryptoValute.Core\CryptoValute.Core.csproj", "{46A9D8CE-569A-4C20-92B9-84EE6DD34A37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoValute.Core", "CryptoValute.Core\CryptoValute.Core.csproj", "{46A9D8CE-569A-4C20-92B9-84EE6DD34A37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PCC", "PCC", "{BAF76E26-BECF-436C-9F3E-1C4A1ECF4468}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCC.Api", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\PCC.Api\PCC.Api.csproj", "{29B988AE-7FC9-488F-A118-E60E0616F25C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCC.Core", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\PCC.Core\PCC.Core.csproj", "{BB4332C9-3607-48EE-9AE7-E05691DC1208}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCC.DataAccess", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\PCC.DataAccess\PCC.DataAccess.csproj", "{E3F7013D-9725-4EDA-981F-8F8902115177}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssuerBank", "IssuerBank", "{E68E48E3-961C-497B-8708-2B02B86806D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssuerBank.Api", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\IssuerBank.Api\IssuerBank.Api.csproj", "{7F87356E-1133-46E6-B026-25101D7640D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssuerBank.Core", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\IssuerBank.Core\IssuerBank.Core.csproj", "{79F0555B-045D-4D27-A896-225D2571185E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssuerBank.DataAccess", "..\..\..\..\Users\Nemanja\Desktop\master-projekat\SEPProject\IssuerBank.DataAccess\IssuerBank.DataAccess.csproj", "{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +153,30 @@ Global
 		{46A9D8CE-569A-4C20-92B9-84EE6DD34A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46A9D8CE-569A-4C20-92B9-84EE6DD34A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46A9D8CE-569A-4C20-92B9-84EE6DD34A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B988AE-7FC9-488F-A118-E60E0616F25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B988AE-7FC9-488F-A118-E60E0616F25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B988AE-7FC9-488F-A118-E60E0616F25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B988AE-7FC9-488F-A118-E60E0616F25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB4332C9-3607-48EE-9AE7-E05691DC1208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB4332C9-3607-48EE-9AE7-E05691DC1208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB4332C9-3607-48EE-9AE7-E05691DC1208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB4332C9-3607-48EE-9AE7-E05691DC1208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3F7013D-9725-4EDA-981F-8F8902115177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F7013D-9725-4EDA-981F-8F8902115177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F7013D-9725-4EDA-981F-8F8902115177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F7013D-9725-4EDA-981F-8F8902115177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F87356E-1133-46E6-B026-25101D7640D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F87356E-1133-46E6-B026-25101D7640D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F87356E-1133-46E6-B026-25101D7640D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F87356E-1133-46E6-B026-25101D7640D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79F0555B-045D-4D27-A896-225D2571185E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79F0555B-045D-4D27-A896-225D2571185E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79F0555B-045D-4D27-A896-225D2571185E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79F0555B-045D-4D27-A896-225D2571185E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +205,12 @@ Global
 		{8302554C-9501-4833-8DA8-C12C8A7CAEC9} = {DB1BB758-7EEB-4516-AB4D-785A72A8E738}
 		{A31856E4-A03C-4428-AA08-F6E9C75081EC} = {DB1BB758-7EEB-4516-AB4D-785A72A8E738}
 		{46A9D8CE-569A-4C20-92B9-84EE6DD34A37} = {DB1BB758-7EEB-4516-AB4D-785A72A8E738}
+		{29B988AE-7FC9-488F-A118-E60E0616F25C} = {BAF76E26-BECF-436C-9F3E-1C4A1ECF4468}
+		{BB4332C9-3607-48EE-9AE7-E05691DC1208} = {BAF76E26-BECF-436C-9F3E-1C4A1ECF4468}
+		{E3F7013D-9725-4EDA-981F-8F8902115177} = {BAF76E26-BECF-436C-9F3E-1C4A1ECF4468}
+		{7F87356E-1133-46E6-B026-25101D7640D4} = {E68E48E3-961C-497B-8708-2B02B86806D6}
+		{79F0555B-045D-4D27-A896-225D2571185E} = {E68E48E3-961C-497B-8708-2B02B86806D6}
+		{E93C6C7C-B7C6-4A9E-AB25-701FB6B5BD45} = {E68E48E3-961C-497B-8708-2B02B86806D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C9A3119-0543-4701-BF09-207FE40CA167}

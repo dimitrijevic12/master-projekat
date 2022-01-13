@@ -6,6 +6,7 @@ import {
   postTransaction,
   getMerchantByMerchantId,
 } from "../actions/actions";
+import { Navigate } from "react-router-dom";
 
 class CardPayment extends React.Component {
   state = {
@@ -17,6 +18,8 @@ class CardPayment extends React.Component {
     panError: false,
     expirationDateError: false,
     securityCodeError: false,
+    redirect: false,
+    url: "",
   };
 
   async componentWillMount() {
@@ -128,6 +131,9 @@ class CardPayment extends React.Component {
               >
                 Pay
               </button>
+              {this.state.redirect === true ? (
+                <Navigate to={this.state.url} />
+              ) : null}
             </div>
           </div>
         </div>
@@ -220,7 +226,7 @@ class CardPayment extends React.Component {
   }
 
   async pay() {
-    await this.props.postTransaction({
+    let url = await this.props.postTransaction({
       PaymentId: window.location.pathname.slice(-36),
       PAN: this.state.pan,
       SecurityCode: this.state.securityCode,
@@ -233,6 +239,8 @@ class CardPayment extends React.Component {
       failedUrl: this.props.pspRequest.failedUrl,
       errorUrl: this.props.pspRequest.errorUrl,
     });
+    debugger;
+    this.setState({ redirect: true, url: `/${url}` });
   }
 }
 

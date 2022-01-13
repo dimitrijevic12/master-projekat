@@ -9,10 +9,13 @@ namespace Bank.Api.DTOs
     {
         public Guid MerchantOrderId { get; set; }
         public string TransactionStatus { get; set; }
-        public PSPTransaction(Guid merchantOrderId, string transactionStatus)
+        public Guid TransactionId { get; set; }
+
+        public PSPTransaction(Guid merchantOrderId, string transactionStatus, Guid transactionId)
         {
             MerchantOrderId = merchantOrderId;
             TransactionStatus = transactionStatus;
+            TransactionId = transactionId;
         }
     }
 }

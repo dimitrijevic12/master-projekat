@@ -11,8 +11,9 @@ namespace WebShop.Core.Model
         {
         }
 
-        public Admin(Guid id, string email, string username, string password, string name, Guid merchantId) :
-            base(id, email, username, password)
+        public Admin(Guid id, string email, string username, string password, string salt,
+            string name, Guid merchantId) :
+            base(id, email, username, password, salt)
         {
             Name = name;
             MerchantId = merchantId;

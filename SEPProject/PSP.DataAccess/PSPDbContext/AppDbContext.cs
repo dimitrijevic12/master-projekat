@@ -49,7 +49,8 @@ namespace PSP.DataAccess.PSPDbContext
             modelBuilder.Entity<PaymentType>().HasData(paymentTypePayPal, paymentTypeCrypto, paymentTypeBank);
 
             modelBuilder.Entity<RegisteredWebShop>().HasData(
-               new RegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341230"), 123, "WebShopName", "password", "gmail@gmail.com",
+               new RegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341230"), 123, "WebShopName", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
+               "DhR9MbXejS+TQxW3rvMT1g==", "gmail@gmail.com",
                new System.Uri("http://localhost:3000/successful-transaction"), new System.Uri("http://localhost:3000/failed-transaction"),
                new System.Uri("http://localhost:3000/error-transaction"))
             );

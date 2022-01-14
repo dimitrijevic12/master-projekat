@@ -12,6 +12,7 @@ namespace CryptoValute.Core.Model
         public int WebShopId { get; private set; }
         public string WebShopName { get; private set; }
         public string Password { get; private set; }
+        public string Salt { get; private set; }
         public string EmailAddress { get; private set; }
         public Uri SuccessUrl { get; private set; }
         public Uri FailedUrl { get; private set; }
@@ -29,26 +30,28 @@ namespace CryptoValute.Core.Model
         {
         }
 
-        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, string emailAddress,
-            Uri successUrl, Uri failedUrl, Uri errorUrl)
+        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, 
+            string salt, string emailAddress, Uri successUrl, Uri failedUrl, Uri errorUrl)
         {
             Id = id;
             WebShopId = webShopId;
             WebShopName = webShopName;
             Password = password;
+            Salt = salt;
             EmailAddress = emailAddress;
             SuccessUrl = successUrl;
             FailedUrl = failedUrl;
             ErrorUrl = errorUrl;
         }
 
-        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, string emailAddress,
-            Uri successUrl, Uri failedUrl, Uri errorUrl, List<PaymentType> paymentTypes)
+        public RegisteredWebShop(Guid id, int webShopId, string webShopName, string password, 
+            string salt, string emailAddress, Uri successUrl, Uri failedUrl, Uri errorUrl, List<PaymentType> paymentTypes)
         {
             Id = id;
             WebShopId = webShopId;
             WebShopName = webShopName;
             Password = password;
+            Salt = salt;
             EmailAddress = emailAddress;
             SuccessUrl = successUrl;
             FailedUrl = failedUrl;

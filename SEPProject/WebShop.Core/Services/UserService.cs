@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebShop.Core.Interface.Repository;
@@ -29,7 +31,9 @@ namespace WebShop.Core.Services
         public User FindUser(String username, String password)
         {
             var user = _userRepository.GetByUsername(username);
-            return user == null || !user.Password.ToString().Equals(password) ? null : user;
+            return user == null || !user.Password.ToString().Equals(
+                GetHashCode(password, Convert.FromBase64String(user.Salt))) ?
+                null : user;
         }
 
         public string GenerateJSONWebToken(User userInfo)
@@ -54,6 +58,18 @@ namespace WebShop.Core.Services
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static string GetHashCode(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

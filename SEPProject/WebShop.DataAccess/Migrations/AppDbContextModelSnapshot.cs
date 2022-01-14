@@ -84,6 +84,9 @@ namespace WebShop.DataAccess.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -99,6 +102,7 @@ namespace WebShop.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Name = "Admin",
                             Password = "password",
+                            Salt = "AAAAAAAAAAAAAAAAAAAAAA==",
                             Username = "admin"
                         });
                 });
@@ -144,7 +148,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
-                            Date = new DateTime(2022, 1, 4, 14, 28, 5, 849, DateTimeKind.Local).AddTicks(5688),
+                            Date = new DateTime(2022, 1, 14, 17, 19, 13, 578, DateTimeKind.Local).AddTicks(8139),
                             Description = "ConferenceDesc",
                             ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
@@ -199,13 +203,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2022, 1, 4, 14, 28, 5, 854, DateTimeKind.Local).AddTicks(8895),
+                            EndDate = new DateTime(2022, 1, 14, 17, 19, 13, 581, DateTimeKind.Local).AddTicks(8168),
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2022, 1, 4, 14, 28, 5, 854, DateTimeKind.Local).AddTicks(8862)
+                            StartDate = new DateTime(2022, 1, 14, 17, 19, 13, 581, DateTimeKind.Local).AddTicks(8122)
                         });
                 });
 
@@ -278,6 +282,9 @@ namespace WebShop.DataAccess.Migrations
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
@@ -288,7 +295,7 @@ namespace WebShop.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("318c2ae2-e63d-4128-b987-b451ee1af6fd"),
+                            Id = new Guid("5dfc5e0a-137d-49a7-90c4-bc98408d49dc"),
                             Address = "Novosadska 14",
                             Email = "issuer@gmail.com",
                             FirstName = "issuer",
@@ -297,11 +304,12 @@ namespace WebShop.DataAccess.Migrations
                             Password = "password",
                             PhoneNumber = "123456789",
                             PostalCode = "1234",
+                            Salt = "AAAAAAAAAAAAAAAAAAAAAA==",
                             Username = "issuer"
                         },
                         new
                         {
-                            Id = new Guid("a50f09e8-cdc5-4c0d-884d-c183f67a32bd"),
+                            Id = new Guid("98a75f7e-ee26-4289-8f13-67e47cbb9e92"),
                             Address = "Beogradska 26",
                             Email = "headOfAcquirement@gmail.com",
                             FirstName = "headOfAcquirement",
@@ -310,11 +318,12 @@ namespace WebShop.DataAccess.Migrations
                             Password = "password",
                             PhoneNumber = "123456789",
                             PostalCode = "1234",
+                            Salt = "AAAAAAAAAAAAAAAAAAAAAA==",
                             Username = "headOfAcquirement"
                         },
                         new
                         {
-                            Id = new Guid("c88e7ad4-1866-4a3e-b07f-65d5e328a91b"),
+                            Id = new Guid("1cea7574-5dc7-4125-8560-1969e7d6a113"),
                             Address = "Novosadska 14",
                             Email = "staff@gmail.com",
                             FirstName = "staff",
@@ -323,6 +332,7 @@ namespace WebShop.DataAccess.Migrations
                             Password = "password",
                             PhoneNumber = "123456789",
                             PostalCode = "1234",
+                            Salt = "AAAAAAAAAAAAAAAAAAAAAA==",
                             Username = "staff"
                         });
                 });
@@ -363,11 +373,11 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            BuyerId = new Guid("318c2ae2-e63d-4128-b987-b451ee1af6fd"),
+                            BuyerId = new Guid("5dfc5e0a-137d-49a7-90c4-bc98408d49dc"),
                             Currency = "EUR",
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Status = 0,
-                            Timestamp = new DateTime(2022, 1, 4, 14, 28, 5, 855, DateTimeKind.Local).AddTicks(3904),
+                            Timestamp = new DateTime(2022, 1, 14, 17, 19, 13, 582, DateTimeKind.Local).AddTicks(1345),
                             TotalPrice = 1640.0
                         });
                 });
@@ -465,7 +475,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2022, 1, 4, 14, 28, 5, 856, DateTimeKind.Local).AddTicks(2250),
+                            DepartureTime = new DateTime(2022, 1, 14, 17, 19, 13, 582, DateTimeKind.Local).AddTicks(7057),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",

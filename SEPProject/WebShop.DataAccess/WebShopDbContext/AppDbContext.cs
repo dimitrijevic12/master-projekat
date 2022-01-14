@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebShop.Core.Model;
@@ -26,12 +27,12 @@ namespace WebShop.DataAccess.WebShopDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14", "default");
-            RegisteredUser headOfAcquirement = new RegisteredUser(Guid.NewGuid(), "headOfAcquirement@gmail.com", "headOfAcquirement", "password", "headOfAcquirement", "headOfAcquirement", "1234", "123456789", "Beogradska 26", "headOfAcquirement");
-            RegisteredUser staff = new RegisteredUser(Guid.NewGuid(), "staff@gmail.com", "staff", "password", "staff", "staff", "1234", "123456789", "Novosadska 14", "staff");
+            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", Convert.ToBase64String(new byte[128 / 8]), "issuer", "issuer", "1234", "123456789", "Novosadska 14", "default");
+            RegisteredUser headOfAcquirement = new RegisteredUser(Guid.NewGuid(), "headOfAcquirement@gmail.com", "headOfAcquirement", "password", Convert.ToBase64String(new byte[128 / 8]), "headOfAcquirement", "headOfAcquirement", "1234", "123456789", "Beogradska 26", "headOfAcquirement");
+            RegisteredUser staff = new RegisteredUser(Guid.NewGuid(), "staff@gmail.com", "staff", "password", Convert.ToBase64String(new byte[128 / 8]), "staff", "staff", "1234", "123456789", "Novosadska 14", "staff");
             modelBuilder.Entity<RegisteredUser>().HasData(issuer, headOfAcquirement, staff);
 
-            Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
+            Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", Convert.ToBase64String(new byte[128 / 8]), "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<Admin>().HasData(admin);
 
             modelBuilder.Entity<Item>().HasData(
@@ -64,12 +65,6 @@ namespace WebShop.DataAccess.WebShopDbContext
             modelBuilder.Entity<Transportation>().HasData(
                new Transportation(new Guid("12345678-1234-1234-1234-123412341234"), "TransportationName", "TransportationDesc", 1000.0, "Belgrade", "Novi Sad", DateTime.Now, "conferences-integrated-systems-events-1500x630-2.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
-
-            /*modelBuilder
-             .Entity<TransactionItem>()
-             .HasOne(p => p.Transaction)
-             .WithMany(c => c.TransactionItems)
-             .HasForeignKey(p => p.TransactionId);*/
         }
 
         public override int SaveChanges()

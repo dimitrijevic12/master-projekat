@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CryptoValute.DataAccess.Migrations
+namespace CardPayment.DataAccess.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -27,6 +27,7 @@ namespace CryptoValute.DataAccess.Migrations
                     WebShopId = table.Column<int>(type: "int", nullable: false),
                     WebShopName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SuccessUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FailedUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),

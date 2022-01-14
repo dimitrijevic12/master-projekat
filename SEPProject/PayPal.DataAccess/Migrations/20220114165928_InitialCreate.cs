@@ -27,6 +27,7 @@ namespace PayPal.DataAccess.Migrations
                     WebShopId = table.Column<int>(type: "int", nullable: false),
                     WebShopName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SuccessUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FailedUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),

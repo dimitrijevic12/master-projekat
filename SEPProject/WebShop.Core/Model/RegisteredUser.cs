@@ -20,9 +20,9 @@ namespace WebShop.Core.Model
         {
         }
 
-        public RegisteredUser(Guid id, string email, string username, string password,
+        public RegisteredUser(Guid id, string email, string username, string password, string salt,
             string firstName, string lastName, string postalCode, string phoneNumber, string address, string itrole)
-            : base(id, email, username, password)
+            : base(id, email, username, password, salt)
         {
             FirstName = firstName;
             LastName = lastName;

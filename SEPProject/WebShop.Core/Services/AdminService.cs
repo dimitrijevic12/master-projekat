@@ -1,5 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
+using System.Security.Cryptography;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Model;
 
@@ -28,8 +30,27 @@ namespace WebShop.Core.Services
             {
                 return Result.Failure("Username, password or name can't be empty!");
             }
+            byte[] salt = new byte[128 / 8];
+            using (var rngCsp = new RNGCryptoServiceProvider())
+            {
+                rngCsp.GetNonZeroBytes(salt);
+            }
+            admin.Salt = Convert.ToBase64String(salt);
+            admin.Password = GetHashCode(admin.Password, salt);
             _adminRepository.Save(admin);
             return Result.Success(admin);
+        }
+
+        private static string GetHashCode(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

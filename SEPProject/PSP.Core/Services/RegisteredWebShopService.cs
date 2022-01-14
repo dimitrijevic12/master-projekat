@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PSP.Core.DTOs;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,9 +34,15 @@ namespace PSP.Core.Services
             if (registeredWebShopDTO.Password == "") return Result.Failure("Password can't be empty!");
             if (registeredWebShopDTO.WebShopName == "") return Result.Failure("Name can't be empty!");
             registeredWebShopDTO.WebShopId = _registeredWebShopRepository.GetAll().ToList().Max(shop => shop.WebShopId) + 1;
-            
+
+            byte[] salt = new byte[128 / 8];
+            using (var rngCsp = new RNGCryptoServiceProvider())
+            {
+                rngCsp.GetNonZeroBytes(salt);
+            }
+
             RegisteredWebShop webShop = _registeredWebShopRepository.Save(new RegisteredWebShop(registeredWebShopDTO.Id, registeredWebShopDTO.WebShopId, registeredWebShopDTO.WebShopName,
-                registeredWebShopDTO.Password, registeredWebShopDTO.EmailAddress, registeredWebShopDTO.SuccessUrl, registeredWebShopDTO.FailedUrl, registeredWebShopDTO.ErrorUrl));
+                GetHashCode(registeredWebShopDTO.Password, salt), Convert.ToBase64String(salt), registeredWebShopDTO.EmailAddress, registeredWebShopDTO.SuccessUrl, registeredWebShopDTO.FailedUrl, registeredWebShopDTO.ErrorUrl));
             return Result.Success(webShop);
         }
 
@@ -46,7 +54,9 @@ namespace PSP.Core.Services
         public RegisteredWebShop FindWebShop(String email, String password)
         {
             var webShop = _registeredWebShopRepository.GetByEmail(email);
-            return webShop == null || !webShop.Password.ToString().Equals(password) ? null : webShop;
+            return webShop == null || !webShop.Password.ToString().
+                Equals(GetHashCode(password, Convert.FromBase64String(webShop.Salt))) ? 
+                null : webShop;
         }
 
         public string GenerateJSONWebToken(RegisteredWebShop webShopInfo)
@@ -69,6 +79,18 @@ namespace PSP.Core.Services
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static string GetHashCode(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

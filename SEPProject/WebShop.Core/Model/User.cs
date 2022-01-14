@@ -14,17 +14,19 @@ namespace WebShop.Core.Model
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Salt { get; set; }
 
         protected User()
         {
         }
 
-        protected User(Guid id, string email, string username, string password)
+        protected User(Guid id, string email, string username, string password, string salt)
         {
             Id = id;
             Email = email;
             Username = username;
             Password = password;
+            Salt = salt;
         }
 
         

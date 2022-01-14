@@ -135,6 +135,9 @@ namespace PSP.DataAccess.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SuccessUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -155,7 +158,8 @@ namespace PSP.DataAccess.Migrations
                             EmailAddress = "gmail@gmail.com",
                             ErrorUrl = "http://localhost:3000/error-transaction",
                             FailedUrl = "http://localhost:3000/failed-transaction",
-                            Password = "password",
+                            Password = "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
+                            Salt = "DhR9MbXejS+TQxW3rvMT1g==",
                             SuccessUrl = "http://localhost:3000/successful-transaction",
                             WebShopId = 123,
                             WebShopName = "WebShopName"
@@ -217,7 +221,7 @@ namespace PSP.DataAccess.Migrations
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
                             PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Timestamp = new DateTime(2022, 1, 14, 14, 56, 42, 262, DateTimeKind.Local).AddTicks(1880),
+                            Timestamp = new DateTime(2022, 1, 14, 17, 53, 0, 562, DateTimeKind.Local).AddTicks(5415),
                             TransactionStatus = 0,
                             Type = "Other"
                         });

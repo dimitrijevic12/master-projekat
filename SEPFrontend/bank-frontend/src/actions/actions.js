@@ -3,10 +3,14 @@ import {
   GET_MERCHANT_BY_MERCHANTID_ERROR,
   GET_PSPREQUEST,
   GET_PSPREQUEST_ERROR,
+  GET_TRANSACTION_STATUS,
+  GET_TRANSACTION_STATUS_ERROR,
   POST_TRANSACTION,
   POST_TRANSACTION_ERROR,
+  PUSH_URLS,
 } from "../types/types";
 import axios from "axios";
+import { push } from "react-router-redux";
 
 export const getPSPRequest = (paymentId) => async (dispatch) => {
   try {
@@ -58,20 +62,26 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
       }
     );
     debugger;
-    window.location.replace(cardInfo.successUrl);
-    dispatch({
+    if (response.data.transactionStatus === "Success")
+      window.location.replace(cardInfo.successUrl);
+    await dispatch({
       type: POST_TRANSACTION,
       payload: response.data,
     });
+    await dispatch({
+      type: PUSH_URLS,
+      payload: {
+        successUrl: cardInfo.successUrl,
+        errorUrl: cardInfo.errorUrl,
+        failedUrl: cardInfo.failedUrl,
+      },
+    });
+    return `pending/${response.data.transactionId}`;
   } catch (e) {
     debugger;
     if (e.response.data.transactionStatus === "Failed")
       window.location.replace(cardInfo.failedUrl);
-    else window.location.replace(cardInfo.errorUrl);
-    dispatch({
-      type: POST_TRANSACTION_ERROR,
-      payload: console.log(e.response),
-    });
+    else return window.location.replace(cardInfo.errorUrl);
   }
 };
 
@@ -100,3 +110,35 @@ export const getMerchantByMerchantId = (merchantId) => async (dispatch) => {
     });
   }
 };
+
+export const getTransactionStatus =
+  (transactionId, successUrl, errorUrl, failedUrl) => async (dispatch) => {
+    try {
+      debugger;
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}transactions/${transactionId}/transaction-status`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            //Authorization: "Bearer " + sessionStorage.getItem("tokenAgentApp"),
+          },
+        }
+      );
+      if (response.data.status === "Pending") {
+        return true;
+      } else if (response.data.status === "Success")
+        window.location.replace(successUrl);
+      else if (response.data.status === "Failed")
+        window.location.replace(failedUrl);
+      else window.location.replace(errorUrl);
+      dispatch({
+        type: GET_TRANSACTION_STATUS,
+        payload: response.data,
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_TRANSACTION_STATUS_ERROR,
+        payload: console.log(e),
+      });
+    }
+  };

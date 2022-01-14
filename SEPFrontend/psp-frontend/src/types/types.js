@@ -21,3 +21,9 @@ export const SET_PAYPAL_TRANSACTION_STATUS_ERROR =
   "setPayPalTransactionStatusError";
 export const GET_PAYPAL_TRANSACTION = "getPayPalTransaction";
 export const GET_PAYPAL_TRANSACTION_ERROR = "getPayPalTransactionError";
+export const SET_CRYPTO_TRANSACTION_STATUS = "setTransactionStatus";
+export const SET_CRYPTO_TRANSACTION_STATUS_ERROR = "setTransactionStatusError";
+export const PAY_WITH_CRYPTO_VALUTE = "payWithCryptoValute";
+export const PAY_WITH_CRYPTO_VALUTE_ERROR = "payWithCryptoValuteError";
+export const GET_CRYPTO_TRANSACTION = "getCryptoTransaction";
+export const GET_CRYPTO_TRANSACTION_ERROR = "getCryptoTransactionError";

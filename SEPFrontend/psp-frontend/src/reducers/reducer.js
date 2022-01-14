@@ -10,6 +10,9 @@ import {
   GET_PAYMENTTYPES_FOR_WEBSHOP,
   SET_PAYPAL_TRANSACTION_STATUS,
   GET_PAYPAL_TRANSACTION,
+  SET_CRYPTO_TRANSACTION_STATUS,
+  PAY_WITH_CRYPTO_VALUTE,
+  GET_CRYPTO_TRANSACTION,
 } from "../types/types";
 
 const initialState = {
@@ -20,6 +23,8 @@ const initialState = {
   request: {},
   payment: {},
   paypalTransaction: {},
+  cryptoValutePayment: {},
+  cryptoTransaction: {},
 };
 
 function reducer(state = initialState, action) {
@@ -77,6 +82,20 @@ function reducer(state = initialState, action) {
         ...state,
         paypalTransaction: action.payload,
       };
+    case SET_CRYPTO_TRANSACTION_STATUS:
+      return {
+        ...state,
+      };
+    case PAY_WITH_CRYPTO_VALUTE:
+      return {
+        ...state,
+        cryptoValutePayment: action.payload,
+      };    
+    case GET_CRYPTO_TRANSACTION:
+    return {
+      ...state,
+      cryptoTransaction: action.payload,
+    };   
     default:
       return state;
   }

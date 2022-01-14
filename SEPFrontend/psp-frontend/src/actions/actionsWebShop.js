@@ -16,7 +16,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.post(
-        "http://localhost:60212/api/RegisteredWebShops",
+        "https://localhost:44390/api/RegisteredWebShops",
         webShop,
         {
             headers: {
@@ -40,7 +40,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
 export const userLoggedIn = (webShop) => async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:60212/api/RegisteredWebShops/login",
+        "https://localhost:44390/api/RegisteredWebShops/login",
         webShop,
         {
           headers: {
@@ -70,7 +70,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
       const response = await axios.get(
-        "http://localhost:60212/api/RegisteredWebShops/" + webShopEmail,
+        "https://localhost:44390/api/RegisteredWebShops/" + webShopEmail,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -95,7 +95,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.put(
-        "http://localhost:60212/api/RegisteredWebShops",
+        "https://localhost:44390/api/RegisteredWebShops",
         paymentTypes,
         {
             headers: {
@@ -119,7 +119,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
 export const getPaymentTypes = () => async (dispatch) => {  
     try {
       const response = await axios.get(
-        "http://localhost:60212/api/PaymentTypes",
+        "https://localhost:44390/api/PaymentTypes",
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -143,7 +143,7 @@ export const getPaymentTypes = () => async (dispatch) => {
     debugger;
     try {
       const response = await axios.get(
-        "http://localhost:60212/api/paymenttypes/" + orderId,
+        "https://localhost:44390/api/paymenttypes/" + orderId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

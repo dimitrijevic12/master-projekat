@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PayPal.DataAccess.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,8 @@ namespace PayPal.DataAccess.Migrations
                     MerchantName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IssuerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

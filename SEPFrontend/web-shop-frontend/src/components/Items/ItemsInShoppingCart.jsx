@@ -145,6 +145,12 @@ class ItemsInShoppingCart extends Component {
       var shoppingCartList = JSON.parse(localStorage.getItem("shoppingCart")); //get them back
     }
     const items = this.state.itemsInShoppingCart;
+    var pspTransactionType = "Others";
+    if (shoppingCartList.length === 1) {
+      if (shoppingCartList[0].type === "course") {
+        pspTransactionType = "Course";
+      }
+    }
     for (var i = 0; i < shoppingCartList.length; i++) {
       var type = 0;
       var productId = 0;
@@ -208,6 +214,7 @@ class ItemsInShoppingCart extends Component {
       MerchantName: this.props.savedTransaction.seller.name,
       IssuerId: this.props.savedTransaction.buyer.id,
       IssuerName: this.props.savedTransaction.buyer.firstName,
+      Type: pspTransactionType,
     });
     localStorage.setItem("shoppingCart", "");
     window.location.href =

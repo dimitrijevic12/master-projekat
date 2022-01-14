@@ -198,6 +198,9 @@ namespace PSP.DataAccess.Migrations
                     b.Property<int>("TransactionStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");
@@ -214,8 +217,9 @@ namespace PSP.DataAccess.Migrations
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
                             PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Timestamp = new DateTime(2022, 1, 4, 15, 4, 3, 497, DateTimeKind.Local).AddTicks(8653),
-                            TransactionStatus = 0
+                            Timestamp = new DateTime(2022, 1, 14, 14, 56, 42, 262, DateTimeKind.Local).AddTicks(1880),
+                            TransactionStatus = 0,
+                            Type = "Other"
                         });
                 });
 

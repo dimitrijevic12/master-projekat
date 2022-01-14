@@ -78,15 +78,17 @@ class PayPalButtonV2 extends Component {
             currency: paypalTransaction.currency,
           }}
         />
-        <button
-          onClick={() => {
-            this.goToSubscription();
-          }}
-          className="btn btn-primary"
-          style={{ textAlign: "center" }}
-        >
-          Go to subscription
-        </button>
+        {paypalTransaction.type === "Course" ? (
+          <button
+            onClick={() => {
+              this.goToSubscription();
+            }}
+            className="btn btn-primary"
+            style={{ textAlign: "center" }}
+          >
+            Go to subscription
+          </button>
+        ) : null}
       </React.Fragment>
     );
   }

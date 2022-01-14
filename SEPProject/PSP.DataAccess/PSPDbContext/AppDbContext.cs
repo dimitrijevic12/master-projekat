@@ -62,7 +62,7 @@ namespace PSP.DataAccess.PSPDbContext
 
             modelBuilder.Entity<Transaction>().HasData(
                 new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", DateTime.Now, new Guid("12345678-1234-1234-1234-123412341232"), TransactionStatus.Pending,
-                new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName")
+                new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", "Other")
              );
 
             modelBuilder.Entity<Merchant>().HasData(

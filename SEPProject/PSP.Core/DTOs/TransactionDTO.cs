@@ -19,5 +19,6 @@ namespace PSP.Core.DTOs
         public string MerchantName { get; set; }
         public Guid IssuerId { get; set; }
         public string IssuerName { get; set; }
+        public string Type { get; set; }
     }
 }

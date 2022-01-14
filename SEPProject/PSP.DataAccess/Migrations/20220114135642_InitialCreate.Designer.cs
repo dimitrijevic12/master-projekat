@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PayPal.DataAccess.PayPalDbContext;
+using PSP.DataAccess.PSPDbContext;
 
-namespace PayPal.DataAccess.Migrations
+namespace PSP.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220104140520_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220114135642_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace PayPal.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PayPal.Core.Model.Merchant", b =>
+            modelBuilder.Entity("PSP.Core.Model.Merchant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,9 +44,19 @@ namespace PayPal.DataAccess.Migrations
                     b.HasIndex("RegisteredWebShopId");
 
                     b.ToTable("Merchants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123422941234"),
+                            MerchantId = new Guid("12345678-1234-1234-1234-123412341234"),
+                            MerchantPassword = "password",
+                            Name = "Name",
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        });
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.PaymentType", b =>
+            modelBuilder.Entity("PSP.Core.Model.PaymentType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,9 +68,26 @@ namespace PayPal.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341234"),
+                            Name = "PayPal"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-223412341234"),
+                            Name = "CryptoValute"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-323412341234"),
+                            Name = "Bank"
+                        });
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.PaymentTypeRegisteredWebShop", b =>
+            modelBuilder.Entity("PSP.Core.Model.PaymentTypeRegisteredWebShop", b =>
                 {
                     b.Property<Guid>("PaymentTypeId")
                         .HasColumnType("uniqueidentifier");
@@ -73,9 +100,26 @@ namespace PayPal.DataAccess.Migrations
                     b.HasIndex("RegisteredWebShopId");
 
                     b.ToTable("PaymentTypeRegisteredWebShop");
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentTypeId = new Guid("12345678-1234-1234-1234-123412341234"),
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        },
+                        new
+                        {
+                            PaymentTypeId = new Guid("12345678-1234-1234-1234-223412341234"),
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        },
+                        new
+                        {
+                            PaymentTypeId = new Guid("12345678-1234-1234-1234-323412341234"),
+                            RegisteredWebShopId = new Guid("12345678-1234-1234-1234-123412341230")
+                        });
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.RegisteredWebShop", b =>
+            modelBuilder.Entity("PSP.Core.Model.RegisteredWebShop", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,9 +149,22 @@ namespace PayPal.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RegisteredWebShops");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341230"),
+                            EmailAddress = "gmail@gmail.com",
+                            ErrorUrl = "http://localhost:3000/error-transaction",
+                            FailedUrl = "http://localhost:3000/failed-transaction",
+                            Password = "password",
+                            SuccessUrl = "http://localhost:3000/successful-transaction",
+                            WebShopId = 123,
+                            WebShopName = "WebShopName"
+                        });
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.Transaction", b =>
+            modelBuilder.Entity("PSP.Core.Model.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,14 +200,34 @@ namespace PayPal.DataAccess.Migrations
                     b.Property<int>("TransactionStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341234"),
+                            Amount = 100.0,
+                            Currency = "EUR",
+                            IssuerId = new Guid("12345678-1234-1234-1234-123412341235"),
+                            IssuerName = "IssuerName",
+                            MerchantId = new Guid("12345678-1234-1234-1234-123412341233"),
+                            MerchantName = "MerchantName",
+                            OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
+                            PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Timestamp = new DateTime(2022, 1, 14, 14, 56, 42, 262, DateTimeKind.Local).AddTicks(1880),
+                            TransactionStatus = 0,
+                            Type = "Other"
+                        });
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.Merchant", b =>
+            modelBuilder.Entity("PSP.Core.Model.Merchant", b =>
                 {
-                    b.HasOne("PayPal.Core.Model.RegisteredWebShop", "RegisteredWebShop")
+                    b.HasOne("PSP.Core.Model.RegisteredWebShop", "RegisteredWebShop")
                         .WithMany("Merchant")
                         .HasForeignKey("RegisteredWebShopId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -159,15 +236,15 @@ namespace PayPal.DataAccess.Migrations
                     b.Navigation("RegisteredWebShop");
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.PaymentTypeRegisteredWebShop", b =>
+            modelBuilder.Entity("PSP.Core.Model.PaymentTypeRegisteredWebShop", b =>
                 {
-                    b.HasOne("PayPal.Core.Model.PaymentType", "PaymentType")
+                    b.HasOne("PSP.Core.Model.PaymentType", "PaymentType")
                         .WithMany("PaymentTypeRegisteredWebShops")
                         .HasForeignKey("PaymentTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PayPal.Core.Model.RegisteredWebShop", "RegisteredWebShop")
+                    b.HasOne("PSP.Core.Model.RegisteredWebShop", "RegisteredWebShop")
                         .WithMany("PaymentTypeRegisteredWebShops")
                         .HasForeignKey("RegisteredWebShopId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -178,12 +255,12 @@ namespace PayPal.DataAccess.Migrations
                     b.Navigation("RegisteredWebShop");
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.PaymentType", b =>
+            modelBuilder.Entity("PSP.Core.Model.PaymentType", b =>
                 {
                     b.Navigation("PaymentTypeRegisteredWebShops");
                 });
 
-            modelBuilder.Entity("PayPal.Core.Model.RegisteredWebShop", b =>
+            modelBuilder.Entity("PSP.Core.Model.RegisteredWebShop", b =>
                 {
                     b.Navigation("Merchant");
 

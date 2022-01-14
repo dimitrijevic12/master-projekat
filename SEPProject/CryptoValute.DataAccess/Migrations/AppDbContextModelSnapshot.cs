@@ -141,6 +141,9 @@ namespace CryptoValute.DataAccess.Migrations
                     b.Property<int>("TransactionStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");

@@ -101,8 +101,8 @@ class ChoosePaymentTypes extends Component {
         price_amount: this.props.cryptoTransaction.amount ,
         price_currency: this.props.cryptoTransaction.currency, 
         receive_currency: this.props.cryptoTransaction.currency,
-        success_url: "http://localhost:3000/",
-        cancel_url: "http://localhost:3000/",
+        success_url: "http://localhost:3001/paid-transaction/" + this.state.orderId,
+        cancel_url: "http://localhost:3001/invalid-transaction/" + this.state.orderId,
       });
       debugger;
       if (successful === true) {

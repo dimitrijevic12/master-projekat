@@ -10,6 +10,8 @@ import PayPalButtonV2Page from "./pages/PayPalButtonV2Page";
 import PayPalButtonSubscriptionPage from "./pages/PayPalButtonSubscriptionPage";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SuccessRedirect from "./components/Transactions/SuccessRedirect";
+import FailedRedirect from "./components/Transactions/FailedRedirect";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/psp/:orderId" element={<ChoosePaymentTypesPage />} />
           <Route path="/paypal/:orderId" element={<PayPalPayment />} />
+          <Route path="/paid-transaction/:orderId" element={<SuccessRedirect />} />
+          <Route path="/invalid-transaction/:orderId" element={<FailedRedirect />} />
           <Route
             path="/paypal-page/:orderId"
             element={<PayPalButtonV2Page />}

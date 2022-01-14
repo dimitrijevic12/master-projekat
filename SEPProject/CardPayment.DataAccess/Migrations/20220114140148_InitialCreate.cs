@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CryptoValute.DataAccess.Migrations
+namespace CardPayment.DataAccess.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -51,7 +51,8 @@ namespace CryptoValute.DataAccess.Migrations
                     MerchantName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IssuerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IssuerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoValute.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220111220035_InitialCreate")]
+    [Migration("20220114140116_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,6 +142,9 @@ namespace CryptoValute.DataAccess.Migrations
 
                     b.Property<int>("TransactionStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardPayment.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220104140558_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220114140148_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,6 +142,9 @@ namespace CardPayment.DataAccess.Migrations
 
                     b.Property<int>("TransactionStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

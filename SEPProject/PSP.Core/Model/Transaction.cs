@@ -19,13 +19,14 @@ namespace PSP.Core.Model
         public Guid IssuerId { get; private set; }
         public string IssuerName { get; private set; }
         public Guid PaymentId { get; private set; }
+        public string Type { get; private set; }
 
         public Transaction()
         {
         }
 
         public Transaction(Guid id, double amount, string currency, DateTime timestamp, Guid orderId, TransactionStatus transactionStatus,
-            Guid merchantId, string merchantName, Guid issuerId, string issuerName)
+            Guid merchantId, string merchantName, Guid issuerId, string issuerName, string type)
         {
             Id = id;
             Amount = amount;
@@ -37,6 +38,7 @@ namespace PSP.Core.Model
             MerchantName = merchantName;
             IssuerId = issuerId;
             IssuerName = issuerName;
+            Type = type;
         }
     }
 }

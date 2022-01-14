@@ -35,7 +35,7 @@ namespace PSP.Core.Services
             if (_merchantRepository.GetByMerchantId(transactionDTO.MerchantId) == null) return Result.Failure("There is no Merchant with that MerchantId!");
 
             Transaction transaction = _transactionRepository.Save(new Transaction(transactionDTO.Id, transactionDTO.Amount, transactionDTO.Currency, transactionDTO.Timestamp, transactionDTO.OrderId,
-                transactionDTO.TransactionStatus, transactionDTO.MerchantId, transactionDTO.MerchantName, transactionDTO.IssuerId, transactionDTO.IssuerName));
+                transactionDTO.TransactionStatus, transactionDTO.MerchantId, transactionDTO.MerchantName, transactionDTO.IssuerId, transactionDTO.IssuerName, transactionDTO.Type));
             return Result.Success(transaction);
         }
     }

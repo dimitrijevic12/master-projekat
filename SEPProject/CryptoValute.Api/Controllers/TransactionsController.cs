@@ -11,6 +11,7 @@ using System.Text.Json;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CryptoValute.Api.Controllers
 {
@@ -53,6 +54,7 @@ namespace CryptoValute.Api.Controllers
         }
 
         [HttpGet("{orderId}")]
+        [Authorize]
         public IActionResult GetTransactionByOrderId(Guid orderId)
         {
             Transaction transaction = _transactionRepository.GetTransactionByOrderId(orderId);

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Threading.Tasks;
 using WebShop.Core.Interface.Repository;
 using WebShop.Core.Services;
 using WebShop.DataAccess.Implementation;
@@ -56,6 +58,31 @@ namespace WebShop.Api
             services.AddScoped<CourseService>();
             services.AddScoped<AccommodationService>();
             services.AddScoped<TransportationService>();
+            services.AddTransient<CertificateValidation>();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
+                
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context => {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context => {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -78,8 +105,6 @@ namespace WebShop.Api
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-
-            services.AddAuthorization();
 
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("webshopdb"))

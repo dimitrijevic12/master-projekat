@@ -2,6 +2,7 @@
 using CardPayment.Core.Interface.Repository;
 using CardPayment.Core.Model;
 using CardPayment.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,6 +35,7 @@ namespace CardPayment.Api.Controllers
         }
 
         [HttpGet("{orderId}")]
+        [Authorize]
         public IActionResult GenerateRequestForBank(Guid orderId)
         {
             var request = _transactionService.CreateRequestForBank(orderId);

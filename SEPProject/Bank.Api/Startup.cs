@@ -3,6 +3,7 @@ using Bank.Core.Interface.Service;
 using Bank.Core.Services;
 using Bank.DataAccess.BankDbContext;
 using Bank.DataAccess.Implementation;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Threading.Tasks;
 
 namespace Bank.Api
 {
@@ -45,7 +47,32 @@ namespace Bank.Api
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IPaymentCardService, PaymentCardService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddTransient<CertificateValidation>();
             services.AddHttpClient();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
+
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context => {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context => {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("bankdb"))
@@ -70,6 +97,8 @@ namespace Bank.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PSP.Core.Interface.Repository;
@@ -27,6 +28,7 @@ namespace PSP.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         //[Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {

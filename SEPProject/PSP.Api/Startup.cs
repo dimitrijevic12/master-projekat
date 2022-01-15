@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,10 +52,31 @@ namespace PSP.Api
             services.AddScoped<TransactionService>();
             services.AddScoped<MerchantService>();
             services.AddScoped<PaymentTypeService>();
-            
+            services.AddTransient<CertificateValidation>();
 
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
 
-
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context => {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context => {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>

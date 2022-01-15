@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using PCC.Core.Interfaces.Repository;
 using PCC.Core.Services;
 using PCC.DataAccess.Implementation;
 using PCC.DataAccess.PCCDbContext;
+using System.Threading.Tasks;
 
 namespace PCC.Api
 {
@@ -34,7 +36,32 @@ namespace PCC.Api
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IBankRepository, BankRepository>();
             services.AddScoped<TransactionService>();
+            services.AddTransient<CertificateValidation>();
             services.AddHttpClient();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
+
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context => {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context => {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("pccdb"))
@@ -59,6 +86,8 @@ namespace PCC.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

@@ -3,6 +3,7 @@ using IssuerBank.Api.DTOs;
 using IssuerBank.Core.Interface.Repository;
 using IssuerBank.Core.Interface.Service;
 using IssuerBank.Core.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,6 +35,7 @@ namespace IssuerBank.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             return Ok(_transactionRepository.GetAll());

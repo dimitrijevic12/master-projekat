@@ -2,6 +2,7 @@ using CryptoValute.Core.Interface.Repository;
 using CryptoValute.Core.Services;
 using CryptoValute.DataAccess.CryptoValuteDbContext;
 using CryptoValute.DataAccess.Implementation;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +42,31 @@ namespace CryptoValute.Api
             services.AddScoped<IMerchantRepository, MerchantRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<TransactionService>();
+            services.AddTransient<CertificateValidation>();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
+
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context => {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context => {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
@@ -65,6 +91,8 @@ namespace CryptoValute.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

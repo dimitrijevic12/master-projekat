@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PayPal.Core.DTOs;
 using PayPal.Core.Interface.Repository;
@@ -31,6 +32,7 @@ namespace PayPal.Api.Controllers
         }
 
         [HttpGet("{orderId}")]
+        [Authorize]
         public IActionResult GetTransactionByOrderId(Guid orderId)
         {
             Transaction transaction = _transactionRepository.GetTransactionByOrderId(orderId);

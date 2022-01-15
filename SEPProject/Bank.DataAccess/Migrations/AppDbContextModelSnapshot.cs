@@ -119,7 +119,7 @@ namespace Bank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2022, 1, 4, 16, 18, 43, 619, DateTimeKind.Local).AddTicks(4908),
+                            MerchantTimestamp = new DateTime(2022, 1, 15, 15, 37, 17, 776, DateTimeKind.Local).AddTicks(4064),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -164,6 +164,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<string>("PAN")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -181,7 +184,8 @@ namespace Bank.DataAccess.Migrations
                             ExpirationDate = "04/22",
                             HolderName = "Holder Name",
                             PAN = "1234561234561234",
-                            SecurityCode = "1234"
+                            Salt = "Al5Y4KoguBtLeK42dD/zgQ==",
+                            SecurityCode = "d2sA8D1T2c/wKNU2Hjhq05XpX4wCcXack6TTUlZ3S+Q="
                         },
                         new
                         {
@@ -190,7 +194,8 @@ namespace Bank.DataAccess.Migrations
                             ExpirationDate = "04/22",
                             HolderName = "Acquirer Name",
                             PAN = "1234562222221234",
-                            SecurityCode = "1234"
+                            Salt = "DW7Xd4S1Ee6g8Nnhy2hNlw==",
+                            SecurityCode = "QNRiAvqu8ujlh7XkjCw9L0Vnb36QW8ypk7Yxr+4fVHs="
                         },
                         new
                         {
@@ -199,7 +204,8 @@ namespace Bank.DataAccess.Migrations
                             ExpirationDate = "04/22",
                             HolderName = "Staff Name",
                             PAN = "1234563333331234",
-                            SecurityCode = "1234"
+                            Salt = "m85AArYCDZTgH1xZYNOL2w==",
+                            SecurityCode = "BAB0tLhEBlv0+Fb27ZIaLcHG9LxjU+MxFagRAKoi/Po="
                         });
                 });
 
@@ -251,7 +257,7 @@ namespace Bank.DataAccess.Migrations
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2022, 1, 4, 16, 18, 43, 623, DateTimeKind.Local).AddTicks(1829),
+                            Timestamp = new DateTime(2022, 1, 15, 15, 37, 17, 779, DateTimeKind.Local).AddTicks(1494),
                             TransactionStatus = 1
                         });
                 });
@@ -286,6 +292,9 @@ namespace Bank.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("Merchant");
 
                     b.HasData(
@@ -293,8 +302,9 @@ namespace Bank.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            MerchantPassword = "password",
-                            Name = "Merchant name"
+                            MerchantPassword = "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
+                            Name = "Merchant name",
+                            Salt = "DhR9MbXejS+TQxW3rvMT1g=="
                         });
                 });
 

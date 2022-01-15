@@ -145,7 +145,7 @@ export const pspAdminRegistration = (admin) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44315/api/merchants",
+      "https://localhost:44390/api/merchants",
       admin,
       {
         headers: {

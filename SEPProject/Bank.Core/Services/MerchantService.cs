@@ -2,12 +2,9 @@
 using Bank.Core.Interface.Service;
 using Bank.Core.Model;
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.Core.Services
 {
@@ -22,11 +19,11 @@ namespace Bank.Core.Services
 
         public Result<Merchant> Create(string name)
         {
-            if (String.IsNullOrWhiteSpace(name) || name.Length > 50) 
+            if (String.IsNullOrWhiteSpace(name) || name.Length > 50)
                 return Result.Failure<Merchant>("Name cannot be empty or have more than 50 characters");
             Guid id = Guid.NewGuid();
             Merchant merchant = _merchantRepository.GetById(id);
-            while(merchant != null)
+            while (merchant != null)
             {
                 id = Guid.NewGuid();
                 merchant = _merchantRepository.GetById(id);
@@ -39,7 +36,16 @@ namespace Bank.Core.Services
                 merchant = _merchantRepository.GetByMerchantId(merchantId);
             }
             string merchantPassword = GeneratePassword(8);
-            return Result.Success(_merchantRepository.Save(new Merchant(id, merchantId, merchantPassword, name)));
+            byte[] salt = new byte[128 / 8];
+            using (var rngCsp = new RNGCryptoServiceProvider())
+            {
+                rngCsp.GetNonZeroBytes(salt);
+            }
+            string saltString = Convert.ToBase64String(salt);
+            Merchant savedMerchant = new Merchant(id, merchantId, GetHashCode(merchantPassword, salt), name, saltString);
+            _merchantRepository.Save(savedMerchant);
+            Merchant merchantForWebStore = new Merchant(id, merchantId, merchantPassword, name, saltString);
+            return Result.Success(merchantForWebStore);
         }
 
         private string GeneratePassword(int length)
@@ -50,6 +56,18 @@ namespace Bank.Core.Services
                 cryptRNG.GetBytes(tokenBuffer);
                 return Convert.ToBase64String(tokenBuffer);
             }
+        }
+
+        private static string GetHashCode(string password, byte[] salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: password,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

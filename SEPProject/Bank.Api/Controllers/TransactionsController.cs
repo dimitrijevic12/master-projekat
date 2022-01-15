@@ -77,7 +77,7 @@ namespace Bank.Api.Controllers
                 new PSPTransaction(request.MerchantOrderId, TransactionStatus.Pending.ToString(), transactionResult.Value.Id));
             }
             Result result = _paymentCardService.Pay(new Core.Model.PaymentCard(Guid.Empty, cardInfo.PAN, cardInfo.SecurityCode, cardInfo.CardHolderName,
-                cardInfo.ExpirationDate, Guid.Empty), cardInfo.Amount, request.Currency, cardInfo.AcquirerAccountNumber);
+                cardInfo.ExpirationDate, Guid.Empty, ""), cardInfo.Amount, request.Currency, cardInfo.AcquirerAccountNumber);
             if (result.IsFailure && (result.Error.Equals("Amount can not be negative number") ||
                 result.Error.Equals("There is not enough resources on this bank account.")))
             {
@@ -92,7 +92,7 @@ namespace Bank.Api.Controllers
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
             }
             transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,

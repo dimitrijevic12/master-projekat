@@ -6,9 +6,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Merchant = Bank.Api.DTOs.Merchant;
 
 namespace Bank.Api.Controllers
 {
@@ -35,7 +33,7 @@ namespace Bank.Api.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] string name)
         {
-            Result<Merchant> result = _merchantService.Create(name);
+            Result<Core.Model.Merchant> result = _merchantService.Create(name);
             if (result.IsFailure)
             {
                 _logger.LogError("Failed to create Merchant {@Merchant}, Error: {@Error}", name, result.Error);
@@ -43,7 +41,7 @@ namespace Bank.Api.Controllers
             }
             Result<Account> accountResult = _accountService.Create(result.Value.Id);
             _logger.LogInformation("Created Merchant {@Merchant}", result.Value);
-            return Created(this.Request.Path + "/" + result.Value.Id, result.Value);
+            return Created(this.Request.Path + "/" + result.Value.Id, new Merchant(result.Value.MerchantId, result.Value.MerchantPassword, result.Value.Name));
         }
 
         [HttpGet("{id}")]
@@ -55,7 +53,7 @@ namespace Bank.Api.Controllers
         [HttpGet]
         public IActionResult Find([FromQuery] Guid merchantId)
         {
-            Merchant merchant = _merchantRepository.GetByMerchantId(merchantId);
+            Core.Model.Merchant merchant = _merchantRepository.GetByMerchantId(merchantId);
             Account account = _accountRepository.GetByUserId(merchant.Id);
             return Ok(new MerchantAccount(account.AccountNumber, merchant.Name));
         }

@@ -1,24 +1,18 @@
 ﻿using System;
 
-namespace Bank.Core.Model
+namespace Bank.Api.DTOs
 {
-    public class Merchant : User
+    public class Merchant
     {
         public Guid MerchantId { get; private set; }
         public string MerchantPassword { get; private set; }
         public string Name { get; private set; }
-        public string Salt { get; private set; }
 
-        public Merchant() : base()
-        {
-        }
-
-        public Merchant(Guid id, Guid merchantId, string merchantPassword, string name, string salt) : base(id)
+        public Merchant(Guid merchantId, string merchantPassword, string name)
         {
             MerchantId = merchantId;
             MerchantPassword = merchantPassword;
             Name = name;
-            Salt = salt;
         }
     }
 }

@@ -2,11 +2,8 @@
 using Bank.Core.Interface.Service;
 using Bank.Core.Model;
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.Core.Services
 {
@@ -28,11 +25,25 @@ namespace Bank.Core.Services
             Merchant merchant = _merchantRepository.GetByMerchantId(request.MerchantId);
             if (merchant == null)
                 return Result.Failure<PSPRequest>("Merchant with that Id does not exists.");
-            if(!merchant.MerchantPassword.Equals(request.MerchantPassword))
+            if (!merchant.MerchantPassword.Equals(GetHashCode(request.MerchantPassword, merchant.Salt)))
                 return Result.Failure<PSPRequest>("Incorrect merchant password.");
             if (request.Amount < 0)
                 return Result.Failure<PSPRequest>("Amount can not be negative number.");
             return Result.Success(_PSPRequestRepository.Save(request));
+        }
+
+        private static string GetHashCode(string password, string salt)
+        {
+            byte[] saltBytes = Convert.FromBase64String(salt);
+
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: saltBytes,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

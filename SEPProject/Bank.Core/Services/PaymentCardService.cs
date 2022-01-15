@@ -2,11 +2,8 @@
 using Bank.Core.Interface.Service;
 using Bank.Core.Model;
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.Core.Services
 {
@@ -26,9 +23,9 @@ namespace Bank.Core.Services
             PaymentCard card = _paymentCardRepository.GetByPAN(paymentCard.PAN);
             if (card == null)
                 return Result.Failure("Payment card with given PAN does not exist.");
-            if(!paymentCard.ExpirationDate.Equals(card.ExpirationDate))
+            if (!paymentCard.ExpirationDate.Equals(card.ExpirationDate))
                 return Result.Failure("Invalid expiration date.");
-            if (!paymentCard.SecurityCode.Equals(card.SecurityCode))
+            if (!GetHashCode(paymentCard.SecurityCode, card.Salt).Equals(card.SecurityCode))
                 return Result.Failure("Invalid security code.");
             if (!paymentCard.HolderName.Equals(card.HolderName))
                 return Result.Failure("Invalid card holder name.");
@@ -56,6 +53,20 @@ namespace Bank.Core.Services
                 "CAD" => amount / 1.43,
                 _ => amount,
             };
+        }
+
+        private static string GetHashCode(string password, string salt)
+        {
+            byte[] saltBytes = Convert.FromBase64String(salt);
+
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: saltBytes,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
         }
     }
 }

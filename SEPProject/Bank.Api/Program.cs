@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Serilog;
 
 namespace Bank.Api
@@ -23,7 +23,8 @@ namespace Bank.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>().UseSerilog();
-                    webBuilder.ConfigureKestrel(o => {
+                    webBuilder.ConfigureKestrel(o =>
+                    {
                         o.ConfigureHttpsDefaults(o => o.ClientCertificateMode = ClientCertificateMode.AllowCertificate);
                     });
                 });

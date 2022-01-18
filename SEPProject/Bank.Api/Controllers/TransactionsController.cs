@@ -4,6 +4,7 @@ using Bank.Core.Interface.Service;
 using Bank.Core.Model;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,10 +28,11 @@ namespace Bank.Api.Controllers
         private IHttpClientFactory _httpClientFactory;
         private readonly IPSPResponseRepository _PSPResponseRepository;
         private readonly ILogger<TransactionsController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public TransactionsController(ITransactionRepository transactionRepository, IPaymentCardService paymentCardService,
             ITransactionService transactionService, IAccountService accountService, IHttpClientFactory httpClientFactory,
-            IPSPResponseRepository pSPResponseRepository, ILogger<TransactionsController> logger)
+            IPSPResponseRepository pSPResponseRepository, ILogger<TransactionsController> logger, IWebHostEnvironment webHostEnvironment)
         {
             _transactionRepository = transactionRepository;
             _paymentCardService = paymentCardService;
@@ -39,6 +41,7 @@ namespace Bank.Api.Controllers
             _httpClientFactory = httpClientFactory;
             _PSPResponseRepository = pSPResponseRepository;
             _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -55,6 +58,7 @@ namespace Bank.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(CardInfo cardInfo)
         {
             Result<Transaction> transactionResult = null;
@@ -100,13 +104,14 @@ namespace Bank.Api.Controllers
             transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Success);
             _transactionRepository.Edit(transactionResult.Value);
-            ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
+            //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id,
                 new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
         }
 
         [HttpPatch("{id}")]
+        [Authorize]
         public IActionResult Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<Transaction> patchDoc)
         {
             if (patchDoc != null)
@@ -145,7 +150,8 @@ namespace Bank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PostAsync(Config.PCCServerAddress, cardInfoJson);
             httpResponseMessage.Dispose();

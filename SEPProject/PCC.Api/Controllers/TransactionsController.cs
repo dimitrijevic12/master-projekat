@@ -1,4 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,17 +26,20 @@ namespace PCC.Api.Controllers
         private readonly ITransactionRepository _transactionRepository;
         private IHttpClientFactory _httpClientFactory;
         private readonly ILogger<TransactionsController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public TransactionsController(TransactionService transactionService, ITransactionRepository transactionRepository,
-            IHttpClientFactory httpClientFactory, ILogger<TransactionsController> logger)
+            IHttpClientFactory httpClientFactory, ILogger<TransactionsController> logger, IWebHostEnvironment webHostEnvironment)
         {
             _transactionService = transactionService;
             _transactionRepository = transactionRepository;
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(PCCRequest pccRequest)
         {
             Result<Transaction> transactionResult = _transactionService.Create(pccRequest.Amount, pccRequest.Currency, DateTime.Now,
@@ -77,7 +82,8 @@ namespace PCC.Api.Controllers
               System.Text.Json.JsonSerializer.Serialize(cardInfo),
               Encoding.UTF8,
               Application.Json);
-            HttpClient client = _httpClientFactory.CreateClient();
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PostAsync(Config.IssuerBankServerAddress, cardInfoJson);
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
             PCCResponse pccResponse = JsonConvert.DeserializeObject<PCCResponse>(content);
@@ -99,7 +105,8 @@ namespace PCC.Api.Controllers
               System.Text.Json.JsonSerializer.Serialize(patchPayloadList),
               Encoding.UTF8,
               Application.Json);
-            HttpClient client = _httpClientFactory.CreateClient();
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PatchAsync(Config.AcquirerBankServerAddress + $"/{transactionId}", payload);
             httpResponseMessage.Dispose();
         }

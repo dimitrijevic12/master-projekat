@@ -42,6 +42,7 @@ namespace IssuerBank.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(CardInfo cardInfo)
         {
             Result<Transaction> transactionResult = null;

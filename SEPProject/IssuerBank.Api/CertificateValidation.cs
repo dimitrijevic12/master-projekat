@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace IssuerBank.Api
 {
@@ -11,7 +9,7 @@ namespace IssuerBank.Api
         public bool ValidateCertificate(X509Certificate2 clientCertificate)
         {
             string[] allowedThumbprints = {
-                "B007D1B58F081F5F92A1B74C7E48916941A82C02"
+                "CF91D8165460032DD2A7CE12170B14BC39316717"
             };
             if (allowedThumbprints.Contains(clientCertificate.Thumbprint))
             {

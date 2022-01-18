@@ -17,9 +17,10 @@ namespace Bank.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            var contentRoot = env.ContentRootPath;
         }
 
         public IConfiguration Configuration { get; }
@@ -50,12 +51,13 @@ namespace Bank.Api
             services.AddTransient<CertificateValidation>();
             services.AddHttpClient();
 
-            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options => {
-
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate(options =>
+            {
                 options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
                 options.Events = new CertificateAuthenticationEvents
                 {
-                    OnCertificateValidated = context => {
+                    OnCertificateValidated = context =>
+                    {
                         var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
                         if (validationService.ValidateCertificate(context.ClientCertificate))
                         {
@@ -67,7 +69,8 @@ namespace Bank.Api
                         }
                         return Task.CompletedTask;
                     },
-                    OnAuthenticationFailed = context => {
+                    OnAuthenticationFailed = context =>
+                    {
                         context.Fail("Invalid certificate");
                         return Task.CompletedTask;
                     }

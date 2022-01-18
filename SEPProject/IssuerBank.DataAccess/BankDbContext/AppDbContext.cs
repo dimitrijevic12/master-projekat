@@ -49,11 +49,11 @@ namespace IssuerBank.DataAccess.BankDbContext
              );
 
             modelBuilder.Entity<PaymentCard>().HasData(
-                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341234"), "1234561234561234", "1234", "Holder Name", "04/22",
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341234"), "2222221234561234", "1234", "Holder Name", "04/22",
                                 new Guid("12345678-1234-1234-1234-123412341234")),
-                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341235"), "1234562222221234", "1234", "Acquirer Name", "04/22",
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341235"), "2222222222221234", "1234", "Acquirer Name", "04/22",
                                 new Guid("d969bb55-393a-4b22-9507-f4b492b3413f")),
-                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341236"), "1234563333331234", "1234", "Staff Name", "04/22",
+                new PaymentCard(new Guid("12345678-1234-1234-1234-123412341236"), "2222223333331234", "1234", "Staff Name", "04/22",
                                 new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"))
              );
 

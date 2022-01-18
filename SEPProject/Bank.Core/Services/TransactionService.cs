@@ -44,7 +44,7 @@ namespace Bank.Core.Services
             }
             if (card == null)
             {
-                transaction = new Transaction(id, amount, currency, timestamp, paymentId, TransactionStatus.Failed, acquirer.Id,
+                transaction = new Transaction(id, amount, currency, timestamp, paymentId, TransactionStatus.Pending, acquirer.Id,
                 acquirer.Name, Guid.Empty, "Unknown");
                 _transactionRepository.Save(transaction);
                 return Result.Success<Transaction>(transaction);

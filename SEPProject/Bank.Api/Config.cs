@@ -25,5 +25,13 @@
                 return "https://localhost:44320/api/transactions";
             }
         }
+
+        public static string ClientAddress
+        {
+            get
+            {
+                return "https://localhost:44320/api/transactions";
+            }
+        }
     }
 }

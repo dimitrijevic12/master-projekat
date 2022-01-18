@@ -12,7 +12,7 @@ function PaymentType() {
             className="btn btn-lg btn-primary btn-block w-75 pt-3 pb-3"
             style={{ height: "80px" }}
             onClick={() => {
-              window.location.href = `http://localhost:3002/cardpayment/${window.location.pathname.slice(
+              window.location.href = `https://localhost:3002/cardpayment/${window.location.pathname.slice(
                 -36
               )}`;
             }}
@@ -31,7 +31,7 @@ function PaymentType() {
             className="btn btn-lg btn-primary btn-block w-75 pt-3 pb-3"
             style={{ height: "80px" }}
             onClick={() =>
-              (window.location.href = `http://localhost:3002/qrpayment/${window.location.pathname.slice(
+              (window.location.href = `https://localhost:3002/qrpayment/${window.location.pathname.slice(
                 -36
               )}`)
             }

@@ -3,10 +3,6 @@ using Bank.Core.Interface.Service;
 using Bank.Core.Model;
 using CSharpFunctionalExtensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bank.Core.Services
 {
@@ -27,7 +23,7 @@ namespace Bank.Core.Services
             Guid paymentId = Guid.NewGuid();
             if (_PSPResponseRepository.GetByPaymentId(paymentId) != null)
                 return Result.Failure<PSPResponse>("Payment Id already exists.");
-            PSPResponse response = new PSPResponse(id, new Uri("http://localhost:3002/payment/" + paymentId), paymentId, pspRequestId);
+            PSPResponse response = new PSPResponse(id, new Uri("https://localhost:3002/payment/" + paymentId), paymentId, pspRequestId);
             _PSPResponseRepository.Save(response);
             return Result.Success(response);
         }

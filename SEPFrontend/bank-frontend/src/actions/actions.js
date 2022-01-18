@@ -10,7 +10,6 @@ import {
   PUSH_URLS,
 } from "../types/types";
 import axios from "axios";
-import { push } from "react-router-redux";
 
 export const getPSPRequest = (paymentId) => async (dispatch) => {
   try {
@@ -79,6 +78,7 @@ export const postTransaction = (cardInfo) => async (dispatch) => {
     return `pending/${response.data.transactionId}`;
   } catch (e) {
     debugger;
+    console.log(e);
     if (e.response.data.transactionStatus === "Failed")
       window.location.replace(cardInfo.failedUrl);
     else return window.location.replace(cardInfo.errorUrl);

@@ -1,19 +1,14 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,9 +16,10 @@ namespace ApiGateway
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            var contentRoot = env.ContentRootPath;
         }
 
         public IConfiguration Configuration { get; }
@@ -31,13 +27,43 @@ namespace ApiGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOcelot(Configuration);
+            services.AddOcelot(Configuration).AddDelegatingHandler<CertificateDelegatingHandler>(true);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddTransient<CertificateValidation>();
+
+            services.AddHttpClient();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate("123", options =>
+            {
+                options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
+                options.Events = new CertificateAuthenticationEvents
+                {
+                    OnCertificateValidated = context =>
+                    {
+                        var validationService = context.HttpContext.RequestServices.GetService<CertificateValidation>();
+                        if (validationService.ValidateCertificate(context.ClientCertificate))
+                        {
+                            context.Success();
+                        }
+                        else
+                        {
+                            context.Fail("Invalid certificate");
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        context.Fail("Invalid certificate");
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
@@ -53,6 +79,7 @@ namespace ApiGateway
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                };
            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -77,6 +104,8 @@ namespace ApiGateway
             await app.UseOcelot();
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

@@ -119,7 +119,11 @@
           "Port": 44300
         }
       ],
-      "UpstreamPathTemplate": "/api/transactions/status"
+      "UpstreamPathTemplate": "/api/transactions/status",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "123",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/transactions",
@@ -165,7 +169,11 @@
       ],
       "UpstreamPathTemplate": "/api/crypto-transactions/{orderId}"
     }
-  
+
+  ],
+  "DangerousAcceptAnyServerCertificateValidator": true,
+  "DelegatingHandlers": [
+    "CertificateDelegatingHandler"
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:44390"

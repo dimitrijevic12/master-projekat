@@ -2,17 +2,15 @@
 using CardPayment.Core.Interface.Repository;
 using CardPayment.Core.Model;
 using CardPayment.Core.Services;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace CardPayment.Api.Controllers
@@ -55,7 +53,7 @@ namespace CardPayment.Api.Controllers
         public IActionResult SetTransactionsPaymentId(TransactionsPaymentIdDTO transactionsPaymentIdDTO)
         {
             Transaction transaction = _transactionService.SetTransactionsPaymentId(transactionsPaymentIdDTO);
-            if (transaction  == null)
+            if (transaction == null)
             {
                 _logger.LogError("Failed to edit payment types for transaction with order id: {id}", transactionsPaymentIdDTO.OrderId);
                 return BadRequest();
@@ -65,6 +63,7 @@ namespace CardPayment.Api.Controllers
         }
 
         [HttpPut("status")]
+        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
         {
             Transaction transaction = _transactionService.EditTransaction(transactionStatusDTO);

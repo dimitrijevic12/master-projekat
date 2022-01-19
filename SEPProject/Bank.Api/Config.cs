@@ -15,6 +15,7 @@
             get
             {
                 return "https://localhost:44390/api/transactions/status";
+                //return "https://localhost:44300/api/Transactions/status";
             }
         }
 

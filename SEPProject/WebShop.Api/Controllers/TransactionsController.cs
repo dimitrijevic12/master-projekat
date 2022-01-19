@@ -29,7 +29,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all transactions");
             return Ok(_transactionRepository.GetAll());
         }
 
@@ -73,7 +72,6 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "RegisteredUserProxy, AdminProxy")]
         public IActionResult GetTransactionsForBuyer(Guid userId)
         {
-            _logger.LogInformation("Getting transactions for buyer: {id}", userId);
             return Ok(_transactionRepository.GetTransactionsForBuyer(userId));
         }
 
@@ -81,7 +79,6 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetTransactionsForSeller(Guid userId)
         {
-            _logger.LogInformation("Getting transactions for seller: {id}", userId);
             return Ok(_transactionRepository.GetTransactionsForSeller(userId));
         }
 
@@ -89,13 +86,7 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Transaction transaction = _transactionRepository.GetById(id);
-            if (transaction is null)
-            {
-                _logger.LogError("Failed to get transaction by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Transaction: {@transaction}", transaction);
-            return Ok(_transactionRepository.GetById(id));                
+            return transaction is null ? BadRequest() : (IActionResult)Ok(_transactionRepository.GetById(id));
         }
     }
 }

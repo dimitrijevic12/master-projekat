@@ -28,7 +28,6 @@ namespace PSP.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult GetAll()
         {
             return Ok(_paymentTypeRepository.GetAll());

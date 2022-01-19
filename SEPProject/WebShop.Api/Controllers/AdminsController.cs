@@ -28,7 +28,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all admins");
             return Ok(_adminRepository.GetAll());
         }
 

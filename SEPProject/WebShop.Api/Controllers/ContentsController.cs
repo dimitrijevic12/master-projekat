@@ -27,7 +27,6 @@ namespace WebShop.Api.Controllers
         public IActionResult SaveImg([FromForm] FileModel file)
         {
             string fileName = contentService.ImageToSave(_env.WebRootPath, file);
-            _logger.LogInformation("Saving image: {name}", fileName);
             return Ok(fileName);
         }
 
@@ -36,7 +35,6 @@ namespace WebShop.Api.Controllers
         {
             FileContentResult fileContentResult = File(contentService.GetImage(_env.WebRootPath, fileName).Bytes,
                 "image/jpeg");
-            _logger.LogInformation("Getting image: {name}", fileName);
             return Ok(fileContentResult);
         }
 

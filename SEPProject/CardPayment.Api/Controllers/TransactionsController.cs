@@ -36,7 +36,6 @@ namespace CardPayment.Api.Controllers
         }
 
         [HttpGet("{orderId}")]
-        [Authorize]
         public IActionResult GenerateRequestForBank(Guid orderId)
         {
             var request = _transactionService.CreateRequestForBank(orderId);

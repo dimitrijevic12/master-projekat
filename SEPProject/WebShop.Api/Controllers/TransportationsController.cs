@@ -29,9 +29,6 @@ namespace WebShop.Api.Controllers
         public IActionResult GetTransportations([FromQuery] string startDestination, 
             [FromQuery] string finalDestination)
         {
-            _logger.LogInformation("Getting transportations, start destination: " +
-                "{startDestination}, final destination: {finalDestination}", 
-                startDestination, finalDestination);
             return Ok(_transportationRepository.GetTransportationsForDestinations(
                 startDestination, finalDestination));
         }
@@ -56,13 +53,7 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Transportation transportation = _transportationRepository.GetById(id);
-            if (transportation is null)
-            {
-                _logger.LogError("Failed to get transportation by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Transportation: {@transportation}", transportation);
-            return Ok(transportation);
+            return transportation is null ? BadRequest() : (IActionResult)Ok(transportation);
         }
 
         [HttpPut]

@@ -53,7 +53,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all items");
             return Ok(_itemRepository.GetAll());
         }
 
@@ -61,20 +60,13 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Item item = _itemRepository.GetById(id);
-            if (item is null)
-            {
-                _logger.LogError("Failed to get item by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Item: {@item}", item);
-            return Ok(item);                  
+            return item is null ? BadRequest() : (IActionResult)Ok(item);
         }
 
         [HttpGet("users/{ownerId}")]
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
-            _logger.LogInformation("Getting items for owner: {id}", ownerId);
             return Ok(_itemRepository.GetItemsForOwner(ownerId));
         }
     }

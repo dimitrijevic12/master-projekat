@@ -28,7 +28,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting future conferences from date: {date}", DateTime.Now);
             return Ok(_conferenceRepository.GetFutureConferences());
         }
 
@@ -52,14 +51,7 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Conference conference = _conferenceRepository.GetById(id);
-            if (conference is null)
-            {
-                _logger.LogError("Failed to get conference by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Conference: {@conference}", conference);
-            return Ok(conference);
-                
+            return conference is null ? BadRequest() : (IActionResult)Ok(conference);
         }
 
         [HttpPut]

@@ -10,7 +10,7 @@ using PSP.DataAccess.PSPDbContext;
 namespace PSP.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220119140904_InitialCreate")]
+    [Migration("20220119163351_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,7 @@ namespace PSP.DataAccess.Migrations
                             FailedUrl = "https://localhost:3000/failed-transaction",
                             Password = "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
                             Salt = "DhR9MbXejS+TQxW3rvMT1g==",
-                            SuccessUrl = "https://localhost:3000/successful-transaction",
+                            SuccessUrl = "https://localhost:3000/perdiem-transaction",
                             WebShopId = 123,
                             WebShopName = "WebShopName"
                         });
@@ -223,7 +223,7 @@ namespace PSP.DataAccess.Migrations
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
                             PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Timestamp = new DateTime(2022, 1, 19, 15, 9, 3, 770, DateTimeKind.Local).AddTicks(8320),
+                            Timestamp = new DateTime(2022, 1, 19, 17, 33, 50, 634, DateTimeKind.Local).AddTicks(2434),
                             TransactionStatus = 0,
                             Type = "Other"
                         });

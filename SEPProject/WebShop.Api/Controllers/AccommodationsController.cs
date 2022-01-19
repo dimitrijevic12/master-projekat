@@ -42,7 +42,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAccommodations([FromQuery] string city)
         {
-            _logger.LogInformation("Getting accommodations by city: {city}", city);
             return Ok(accommodationService.GetAccommodations(city));
         }
 
@@ -50,14 +49,7 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Accommodation accommodation = _accommodationRepository.GetById(id);
-            if (accommodation is null)
-            {
-                _logger.LogError("Failed to get accommodation by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Accommodation: {@accommodation}", accommodation);
-            return Ok(accommodation);
-                
+            return accommodation is null ? BadRequest() : (IActionResult)Ok(accommodation);
         }
 
         [HttpPut]
@@ -72,7 +64,6 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
-            _logger.LogInformation("Getting accommodations for owner: {id}", ownerId);
             return Ok(_accommodationRepository.GetAccommodationsForOwner(ownerId));
         }
     }

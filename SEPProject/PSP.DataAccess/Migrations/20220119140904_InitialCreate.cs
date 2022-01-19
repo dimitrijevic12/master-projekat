@@ -118,12 +118,12 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "RegisteredWebShops",
                 columns: new[] { "Id", "EmailAddress", "ErrorUrl", "FailedUrl", "Password", "Salt", "SuccessUrl", "WebShopId", "WebShopName" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "http://localhost:3000/error-transaction", "http://localhost:3000/failed-transaction", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=", "DhR9MbXejS+TQxW3rvMT1g==", "http://localhost:3000/successful-transaction", 123, "WebShopName" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "https://localhost:3000/error-transaction", "https://localhost:3000/failed-transaction", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=", "DhR9MbXejS+TQxW3rvMT1g==", "https://localhost:3000/successful-transaction", 123, "WebShopName" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "Amount", "Currency", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "PaymentId", "Timestamp", "TransactionStatus", "Type" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2022, 1, 14, 17, 53, 0, 562, DateTimeKind.Local).AddTicks(5415), 0, "Other" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2022, 1, 19, 15, 9, 3, 770, DateTimeKind.Local).AddTicks(8320), 0, "Other" });
 
             migrationBuilder.InsertData(
                 table: "Merchants",

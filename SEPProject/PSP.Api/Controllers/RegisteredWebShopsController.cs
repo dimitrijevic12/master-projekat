@@ -53,7 +53,6 @@ namespace PSP.Api.Controllers
         [Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all webshops");
             return Ok(_registeredWebShopRepository.GetAll());
         }
 
@@ -64,10 +63,8 @@ namespace PSP.Api.Controllers
             RegisteredWebShop webShop = _registeredWebShopService.GetWebShopByEmail(email);
             if (webShop == null)
             {
-                _logger.LogError("Failed to get webshop with email: {email}", email);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting webshop : {@webshop}", webShop);
             return Ok(webShop);
         }
 

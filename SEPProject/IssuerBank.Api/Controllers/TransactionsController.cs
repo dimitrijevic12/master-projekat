@@ -20,17 +20,19 @@ namespace IssuerBank.Api.Controllers
         private readonly ITransactionService _transactionService;
         private IHttpClientFactory _httpClientFactory;
         private readonly IPSPResponseRepository _PSPResponseRepository;
+        private readonly IAccountService _accountService;
         private readonly ILogger<MerchantsController> _logger;
 
         public TransactionsController(ITransactionRepository transactionRepository, IPaymentCardService paymentCardService,
-            ITransactionService transactionService, IHttpClientFactory httpClientFactory,
-            IPSPResponseRepository pSPResponseRepository, ILogger<MerchantsController> logger)
+            ITransactionService transactionService, IHttpClientFactory httpClientFactory, IPSPResponseRepository pSPResponseRepository,
+            IAccountService accountService, ILogger<MerchantsController> logger)
         {
             _transactionRepository = transactionRepository;
             _paymentCardService = paymentCardService;
             _transactionService = transactionService;
             _httpClientFactory = httpClientFactory;
             _PSPResponseRepository = pSPResponseRepository;
+            _accountService = accountService;
             _logger = logger;
         }
 
@@ -80,6 +82,21 @@ namespace IssuerBank.Api.Controllers
             return Created(this.Request.Path + "/" + transactionResult.Value.Id,
                     new PCCResponse(TransactionStatus.Success.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
+        }
+
+        [HttpPost]
+        [Route("per-diem")]
+        public IActionResult CreatePerDiemTransaction(PerDiem perDiem)
+        {
+            Result<Transaction> transactionResult = null;
+            transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
+                perDiem.Currency);
+            if (perDiem.Amount < 0)
+                return BadRequest("Transaction has failed, negative amount");
+            if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
+                return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
+            _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
+            return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
         }
     }
 }

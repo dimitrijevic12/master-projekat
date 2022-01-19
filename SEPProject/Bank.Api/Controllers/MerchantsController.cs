@@ -36,11 +36,11 @@ namespace Bank.Api.Controllers
             Result<Core.Model.Merchant> result = _merchantService.Create(name);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create Merchant {@Merchant}, Error: {@Error}", name, result.Error);
+                _logger.LogError("Failed to create Merchant, Error: {@Error}", result.Error);
                 return BadRequest(result.Error);
             }
             Result<Account> accountResult = _accountService.Create(result.Value.Id);
-            _logger.LogInformation("Created Merchant {@Merchant}", result.Value);
+            _logger.LogInformation("Created Merchant {@Merchant}", new { result.Value.MerchantId, result.Value.Name });
             return Created(this.Request.Path + "/" + result.Value.Id, new Merchant(result.Value.MerchantId, result.Value.MerchantPassword, result.Value.Name));
         }
 

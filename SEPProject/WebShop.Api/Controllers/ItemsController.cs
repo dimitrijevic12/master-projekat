@@ -51,7 +51,6 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult GetAll()
         {
             _logger.LogInformation("Getting all items");

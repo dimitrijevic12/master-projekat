@@ -31,7 +31,7 @@ function PayPalFunction(props) {
             ],
             redirect_urls: {
               return_url: "https://example.com",
-              cancel_url: "http://localhost:3000/login",
+              cancel_url: "https://localhost:3000/login",
             },
           });
         },
@@ -44,7 +44,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Success",
           });
           window.location.href =
-            "http://localhost:3000/successful-transaction/" +
+            "https://localhost:3000/successful-transaction/" +
             props.paypalTransaction.orderId;
         },
         onCancel: async (obj) => {
@@ -52,7 +52,7 @@ function PayPalFunction(props) {
             MerchantOrderId: props.paypalTransaction.orderId,
             TransactionStatus: "Failed",
           });
-          window.location.href = "http://localhost:3000/items";
+          window.location.href = "https://localhost:3000/items";
         },
         onError: async (err) => {
           console.log(err);
@@ -61,7 +61,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Error",
           });
           window.location.href =
-            "http://localhost:3000/error-transaction/" +
+            "https://localhost:3000/error-transaction/" +
             props.paypalTransaction.orderId;
         },
       })

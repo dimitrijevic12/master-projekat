@@ -35,5 +35,28 @@ namespace IssuerBank.Core.Services
             }
             return _accountRepository.Save(new Account(id, accountNumber, 0, MerchantId));
         }
+
+        public Result<Account> UpdateBalance(Guid OwnerId, double amount, string currency)
+        {
+            Account account = _accountRepository.GetByUserId(OwnerId);
+            if (account == null)
+                return Result.Failure<Account>("Account does not exist.");
+            amount = GetAmountBasedOnCurrency(amount, currency);
+            account.IncreaseBalance(amount);
+            _accountRepository.Edit(account);
+            return Result.Success<Account>(account);
+        }
+
+        private static double GetAmountBasedOnCurrency(double amount, string currency)
+        {
+            return currency switch
+            {
+                "EUR" => amount,
+                "USD" => amount / 1.13,
+                "RSD" => amount / 117.57,
+                "CAD" => amount / 1.43,
+                _ => amount,
+            };
+        }
     }
 }

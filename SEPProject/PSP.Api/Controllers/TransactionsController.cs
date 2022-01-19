@@ -50,7 +50,6 @@ namespace PSP.Api.Controllers
         [Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all transactions");
             return Ok(_transactionRepository.GetAll());
         }
     }

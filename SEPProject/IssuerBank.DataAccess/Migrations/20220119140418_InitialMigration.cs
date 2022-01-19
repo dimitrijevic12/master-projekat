@@ -132,12 +132,12 @@ namespace IssuerBank.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "PSPRequests",
                 columns: new[] { "Id", "Amount", "Currency", "ErrorUrl", "FailedUrl", "MerchantId", "MerchantOrderId", "MerchantPassword", "MerchantTimestamp", "SuccessUrl" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "EUR", "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2022, 1, 5, 15, 41, 47, 309, DateTimeKind.Local).AddTicks(3937), "https://www.webshop.com/success" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 123.0, "EUR", "https://www.webshop.com/error", "https://www.webshop.com/failure", new Guid("12345678-1234-1234-1234-123412341235"), new Guid("12345678-1234-1234-1234-123412341234"), "password", new DateTime(2022, 1, 19, 15, 4, 18, 54, DateTimeKind.Local).AddTicks(7056), "https://www.webshop.com/success" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "AcquirerId", "AcquirerName", "Amount", "Currency", "IssuerId", "IssuerName", "PaymentId", "Timestamp", "TransactionStatus" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, "EUR", new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2022, 1, 5, 15, 41, 47, 312, DateTimeKind.Local).AddTicks(366), 1 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341235"), "Acquirer name", 444.0, "EUR", new Guid("12345678-1234-1234-1234-123412341234"), "Issuer name", new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2022, 1, 19, 15, 4, 18, 58, DateTimeKind.Local).AddTicks(5433), 1 });
 
             migrationBuilder.InsertData(
                 table: "User",
@@ -170,9 +170,9 @@ namespace IssuerBank.DataAccess.Migrations
                 columns: new[] { "Id", "CardOwnerId", "ExpirationDate", "HolderName", "PAN", "SecurityCode" },
                 values: new object[,]
                 {
-                    { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341234"), "04/22", "Holder Name", "1234561234561234", "1234" },
-                    { new Guid("12345678-1234-1234-1234-123412341235"), new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"), "04/22", "Acquirer Name", "1234562222221234", "1234" },
-                    { new Guid("12345678-1234-1234-1234-123412341236"), new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"), "04/22", "Staff Name", "1234563333331234", "1234" }
+                    { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341234"), "04/22", "Holder Name", "2222221234561234", "1234" },
+                    { new Guid("12345678-1234-1234-1234-123412341235"), new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"), "04/22", "Acquirer Name", "2222222222221234", "1234" },
+                    { new Guid("12345678-1234-1234-1234-123412341236"), new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"), "04/22", "Staff Name", "2222223333331234", "1234" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -3,6 +3,7 @@ using CardPayment.Core.Interface.Repository;
 using CardPayment.Core.Model;
 using CardPayment.Core.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,14 +25,16 @@ namespace CardPayment.Api.Controllers
         private readonly TransactionService _transactionService;
         private IHttpClientFactory _httpClientFactory;
         private readonly ILogger<TransactionsController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public TransactionsController(ITransactionRepository transactionRepository, TransactionService transactionService, IHttpClientFactory httpClientFactory,
-            ILogger<TransactionsController> logger)
+            ILogger<TransactionsController> logger, IWebHostEnvironment webHostEnvironment)
         {
             _transactionRepository = transactionRepository;
             _transactionService = transactionService;
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("{orderId}")]
@@ -82,7 +85,8 @@ namespace CardPayment.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpsp.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PutAsync("https://localhost:44326/api/transactions", transactionJson);
             httpResponseMessage.Dispose();

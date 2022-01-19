@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IssuerBank.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220105144148_InitialMigration")]
+    [Migration("20220119140418_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace IssuerBank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2022, 1, 5, 15, 41, 47, 309, DateTimeKind.Local).AddTicks(3937),
+                            MerchantTimestamp = new DateTime(2022, 1, 19, 15, 4, 18, 54, DateTimeKind.Local).AddTicks(7056),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -182,7 +182,7 @@ namespace IssuerBank.DataAccess.Migrations
                             CardOwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             ExpirationDate = "04/22",
                             HolderName = "Holder Name",
-                            PAN = "1234561234561234",
+                            PAN = "2222221234561234",
                             SecurityCode = "1234"
                         },
                         new
@@ -191,7 +191,7 @@ namespace IssuerBank.DataAccess.Migrations
                             CardOwnerId = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f"),
                             ExpirationDate = "04/22",
                             HolderName = "Acquirer Name",
-                            PAN = "1234562222221234",
+                            PAN = "2222222222221234",
                             SecurityCode = "1234"
                         },
                         new
@@ -200,7 +200,7 @@ namespace IssuerBank.DataAccess.Migrations
                             CardOwnerId = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500"),
                             ExpirationDate = "04/22",
                             HolderName = "Staff Name",
-                            PAN = "1234563333331234",
+                            PAN = "2222223333331234",
                             SecurityCode = "1234"
                         });
                 });
@@ -253,7 +253,7 @@ namespace IssuerBank.DataAccess.Migrations
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2022, 1, 5, 15, 41, 47, 312, DateTimeKind.Local).AddTicks(366),
+                            Timestamp = new DateTime(2022, 1, 19, 15, 4, 18, 58, DateTimeKind.Local).AddTicks(5433),
                             TransactionStatus = 1
                         });
                 });

@@ -13,19 +13,22 @@ namespace Bank.Core.Services
         private readonly IMerchantRepository _merchantRepository;
         private readonly IRegisteredUserRepository _registeredUserRepository;
         private readonly IPaymentCardRepository _paymentCardRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public TransactionService(ITransactionRepository transactionRepository, IPSPResponseRepository pSPResponseRepository,
             IMerchantRepository merchantRepository, IRegisteredUserRepository registeredUserRepository,
-            IPaymentCardRepository paymentCardRepository)
+            IPaymentCardRepository paymentCardRepository, IAccountRepository accountRepository)
         {
             _transactionRepository = transactionRepository;
             _PSPResponseRepository = pSPResponseRepository;
             _merchantRepository = merchantRepository;
             _registeredUserRepository = registeredUserRepository;
             _paymentCardRepository = paymentCardRepository;
+            _accountRepository = accountRepository;
         }
 
-        public Result<Transaction> Create(double amount, string currency, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus)
+        public Result<Transaction> Create(double amount, string currency, DateTime timestamp, Guid paymentId, string pan,
+            TransactionStatus transactionStatus)
         {
             Transaction transaction = null;
             Guid id = Guid.NewGuid();
@@ -65,6 +68,37 @@ namespace Bank.Core.Services
             }
             transaction = new Transaction(id, amount, currency, timestamp, paymentId, transactionStatus, acquirer.Id,
                 acquirer.Name, card.CardOwnerId, card.CardOwner.FirstName + " " + card.CardOwner.LastName);
+            _transactionRepository.Save(transaction);
+            return Result.Success(transaction);
+        }
+
+        public Result<Transaction> CreatePerDiem(string uniquePersonalRegistrationNumber, double amount, string currency)
+        {
+            Transaction transaction = null;
+            Guid id = Guid.NewGuid();
+            while (_transactionRepository.GetById(id) != null)
+                id = Guid.NewGuid();
+            Guid paymentId = Guid.NewGuid();
+            while (_transactionRepository.GetByPaymentId(paymentId) != null)
+                paymentId = Guid.NewGuid();
+            RegisteredUser registeredUser = _registeredUserRepository.GetByUniquePersonalRegistrationNumber(uniquePersonalRegistrationNumber);
+            if (registeredUser == null)
+            {
+                transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Failed, Guid.Empty,
+                "Unknown", Guid.Empty, "Unknown");
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
+            Account account = _accountRepository.GetByUserId(registeredUser.Id);
+            if (account == null)
+            {
+                transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Failed, registeredUser.Id,
+                registeredUser.FirstName + " " + registeredUser.LastName, Guid.Empty, "Unknown");
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
+            transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Success, registeredUser.Id,
+                registeredUser.FirstName + " " + registeredUser.LastName, Guid.Empty, "Unknown");
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);
         }

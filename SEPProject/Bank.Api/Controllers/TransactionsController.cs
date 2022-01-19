@@ -58,7 +58,6 @@ namespace Bank.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(CardInfo cardInfo)
         {
             Result<Transaction> transactionResult = null;
@@ -104,10 +103,25 @@ namespace Bank.Api.Controllers
             transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Success);
             _transactionRepository.Edit(transactionResult.Value);
-            //ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
+            ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id,
                 new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transactionResult.Value.Id));
+        }
+
+        [HttpPost]
+        [Route("per-diem")]
+        public IActionResult CreatePerDiemTransaction(PerDiem perDiem)
+        {
+            Result<Transaction> transactionResult = null;
+            transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
+                perDiem.Currency);
+            if (perDiem.Amount < 0)
+                return BadRequest("Transaction has failed, negative amount");
+            if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
+                return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
+            _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
+            return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
         }
 
         [HttpPatch("{id}")]
@@ -124,7 +138,12 @@ namespace Bank.Api.Controllers
                     return BadRequest(ModelState);
                 }
                 if (transaction.TransactionStatus == TransactionStatus.Success)
+                {
                     _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
+                    Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(transaction.PaymentId).PSPRequest;
+                    ForwardTransaction(new PSPTransaction(request.MerchantId, TransactionStatus.Success.ToString(), transaction.Id));
+                }
+
                 return new NoContentResult();
             }
             return BadRequest(ModelState);
@@ -137,7 +156,8 @@ namespace Bank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PutAsync(Config.PSPServerAddress, transactionJson);
             httpResponseMessage.Dispose();

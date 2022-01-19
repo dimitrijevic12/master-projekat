@@ -28,10 +28,8 @@ namespace WebShop.Api.Controllers
             {
                 string tokenString = userService.GenerateJSONWebToken(user);
                 response = Ok(new { token = tokenString });
-                _logger.LogInformation("Login for user: {username}", login.Username);
                 return response;
             }
-            _logger.LogError("Failed to login for user, {username}", login.Username);
             return response;
         }
     }

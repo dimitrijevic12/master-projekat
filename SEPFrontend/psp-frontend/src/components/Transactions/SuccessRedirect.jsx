@@ -14,28 +14,21 @@ class SuccessRedirect extends Component {
     var url = window.location.pathname;
     var orderId = url.substring(url.lastIndexOf("/") + 1);
     await this.props.setTransactionStatus({
-        MerchantOrderId: orderId,
-        TransactionStatus: "Success",
-      });
+      MerchantOrderId: orderId,
+      TransactionStatus: "Success",
+    });
     window.location.href =
-            "https://localhost:3000/successful-transaction/" +
-            orderId;
+      "https://localhost:3000/perdiem-transaction/" + orderId;
   }
 
   render() {
     debugger;
-    return (
-      <div>
-        
-      </div>
-    );
+    return <div></div>;
   }
 }
 
-const mapStateToProps = (state) => ({
- 
-});
+const mapStateToProps = (state) => ({});
 
 export default compose(connect(mapStateToProps, { setTransactionStatus }))(
-    SuccessRedirect
+  SuccessRedirect
 );

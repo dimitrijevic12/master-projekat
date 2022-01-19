@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 class PerdeimTransaction extends Component {
   state = {
-    showPerdiemForm: false,
+    showPerdiemForm: true,
     uniquePersonalRegistrationNumber: "",
     amount: 0,
     currency: "EUR",
@@ -126,7 +126,7 @@ class PerdeimTransaction extends Component {
             </div>
           </React.Fragment>
         ) : (
-          "False"
+          this.redirect()
         )}
       </div>
     );
@@ -162,9 +162,11 @@ class PerdeimTransaction extends Component {
   };
 
   redirect() {
-    window.location.href =
-      "https://localhost:3000/successful-transaction/" +
-      this.props.transaction.id;
+    if (this.state.showPerdiemForm === false) {
+      window.location.href =
+        "https://localhost:3000/successful-transaction/" +
+        this.props.transaction.id;
+    }
   }
 
   async shouldDisplayPerdiemForm(transaction) {
@@ -196,6 +198,10 @@ class PerdeimTransaction extends Component {
         }
       }
     }
+    this.setState({
+      showPerdiemForm: false,
+    });
+    return false;
   }
 
   view(f) {

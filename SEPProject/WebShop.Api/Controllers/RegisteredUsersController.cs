@@ -30,7 +30,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all registered users");
             return Ok(_registeredUserRepository.GetAll());
         }
 

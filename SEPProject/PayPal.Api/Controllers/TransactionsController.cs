@@ -35,7 +35,6 @@ namespace PayPal.Api.Controllers
         }
 
         [HttpGet("{orderId}")]
-        [Authorize]
         public IActionResult GetTransactionByOrderId(Guid orderId)
         {
             Transaction transaction = _transactionRepository.GetTransactionByOrderId(orderId);

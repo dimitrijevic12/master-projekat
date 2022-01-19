@@ -51,7 +51,7 @@ class PayPalButtonV2 extends Component {
               TransactionStatus: "Success",
             });
             window.location.href =
-              "https://localhost:3000/successful-transaction/" +
+              "https://localhost:3000/perdiem-transaction/" +
               paypalTransaction.orderId;
           }}
           onCancel={async (obj) => {

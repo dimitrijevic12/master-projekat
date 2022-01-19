@@ -28,7 +28,6 @@ namespace WebShop.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting future courses from date: {date}", DateTime.Now);
             return Ok(_courseRepository.GetFutureCourses());
         }
 
@@ -52,13 +51,7 @@ namespace WebShop.Api.Controllers
         public IActionResult GetById(Guid id)
         {
             Course course = _courseRepository.GetById(id);
-            if (course is null)
-            {
-                _logger.LogError("Failed to get course by id: {id}", id);
-                return BadRequest();
-            }
-            _logger.LogInformation("Getting Course: {@course}", course);
-            return Ok(course);
+            return course is null ? BadRequest() : (IActionResult)Ok(course);
         }
 
         [HttpPut]
@@ -73,7 +66,6 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
-            _logger.LogInformation("Getting courses for owner: {id}", ownerId);
             return Ok(_courseRepository.GetCoursesForOwner(ownerId));
         }
     }

@@ -11,7 +11,8 @@ namespace WebShop.Api
         public bool ValidateCertificate(X509Certificate2 clientCertificate)
         {
             string[] allowedThumbprints = {
-                "60296A06A8D6765B7947879E3B97430C3AD8E9A3"
+                "60296A06A8D6765B7947879E3B97430C3AD8E9A3",
+                "AA925BA367138F17DF5627454E2A9847230E5D2F"
             };
             if (allowedThumbprints.Contains(clientCertificate.Thumbprint))
             {

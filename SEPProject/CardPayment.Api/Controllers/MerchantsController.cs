@@ -24,7 +24,6 @@ namespace CardPayment.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all merchants");
             return Ok(_merchantRepository.GetAll());
         }
     }

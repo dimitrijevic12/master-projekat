@@ -76,3 +76,5 @@ export const PSP_ADMIN_REGISTRATION = "pspAdminRegistration";
 export const PSP_ADMIN_REGISTRATION_ERROR = "pspAdminRegistrationError";
 export const SEND_TRANSACTION_TO_PSP = "sendTransactionToPsp";
 export const SEND_TRANSACTION_TO_PSP_ERROR = "sendTransactionToPspError";
+export const PAY_PERDIEM = "payPerdiem";
+export const PAY_PERDIEM_ERROR = "payPerdiemError";

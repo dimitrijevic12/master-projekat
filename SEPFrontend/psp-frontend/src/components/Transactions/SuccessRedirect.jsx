@@ -18,7 +18,7 @@ class SuccessRedirect extends Component {
         TransactionStatus: "Success",
       });
     window.location.href =
-            "http://localhost:3000/successful-transaction/" +
+            "https://localhost:3000/successful-transaction/" +
             orderId;
   }
 

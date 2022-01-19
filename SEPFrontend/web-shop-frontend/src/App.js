@@ -43,6 +43,7 @@ import FailedTransactionPage from "./pages/FailedTransactionPage";
 import ErrorTransactionPage from "./pages/ErrorTransactionPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
+import PerdiemTransactionPage from "./pages/PerdiemTransaction";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -57,6 +58,10 @@ function App() {
           <Route
             path="/successful-transaction/:transactionId"
             element={<SuccessfulTransactionPage />}
+          />
+          <Route
+            path="/perdiem-transaction/:transactionId"
+            element={<PerdiemTransactionPage />}
           />
           <Route
             path="/failed-transaction/:transactionId"

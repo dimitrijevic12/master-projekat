@@ -36,6 +36,7 @@ import {
   EDIT_ADMIN,
   PSP_ADMIN_REGISTRATION,
   SEND_TRANSACTION_TO_PSP,
+  PAY_PERDIEM,
 } from "../types/types";
 
 const initialState = {
@@ -236,6 +237,10 @@ function reducer(state = initialState, action) {
         ...state,
       };
     case SEND_TRANSACTION_TO_PSP:
+      return {
+        ...state,
+      };
+    case PAY_PERDIEM:
       return {
         ...state,
       };

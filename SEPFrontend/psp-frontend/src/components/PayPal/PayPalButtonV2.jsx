@@ -51,7 +51,7 @@ class PayPalButtonV2 extends Component {
               TransactionStatus: "Success",
             });
             window.location.href =
-              "http://localhost:3000/successful-transaction/" +
+              "https://localhost:3000/successful-transaction/" +
               paypalTransaction.orderId;
           }}
           onCancel={async (obj) => {
@@ -59,7 +59,7 @@ class PayPalButtonV2 extends Component {
               MerchantOrderId: paypalTransaction.orderId,
               TransactionStatus: "Failed",
             });
-            window.location.href = "http://localhost:3000/items";
+            window.location.href = "https://localhost:3000/items";
           }}
           onError={async (err) => {
             console.log(err);
@@ -68,7 +68,7 @@ class PayPalButtonV2 extends Component {
               TransactionStatus: "Error",
             });
             window.location.href =
-              "http://localhost:3000/error-transaction/" +
+              "https://localhost:3000/error-transaction/" +
               paypalTransaction.orderId;
           }}
           options={{

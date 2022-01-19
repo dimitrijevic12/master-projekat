@@ -29,10 +29,8 @@ namespace PSP.Api.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
-        //[Authorize(Roles = "RegisteredWebShopProxy")]
         public IActionResult GetAll()
         {
-            _logger.LogInformation("Getting all payment types");
             return Ok(_paymentTypeRepository.GetAll());
         }
 
@@ -42,10 +40,8 @@ namespace PSP.Api.Controllers
             ICollection<PaymentType>  paymentTypes = _paymentTypeService.GetPaymentTypesForWebShopByOrderId(orderId);
             if (paymentTypes == null)
             {
-                _logger.LogError("Failed to get payment types for webshop with transaction with order id: {id}", orderId);
                 return BadRequest();
             }
-            _logger.LogInformation("Getting payment types for webshop with transaction with order id: {id}", orderId);
             return Ok(paymentTypes);
         }
     }

@@ -49,11 +49,20 @@ namespace IssuerBank.Api.Controllers
         {
             Result<Transaction> transactionResult = null;
             DateTime timestamp = DateTime.Now;
+            var hiddenPAN = HidePAN(cardInfo.PAN);
             if (_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null)
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, "Transaction with that id already exists");
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, "Transaction with that id already exists");
                 return BadRequest(new PCCResponse(TransactionStatus.Error.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
@@ -64,7 +73,15 @@ namespace IssuerBank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Failed);
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, transactionResult.Error);
                 return BadRequest(new PCCResponse(TransactionStatus.Failed.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
@@ -72,7 +89,15 @@ namespace IssuerBank.Api.Controllers
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, cardInfo.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, cardInfo, result.Error);
                 return BadRequest(new PCCResponse(TransactionStatus.Error.ToString(), cardInfo.AcquirerOrderId, cardInfo.AcquirerTimestamp,
                     transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
@@ -88,15 +113,34 @@ namespace IssuerBank.Api.Controllers
         [Route("per-diem")]
         public IActionResult CreatePerDiemTransaction(PerDiem perDiem)
         {
+            if (perDiem.Amount < 0)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, negative amount");
+                return BadRequest("Transaction has failed, negative amount");
+            }
             Result<Transaction> transactionResult = null;
             transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
                 perDiem.Currency);
-            if (perDiem.Amount < 0)
-                return BadRequest("Transaction has failed, negative amount");
+
             if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, invalid Unique Personal Registration Number");
                 return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
+            }
+            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
+        }
+
+        private string HidePAN(string pan)
+        {
+            return pan.Substring(0, 6) + "******" + pan.Substring(pan.Length - 4);
         }
     }
 }

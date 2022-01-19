@@ -35,17 +35,27 @@ namespace IssuerBank.Api.Controllers
             Result<Core.Model.PSPRequest> result = _PSPRequestService.Create(request);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create PSP request {@PSPRequest}, Error: {@Error}", pspRequest, result.Error);
+                _logger.LogError("Failed to create PSP request, Error: {@Error}", result.Error);
                 return BadRequest(result.Error);
             }
             Guid paymentId = Guid.NewGuid();
             Result<Core.Model.PSPResponse> response = _PSPResponseService.Create(request.Id);
             if (response.IsFailure)
             {
-                _logger.LogError("Failed to create PSP response {@PSPResponse}, Error: {@Error}", response.Value, result.Error);
+                _logger.LogError("Failed to create PSP response, Error: {@Error}", result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created PSP response {@PSPResponse}", response.Value);
+            _logger.LogInformation("Created PSP request {@PSPRequest}", new
+            {
+                pspRequest.MerchantId,
+                pspRequest.Amount,
+                pspRequest.Currency,
+                pspRequest.MerchantOrderId,
+                pspRequest.MerchantTimestamp,
+                pspRequest.SuccessUrl,
+                pspRequest.FailedUrl,
+                pspRequest.ErrorUrl
+            });
             return Created(this.Request.Path + "/" + result.Value.Id, new BankResponse(response.Value.PaymentUrl, response.Value.PaymentId));
         }
 

@@ -45,9 +45,22 @@ namespace PCC.Api.Controllers
             Result<Transaction> transactionResult = _transactionService.Create(pccRequest.Amount, pccRequest.Currency, DateTime.Now,
                 pccRequest.PaymentId, pccRequest.PAN, pccRequest.AcquirerBankPAN, TransactionStatus.Pending, pccRequest.AcquirerOrderId,
                 pccRequest.AcquirerTimestamp, Guid.Empty, new DateTime());
+            var hiddenPAN = HidePAN(pccRequest.PAN);
             if (transactionResult.IsFailure)
             {
-                _logger.LogError("Failed to create Transaction with PCC Request {@PCCRequest}, Error: {@Error}", pccRequest, transactionResult.Error);
+                _logger.LogError("Failed to create Transaction with PCC Request {@PCCRequest}, Error: {@Error}", new
+                {
+                    pccRequest.AcquirerOrderId,
+                    pccRequest.AcquirerTimestamp,
+                    pccRequest.PaymentId,
+                    hiddenPAN,
+                    pccRequest.AcquirerBankPAN,
+                    pccRequest.CardHolderName,
+                    pccRequest.Amount,
+                    pccRequest.Currency,
+                    pccRequest.AcquirerAccountNumber,
+                    pccRequest.AcquirerName
+                }, transactionResult.Error);
                 return BadRequest(transactionResult.Error);
             }
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
@@ -109,6 +122,11 @@ namespace PCC.Api.Controllers
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PatchAsync(Config.AcquirerBankServerAddress + $"/{transactionId}", payload);
             httpResponseMessage.Dispose();
+        }
+
+        private string HidePAN(string pan)
+        {
+            return pan.Substring(0, 6) + "******" + pan.Substring(pan.Length - 4);
         }
     }
 }

@@ -62,12 +62,21 @@ namespace Bank.Api.Controllers
         {
             Result<Transaction> transactionResult = null;
             Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(cardInfo.PaymentId).PSPRequest;
+            var hiddenPAN = HidePAN(cardInfo.PAN);
             if (_transactionRepository.GetByPaymentId(cardInfo.PaymentId) != null)
             {
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, "Transaction with that id already exists");
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, "Transaction with that id already exists");
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
             }
             if (!cardInfo.PAN.Substring(0, 6).Equals(Config.BankPan))
@@ -78,6 +87,7 @@ namespace Bank.Api.Controllers
                 ForwardToPCC(new PCCRequest(transactionResult.Value.Id, transactionResult.Value.Timestamp, cardInfo.PaymentId, cardInfo.PAN, Config.BankPan,
                     cardInfo.SecurityCode, cardInfo.CardHolderName, cardInfo.ExpirationDate, cardInfo.Amount, cardInfo.AcquirerAccountNumber,
                     cardInfo.AcquirerName, request.Currency));
+                _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
                 return Created(this.Request.Path + "/" + transactionResult.Value.Id,
                 new PSPTransaction(request.MerchantOrderId, TransactionStatus.Pending.ToString(), transactionResult.Value.Id));
             }
@@ -89,7 +99,15 @@ namespace Bank.Api.Controllers
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Failed);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString(), transactionResult.Value.Id));
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, transactionResult.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, transactionResult.Error);
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Failed.ToString(), transactionResult.Value.Id));
             }
             else if (result.IsFailure)
@@ -97,7 +115,15 @@ namespace Bank.Api.Controllers
                 transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
                     cardInfo.PAN, TransactionStatus.Error);
                 ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
-                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", cardInfo, result.Error);
+                _logger.LogError("Failed to create Transaction with Card Info {@CardInfo}, Error: {@Error}", new
+                {
+                    cardInfo.PaymentId,
+                    hiddenPAN,
+                    cardInfo.CardHolderName,
+                    cardInfo.AcquirerAccountNumber,
+                    cardInfo.AcquirerName,
+                    cardInfo.Amount
+                }, cardInfo, result.Error);
                 return BadRequest(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Error.ToString(), transactionResult.Value.Id));
             }
             transactionResult = _transactionService.Create(cardInfo.Amount, request.Currency, DateTime.Now, cardInfo.PaymentId,
@@ -113,13 +139,27 @@ namespace Bank.Api.Controllers
         [Route("per-diem")]
         public IActionResult CreatePerDiemTransaction(PerDiem perDiem)
         {
+            if (perDiem.Amount < 0)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, negative amount");
+                return BadRequest("Transaction has failed, negative amount");
+            }
             Result<Transaction> transactionResult = null;
             transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
                 perDiem.Currency);
-            if (perDiem.Amount < 0)
-                return BadRequest("Transaction has failed, negative amount");
+
             if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, invalid Unique Personal Registration Number");
                 return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
+            }
+            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
         }
@@ -133,6 +173,8 @@ namespace Bank.Api.Controllers
                 Transaction transaction = _transactionRepository.GetById(id);
                 patchDoc.ApplyTo(transaction, ModelState);
                 _transactionRepository.Edit(transaction);
+                _logger.LogInformation("Transaction status updated: {@Transaction} with status {@TransactionStatus}", transaction,
+                    transaction.TransactionStatus);
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -175,6 +217,11 @@ namespace Bank.Api.Controllers
             using var httpResponseMessage =
             await client.PostAsync(Config.PCCServerAddress, cardInfoJson);
             httpResponseMessage.Dispose();
+        }
+
+        private string HidePAN(string pan)
+        {
+            return pan.Substring(0, 6) + "******" + pan.Substring(pan.Length - 4);
         }
     }
 }

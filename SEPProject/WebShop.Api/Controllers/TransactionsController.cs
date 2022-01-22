@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -49,6 +50,7 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult EditStatus(TransactionDTO transactionDTO)
         {
             if (_transactionRepository.GetById(transactionDTO.MerchantOrderId) is null)

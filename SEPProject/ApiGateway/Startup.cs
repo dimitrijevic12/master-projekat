@@ -39,7 +39,7 @@ namespace ApiGateway
 
             services.AddHttpClient();
 
-            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate("123", options =>
+            /*services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate("123", options =>
             {
                 options.AllowedCertificateTypes = CertificateTypes.SelfSigned;
                 options.Events = new CertificateAuthenticationEvents
@@ -63,7 +63,7 @@ namespace ApiGateway
                         return Task.CompletedTask;
                     }
                 };
-            });
+            });*/
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>

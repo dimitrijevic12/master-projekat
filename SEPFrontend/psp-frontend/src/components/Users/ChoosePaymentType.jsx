@@ -5,7 +5,11 @@ import {
   setPaymentId,
 } from "../../actions/actionsTransaction";
 import { getPaymentTypesForWebShop } from "../../actions/actionsWebShop";
-import { setTransactionStatus, payWithCryptoValute, getCrpytoTransaction } from "../../actions/actionsCryptoValute";
+import {
+  setTransactionStatus,
+  payWithCryptoValute,
+  getCrpytoTransaction,
+} from "../../actions/actionsCryptoValute";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { toast } from "react-toastify";
@@ -26,7 +30,10 @@ class ChoosePaymentTypes extends Component {
     await this.props.getCrpytoTransaction(orderId);
   }
   render() {
-    if (this.props.paymentTypes === undefined || this.props.cryptoTransaction === undefined ) {
+    if (
+      this.props.paymentTypes === undefined ||
+      this.props.cryptoTransaction === undefined
+    ) {
       return null;
     }
 
@@ -51,11 +58,12 @@ class ChoosePaymentTypes extends Component {
                 >
                   <option value=""> </option>
                   {this.props.paymentTypes.map((item, i) => {
-                    return (
-                      item.name === "CryptoValute" ? 
+                    return item.name === "CryptoValute" ? (
                       <option key={i} value={item.name}>
                         Crypto currency
-                      </option> :  <option key={i} value={item.name}>
+                      </option>
+                    ) : (
+                      <option key={i} value={item.name}>
                         {item.name}
                       </option>
                     );
@@ -94,24 +102,26 @@ class ChoosePaymentTypes extends Component {
     debugger;
     if (this.state.paymentType === "PayPal") {
       window.location = "/paypal-page/" + this.state.orderId;
-    } 
+    }
     if (this.state.paymentType === "CryptoValute") {
       var successful = false;
       successful = await this.props.payWithCryptoValute({
-        price_amount: this.props.cryptoTransaction.amount ,
-        price_currency: this.props.cryptoTransaction.currency, 
+        price_amount: this.props.cryptoTransaction.amount,
+        price_currency: this.props.cryptoTransaction.currency,
         receive_currency: this.props.cryptoTransaction.currency,
-        success_url: "http://localhost:3001/paid-transaction/" + this.state.orderId,
-        cancel_url: "http://localhost:3001/invalid-transaction/" + this.state.orderId,
+        success_url:
+          "https://localhost:3001/paid-transaction/" + this.state.orderId,
+        cancel_url:
+          "https://localhost:3001/invalid-transaction/" + this.state.orderId,
       });
       debugger;
       if (successful === true) {
         debugger;
         await this.props.setTransactionStatus({
-            MerchantOrderId: this.props.cryptoTransaction.orderId,
-            TransactionStatus: "Success",
-          })
-        window.location.href = this.props.cryptoValutePayment.payment_url; 
+          MerchantOrderId: this.props.cryptoTransaction.orderId,
+          TransactionStatus: "Success",
+        });
+        window.location.href = this.props.cryptoValutePayment.payment_url;
       }
     } else {
       var successful = false;

@@ -25,13 +25,10 @@ namespace ApiGateway
             // inner is HttpClientHandler
             if (inner is HttpClientHandler)
             {
-                if (request.RequestUri.Equals("https://localhost:44300/api/transactions/status"))
-                {
-                    var httpClientHandler = (HttpClientHandler)inner;
-                    var cert = new X509Certificate2($"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx",
-                    "Client123", X509KeyStorageFlags.PersistKeySet);
-                    httpClientHandler.ClientCertificates.Add(cert);
-                }
+                var httpClientHandler = (HttpClientHandler)inner;
+                var cert = new X509Certificate2($"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx",
+                "Client123", X509KeyStorageFlags.PersistKeySet);
+                httpClientHandler.ClientCertificates.Add(cert);
             }
             return await base.SendAsync(request, cancellationToken);
         }

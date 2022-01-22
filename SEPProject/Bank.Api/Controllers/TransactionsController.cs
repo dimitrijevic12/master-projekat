@@ -183,7 +183,7 @@ namespace Bank.Api.Controllers
                 {
                     _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
                     Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(transaction.PaymentId).PSPRequest;
-                    ForwardTransaction(new PSPTransaction(request.MerchantId, TransactionStatus.Success.ToString(), transaction.Id));
+                    ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transaction.Id));
                 }
 
                 return new NoContentResult();

@@ -37,10 +37,8 @@ namespace WebShop.Api.Controllers
             Admin admin = _adminRepository.GetById(adminDTO.AdminId);
             if (admin is null)
             {
-                _logger.LogError("Failed to edit admin with id: {id}", adminDTO.AdminId);
                 return BadRequest();
             }
-            _logger.LogInformation("Edited Admin: {@admin}", admin);
             admin.MerchantId = adminDTO.MerchantId;
             return Ok(_adminRepository.Edit(admin));
         }
@@ -52,11 +50,11 @@ namespace WebShop.Api.Controllers
             Result result = adminService.Register(admin);
             if (result.IsFailure)
             {
-                _logger.LogError("Failed to create Admin: {@admin}, {error}", 
-                    admin, result.Error);
+                _logger.LogError("Failed to create Admin: {@admin}, {error}",
+                    new { admin.Username, admin.Name }, result.Error);
                 return BadRequest(result.Error);
             }
-            _logger.LogInformation("Created Admin: {@admin}", admin);
+            _logger.LogInformation("Created Admin: {@admin}", new { admin.Username, admin.Name });
             return Created(Request.Path + admin.Id, admin);
         }
     }

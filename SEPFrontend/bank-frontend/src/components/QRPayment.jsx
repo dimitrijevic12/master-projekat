@@ -7,9 +7,17 @@ import {
   postTransaction,
   getMerchantByMerchantId,
 } from "../actions/actions";
+import { Navigate } from "react-router-dom";
 
 class QRPayment extends React.Component {
-  state = { pan: "", cardHolderName: "", securityCode: "", expirationDate: "" };
+  state = {
+    pan: "",
+    cardHolderName: "",
+    securityCode: "",
+    expirationDate: "",
+    redirect: false,
+    url: "",
+  };
 
   async componentWillMount() {
     debugger;
@@ -54,11 +62,21 @@ class QRPayment extends React.Component {
             </div>
             <div className="mt-5" style={{ textAlign: "center" }}>
               <button
-                className="btn btn-lg btn-primary btn-block w-50"
+                className="btn btn-lg btn-primary btn-block w-25"
                 onClick={() => this.pay()}
               >
                 Pay
               </button>
+              <span style={{ width: 50, display: "inline-block" }}></span>
+              <button
+                className="btn btn-lg btn-primary btn-block w-25"
+                onClick={() => this.payWithPcc()}
+              >
+                Pay with PCC
+              </button>
+              {this.state.redirect === true ? (
+                <Navigate to={this.state.url} />
+              ) : null}
             </div>
           </div>
         </div>
@@ -80,6 +98,24 @@ class QRPayment extends React.Component {
       failedUrl: this.props.pspRequest.failedUrl,
       errorUrl: this.props.pspRequest.errorUrl,
     });
+  }
+
+  async payWithPcc() {
+    let url = await this.props.postTransaction({
+      PaymentId: window.location.pathname.slice(-36),
+      PAN: "2222221234561234",
+      SecurityCode: "1234",
+      CardHolderName: "Holder Name",
+      ExpirationDate: "04/22",
+      Amount: this.props.pspRequest.amount,
+      AcquirerAccountNumber: this.props.merchant.acquirerAccountNumber,
+      AcquirerName: this.props.merchant.acquirerName,
+      Amount: this.props.pspRequest.amount,
+      successUrl: this.props.pspRequest.successUrl,
+      failedUrl: this.props.pspRequest.failedUrl,
+      errorUrl: this.props.pspRequest.errorUrl,
+    });
+    this.setState({ redirect: true, url: `/${url}` });
   }
 }
 

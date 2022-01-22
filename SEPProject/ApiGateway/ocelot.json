@@ -119,11 +119,7 @@
           "Port": 44300
         }
       ],
-      "UpstreamPathTemplate": "/api/transactions/status",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "123",
-        "AllowedScopes": []
-      }
+      "UpstreamPathTemplate": "/api/transactions/status"
     },
     {
       "DownstreamPathTemplate": "/api/transactions",

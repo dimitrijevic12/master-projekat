@@ -149,7 +149,7 @@ namespace Bank.Api.Controllers
             }
             Result<Transaction> transactionResult = null;
             transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
-                perDiem.Currency);
+                perDiem.Currency, perDiem.AccountNumber);
 
             if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
             {
@@ -159,8 +159,18 @@ namespace Bank.Api.Controllers
                 }, "Transaction has failed, invalid Unique Personal Registration Number");
                 return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
             }
-            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
+            if (_accountService.UpdateBalance(transactionResult.Value.IssuerId, -transactionResult.Value.Amount, transactionResult.Value.Currency).IsFailure)
+            {
+                transactionResult.Value.TransactionStatus = TransactionStatus.Failed;
+                _transactionRepository.Edit(transactionResult.Value);
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, not enough resources.");
+                return BadRequest("Not enough resources.");
+            }
             _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
+            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
         }
 

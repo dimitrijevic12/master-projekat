@@ -9,6 +9,8 @@ import {
   EDIT_ADMIN_ERROR,
   PSP_ADMIN_REGISTRATION,
   PSP_ADMIN_REGISTRATION_ERROR,
+  GET_REGISTERED_USER_BY_ID,
+  GET_REGISTERED_USER_BY_ID_ERROR,
 } from "../types/types";
 import axios from "axios";
 
@@ -161,6 +163,30 @@ export const pspAdminRegistration = (admin) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: PSP_ADMIN_REGISTRATION_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const getRegisteredUserById = () => async (dispatch) => {
+  const userId = sessionStorage.getItem("userIdWebShop");
+  try {
+    const response = await axios.get(
+      `https://localhost:44326/api/registeredUsers/` + userId,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
+    dispatch({
+      type: GET_REGISTERED_USER_BY_ID,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: GET_REGISTERED_USER_BY_ID_ERROR,
       payload: console.log(e),
     });
   }

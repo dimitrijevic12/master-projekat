@@ -5,6 +5,7 @@ import { getTransactionById } from "../../actions/actionsTransaction";
 import { getCourseById } from "../../actions/actionsCourse";
 import { getConferenceById } from "../../actions/actionsConference";
 import { payPerdiem } from "../../actions/actionsBank";
+import { getRegisteredUserById } from "../../actions/actionsUsers";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,14 +16,15 @@ class PerdeimTransaction extends Component {
     amount: 0,
     currency: "EUR",
     currencyList: ["EUR", "USD", "CAD"],
-    bank: "IssuerBank",
-    bankList: ["IssuerBank", "AcquirerBank"],
+    bank: "Erste Bank",
+    bankList: ["Erste Bank", "UniCredit Bank"],
   };
 
   async componentDidMount() {
     debugger;
     var url = window.location.pathname;
     const transactionId = url.substring(url.lastIndexOf("/") + 1);
+    await this.props.getRegisteredUserById();
     await this.props.getTransactionById(transactionId);
     await this.shouldDisplayPerdiemForm(this.props.transaction);
   }
@@ -133,6 +135,7 @@ class PerdeimTransaction extends Component {
   }
 
   async createItem() {
+    debugger;
     var successful = false;
     successful = await this.props.payPerdiem({
       uniquePersonalRegistrationNumber:
@@ -140,6 +143,7 @@ class PerdeimTransaction extends Component {
       amount: this.state.amount,
       currency: this.state.currency,
       bank: this.state.bank,
+      accountNumber: this.props.registeredUser.accountNumber,
     });
     if (successful === true) {
       window.location.href =
@@ -214,6 +218,7 @@ const mapStateToProps = (state) => ({
   course: state.course,
   conference: state.conference,
   transaction: state.transaction,
+  registeredUser: state.registeredUser,
 });
 
 export default compose(
@@ -222,5 +227,6 @@ export default compose(
     getCourseById,
     getConferenceById,
     payPerdiem,
+    getRegisteredUserById,
   })
 )(PerdeimTransaction);

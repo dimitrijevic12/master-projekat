@@ -47,5 +47,12 @@ namespace WebShop.Api.Controllers
             _logger.LogInformation("Created RegisteredUser {@registeredUser}", new { registeredUser.Username, registeredUser.FirstName, registeredUser.LastName});
             return Created(Request.Path + registeredUser.Id, "");
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            RegisteredUser registeredUser = _registeredUserRepository.GetById(id);
+            return registeredUser == null ? BadRequest() : (IActionResult)Ok(registeredUser);
+        }
     }
 }

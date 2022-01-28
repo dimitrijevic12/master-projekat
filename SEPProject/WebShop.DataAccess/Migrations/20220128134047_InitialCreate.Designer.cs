@@ -10,8 +10,8 @@ using WebShop.DataAccess.WebShopDbContext;
 namespace WebShop.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220115144537_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220128134047_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,7 +150,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
-                            Date = new DateTime(2022, 1, 15, 15, 45, 36, 406, DateTimeKind.Local).AddTicks(1639),
+                            Date = new DateTime(2022, 1, 28, 14, 40, 47, 57, DateTimeKind.Local).AddTicks(7716),
                             Description = "ConferenceDesc",
                             ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
@@ -205,13 +205,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2022, 1, 15, 15, 45, 36, 408, DateTimeKind.Local).AddTicks(5363),
+                            EndDate = new DateTime(2022, 1, 28, 14, 40, 47, 62, DateTimeKind.Local).AddTicks(2697),
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2022, 1, 15, 15, 45, 36, 408, DateTimeKind.Local).AddTicks(5336)
+                            StartDate = new DateTime(2022, 1, 28, 14, 40, 47, 62, DateTimeKind.Local).AddTicks(2668)
                         });
                 });
 
@@ -260,6 +260,9 @@ namespace WebShop.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -297,7 +300,8 @@ namespace WebShop.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5ff66fcd-798c-42e4-9a13-4fad651ec9c3"),
+                            Id = new Guid("ef5a393a-bd43-4b9b-b2c8-0109859535a2"),
+                            AccountNumber = "222222222",
                             Address = "Novosadska 14",
                             Email = "issuer@gmail.com",
                             FirstName = "issuer",
@@ -311,7 +315,8 @@ namespace WebShop.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8c38c4af-2f39-478d-9f46-da8943c0adb7"),
+                            Id = new Guid("ea2f1c39-fb77-49ae-a0fc-5b293613d921"),
+                            AccountNumber = "333333333",
                             Address = "Beogradska 26",
                             Email = "headOfAcquirement@gmail.com",
                             FirstName = "headOfAcquirement",
@@ -325,7 +330,8 @@ namespace WebShop.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d435a7c-9544-4fb4-a8f6-6bff0de391fd"),
+                            Id = new Guid("ea05bea1-cd06-430c-a74a-c5c960e1863d"),
+                            AccountNumber = "444444444",
                             Address = "Novosadska 14",
                             Email = "staff@gmail.com",
                             FirstName = "staff",
@@ -375,11 +381,11 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            BuyerId = new Guid("5ff66fcd-798c-42e4-9a13-4fad651ec9c3"),
+                            BuyerId = new Guid("ef5a393a-bd43-4b9b-b2c8-0109859535a2"),
                             Currency = "EUR",
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Status = 0,
-                            Timestamp = new DateTime(2022, 1, 15, 15, 45, 36, 408, DateTimeKind.Local).AddTicks(8736),
+                            Status = 2,
+                            Timestamp = new DateTime(2022, 1, 28, 14, 40, 47, 62, DateTimeKind.Local).AddTicks(5599),
                             TotalPrice = 1640.0
                         });
                 });
@@ -477,7 +483,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2022, 1, 15, 15, 45, 36, 409, DateTimeKind.Local).AddTicks(4341),
+                            DepartureTime = new DateTime(2022, 1, 28, 14, 40, 47, 63, DateTimeKind.Local).AddTicks(528),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",

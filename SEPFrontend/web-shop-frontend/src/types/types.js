@@ -78,3 +78,5 @@ export const SEND_TRANSACTION_TO_PSP = "sendTransactionToPsp";
 export const SEND_TRANSACTION_TO_PSP_ERROR = "sendTransactionToPspError";
 export const PAY_PERDIEM = "payPerdiem";
 export const PAY_PERDIEM_ERROR = "payPerdiemError";
+export const GET_REGISTERED_USER_BY_ID = "getRegisteredUserById";
+export const GET_REGISTERED_USER_BY_ID_ERROR = "getRegisteredUserByIdError";

@@ -37,6 +37,7 @@ import {
   PSP_ADMIN_REGISTRATION,
   SEND_TRANSACTION_TO_PSP,
   PAY_PERDIEM,
+  GET_REGISTERED_USER_BY_ID,
 } from "../types/types";
 
 const initialState = {
@@ -243,6 +244,11 @@ function reducer(state = initialState, action) {
     case PAY_PERDIEM:
       return {
         ...state,
+      };
+    case GET_REGISTERED_USER_BY_ID:
+      return {
+        ...state,
+        registeredUser: action.payload,
       };
     default:
       return state;

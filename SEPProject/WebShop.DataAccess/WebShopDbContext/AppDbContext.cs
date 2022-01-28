@@ -25,9 +25,9 @@ namespace WebShop.DataAccess.WebShopDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "GEFBM+uocejlipGWNDkPUbBV3CBb0RGWtY2hY4lXMLs=", "TE/CgC6lKjEWYXPWlC8ymg==", "issuer", "issuer", "1234", "123456789", "Novosadska 14", "default");
-            RegisteredUser headOfAcquirement = new RegisteredUser(Guid.NewGuid(), "headOfAcquirement@gmail.com", "headOfAcquirement", "lZZLNUtNf4+nReyYu6J74nofDChus2IXz6Up8ib1ItM=", "6BxujHVLZV4UGnVfzPXfdw==", "headOfAcquirement", "headOfAcquirement", "1234", "123456789", "Beogradska 26", "headOfAcquirement");
-            RegisteredUser staff = new RegisteredUser(Guid.NewGuid(), "staff@gmail.com", "staff", "xpccpvSDpOGhfPAkCRFGsOJsF6qVLH9D7QTNvW48Cpg=", "DMbZWIH2dr64JSmcz4A0WA==", "staff", "staff", "1234", "123456789", "Novosadska 14", "staff");
+            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "GEFBM+uocejlipGWNDkPUbBV3CBb0RGWtY2hY4lXMLs=", "TE/CgC6lKjEWYXPWlC8ymg==", "issuer", "issuer", "1234", "123456789", "Novosadska 14", "default", "222222222");
+            RegisteredUser headOfAcquirement = new RegisteredUser(Guid.NewGuid(), "headOfAcquirement@gmail.com", "headOfAcquirement", "lZZLNUtNf4+nReyYu6J74nofDChus2IXz6Up8ib1ItM=", "6BxujHVLZV4UGnVfzPXfdw==", "headOfAcquirement", "headOfAcquirement", "1234", "123456789", "Beogradska 26", "headOfAcquirement", "333333333");
+            RegisteredUser staff = new RegisteredUser(Guid.NewGuid(), "staff@gmail.com", "staff", "xpccpvSDpOGhfPAkCRFGsOJsF6qVLH9D7QTNvW48Cpg=", "DMbZWIH2dr64JSmcz4A0WA==", "staff", "staff", "1234", "123456789", "Novosadska 14", "staff", "444444444");
             modelBuilder.Entity<RegisteredUser>().HasData(issuer, headOfAcquirement, staff);
 
             Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "dA0Fz63Kg9DBab5MxlnOgPNgVKjs8TO49jylahDfsCQ=", "Kee0DHZjSYEgo93KOZtK+g==", "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
@@ -50,7 +50,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             );
 
             modelBuilder.Entity<Transaction>().HasData(
-               new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Pending, DateTime.Now, 1640.0, "EUR", admin.Id, issuer.Id)
+               new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Failed, DateTime.Now, 1640.0, "EUR", admin.Id, issuer.Id)
             );
 
             TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));

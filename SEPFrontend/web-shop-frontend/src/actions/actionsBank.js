@@ -9,7 +9,7 @@ export const payPerdiem = (perdiem) => async (dispatch) => {
     currency: perdiem.currency,
   };
   var url =
-    perdiem.bank === "IssuerBank"
+    perdiem.bank === "Erste Bank"
       ? "https://localhost:44376/api/transactions/per-diem"
       : "https://localhost:44375/api/transactions/per-diem";
   try {

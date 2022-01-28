@@ -11,7 +11,7 @@ import Paypal from "./PayPalFunction";
 class PayPalButtonSubscription extends Component {
   state = {
     paymentType: "",
-    choosenType: "Monthly",
+    choosenType: "",
     types: ["Monthly", "Yearly"],
   };
   async componentDidMount() {
@@ -27,15 +27,16 @@ class PayPalButtonSubscription extends Component {
     const paypalTransaction = this.props.paypalTransaction;
     return (
       <React.Fragment>
-        <div className="d-inline-flex w-50">
+        <div className="d-inline-flex w-20">
           <div class="form-group w-100 pr-5">
-            <label for="lastName">Choose type of subscription:</label>
             <select
+              style={{ width: 250 }}
               value={this.state.choosenType}
               class="form-control"
               onChange={this.handleChange}
               name="choosenType"
             >
+              <option value=""> Choose type of subscription</option>
               {this.state.types.map((item, i) => {
                 return (
                   <option key={i} value={item}>

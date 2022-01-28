@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebShop.Core.Model
 {
@@ -15,13 +10,14 @@ namespace WebShop.Core.Model
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ITRole { get; set; }
+        public string AccountNumber { get; set; }
 
         public RegisteredUser() : base()
         {
         }
 
         public RegisteredUser(Guid id, string email, string username, string password, string salt,
-            string firstName, string lastName, string postalCode, string phoneNumber, string address, string itrole)
+            string firstName, string lastName, string postalCode, string phoneNumber, string address, string itrole, string accountNumber)
             : base(id, email, username, password, salt)
         {
             FirstName = firstName;
@@ -30,6 +26,7 @@ namespace WebShop.Core.Model
             PhoneNumber = phoneNumber;
             Address = address;
             ITRole = itrole;
+            AccountNumber = accountNumber;
         }
     }
 }

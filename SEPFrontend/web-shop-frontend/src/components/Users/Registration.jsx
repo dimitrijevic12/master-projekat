@@ -17,6 +17,7 @@ class Registration extends Component {
     username: "",
     password: "",
     repeatPassword: "",
+    accountNumber: "",
   };
 
   render() {
@@ -139,6 +140,20 @@ class Registration extends Component {
                   />
                 </div>
               </div>
+              <div className="d-inline-flex w-50">
+                <div class="form-group w-100 pr-5">
+                  <label for="firstName">Account Number:</label>
+                  <input
+                    type="number"
+                    name="accountNumber"
+                    value={this.state.accountNumber}
+                    onChange={this.handleChange}
+                    class="form-control"
+                    id="accountNumber"
+                    placeholder="Enter account number"
+                  />
+                </div>
+              </div>
             </div>
             <div className="mt-5">
               <div className="d-inline-flex w-50">
@@ -216,6 +231,7 @@ class Registration extends Component {
       PostalCode: this.state.postalCode,
       Password: this.state.password,
       ITRole: "default",
+      accountNumber: this.state.accountNumber,
     });
 
     if (successful === true) {

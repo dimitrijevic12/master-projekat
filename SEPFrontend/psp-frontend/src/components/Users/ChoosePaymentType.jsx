@@ -49,14 +49,14 @@ class ChoosePaymentTypes extends Component {
           <div className="text-center">
             <div className="d-inline-flex w-50">
               <div class="form-group w-100 pr-5">
-                <label for="lastName">Choose payment type:</label>
                 <select
                   value={this.state.paymentType}
                   class="form-control"
                   onChange={this.handleChange}
                   name="paymentType"
+                  placeholder="Choose payment type"
                 >
-                  <option value=""> </option>
+                  <option value=""> Choose payment type</option>
                   {this.props.paymentTypes.map((item, i) => {
                     return item.name === "CryptoValute" ? (
                       <option key={i} value={item.name}>

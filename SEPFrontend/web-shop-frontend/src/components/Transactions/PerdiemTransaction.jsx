@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getTransactionById } from "../../actions/actionsTransaction";
+import {
+  getTransactionById,
+  editPerdiemStatus,
+} from "../../actions/actionsTransaction";
 import { getCourseById } from "../../actions/actionsCourse";
 import { getConferenceById } from "../../actions/actionsConference";
 import { payPerdiem } from "../../actions/actionsBank";
@@ -144,8 +147,13 @@ class PerdeimTransaction extends Component {
       currency: this.state.currency,
       bank: this.state.bank,
       accountNumber: this.props.registeredUser.accountNumber,
+      transactionId: this.props.transaction.id,
     });
     if (successful === true) {
+      await this.props.editPerdiemStatus({
+        transactionId: this.props.transaction.id,
+        perdiemStatus: "Paid",
+      });
       window.location.href =
         "https://localhost:3000/successful-transaction/" +
         this.props.transaction.id;
@@ -228,5 +236,6 @@ export default compose(
     getConferenceById,
     payPerdiem,
     getRegisteredUserById,
+    editPerdiemStatus,
   })
 )(PerdeimTransaction);

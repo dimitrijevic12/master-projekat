@@ -57,5 +57,18 @@ namespace WebShop.Core.Services
             _transactionRepository.Edit(transaction);
             return Result.Success(transaction);
         }
+
+        public Result EditPerdiemStatus(PerdiemTransactionDTO transactionDTO)
+        {
+            Transaction transaction = _transactionRepository.GetById(transactionDTO.TransactionId);
+            bool result = Enum.TryParse(transactionDTO.PerdiemStatus, out PerdiemStatus perdiemStatus);
+            if (!result)
+            {
+                return Result.Failure("Inappropriate Perdiem Transaction Status!");
+            }
+            transaction.PerdiemStatus = perdiemStatus;
+            _transactionRepository.Edit(transaction);
+            return Result.Success(transaction);
+        }
     }
 }

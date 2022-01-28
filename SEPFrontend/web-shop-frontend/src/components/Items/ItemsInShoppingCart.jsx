@@ -151,6 +151,7 @@ class ItemsInShoppingCart extends Component {
         pspTransactionType = "Course";
       }
     }
+    var perdiemStatus = 0;
     for (var i = 0; i < shoppingCartList.length; i++) {
       var type = 0;
       var productId = 0;
@@ -160,9 +161,15 @@ class ItemsInShoppingCart extends Component {
       } else if (shoppingCartList[i].type === "conference") {
         type = 0;
         productId = items[i].id;
+        if (items[i].online === false) {
+          perdiemStatus = 1;
+        }
       } else if (shoppingCartList[i].type === "course") {
         type = 1;
         productId = items[i].id;
+        if (items[i].online === false) {
+          perdiemStatus = 1;
+        }
       } else if (shoppingCartList[i].type === "accommodation") {
         type = 2;
         productId = items[i].id;
@@ -192,9 +199,12 @@ class ItemsInShoppingCart extends Component {
     }
     debugger;
     const totalPrice = this.getTotalPrice();
-    const timeStamp = new Date().toJSON();
+    var timeStamp = new Date();
+    timeStamp.setHours(timeStamp.getHours() + 1);
+    timeStamp = timeStamp.toJSON();
     const transaction = {
       Status: 0,
+      PerdiemStatus: perdiemStatus,
       TimeStamp: timeStamp,
       TotalPrice: totalPrice,
       Currency: this.state.currency,

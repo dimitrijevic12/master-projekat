@@ -90,5 +90,25 @@ namespace WebShop.Api.Controllers
             Transaction transaction = _transactionRepository.GetById(id);
             return transaction is null ? BadRequest() : (IActionResult)Ok(_transactionRepository.GetById(id));
         }
+
+        [HttpPut("per-diem")]
+        public IActionResult EditPerdiemStatus(PerdiemTransactionDTO perdiemTransatcionDTO)
+        {
+            if (_transactionRepository.GetById(perdiemTransatcionDTO.TransactionId) is null)
+            {
+                _logger.LogError("Failed to edit transaction with id: {id}",
+                    perdiemTransatcionDTO.TransactionId);
+                return BadRequest();
+            }
+            Result result = transactionService.EditPerdiemStatus(perdiemTransatcionDTO);
+            if (result.IsFailure)
+            {
+                _logger.LogError("Failed to edit transaction, {error}", result.Error);
+                return BadRequest(result.Error);
+            }
+            _logger.LogInformation("Edited perdiem status of Transaction: {@transaction}",
+                perdiemTransatcionDTO);
+            return Ok();
+        }
     }
 }

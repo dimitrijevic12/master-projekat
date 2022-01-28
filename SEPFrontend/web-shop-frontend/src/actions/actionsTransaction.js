@@ -9,6 +9,8 @@ import {
   GET_TRANSACTIONS_FOR_SELLER_ERROR,
   SEND_TRANSACTION_TO_PSP,
   SEND_TRANSACTION_TO_PSP_ERROR,
+  EDIT_PERDIEM_STATUS,
+  EDIT_PERDIEM_STATUS_ERROR,
 } from "../types/types";
 import axios from "axios";
 
@@ -127,6 +129,30 @@ export const sendTransactionToPsp = (transaction) => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: SEND_TRANSACTION_TO_PSP_ERROR,
+      payload: console.log(e),
+    });
+  }
+};
+
+export const editPerdiemStatus = (perdiemTransaction) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      "https://localhost:44326/api/transactions/per-diem",
+      perdiemTransaction,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
+    dispatch({
+      type: EDIT_PERDIEM_STATUS,
+      payload: response.data,
+    });
+  } catch (e) {
+    dispatch({
+      type: EDIT_PERDIEM_STATUS_ERROR,
       payload: console.log(e),
     });
   }

@@ -7,6 +7,8 @@ export const payPerdiem = (perdiem) => async (dispatch) => {
     uniquePersonalRegistrationNumber: perdiem.uniquePersonalRegistrationNumber,
     amount: perdiem.amount,
     currency: perdiem.currency,
+    accountNumber: perdiem.accountNumber,
+    transactionId: perdiem.transactionId,
   };
   var url =
     perdiem.bank === "Erste Bank"

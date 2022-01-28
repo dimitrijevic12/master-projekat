@@ -55,6 +55,7 @@ class TransactionsForBuyer extends Component {
                       <th style={{ textAlign: "center" }}>Seller</th>
                       <th style={{ textAlign: "center" }}>Status</th>
                       <th style={{ textAlign: "center" }}>Transaction Items</th>
+                      <th style={{ textAlign: "center" }}>Perdiem</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -85,6 +86,18 @@ class TransactionsForBuyer extends Component {
                             src="/images/analytics.png"
                           />
                         </td>
+                        <td style={{ textAlign: "center" }}>
+                          {f.perdiemStatus === 1 ? (
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => {
+                                this.payPerdiem(f);
+                              }}
+                            >
+                              Pay perdiem
+                            </button>
+                          ) : null}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -95,6 +108,10 @@ class TransactionsForBuyer extends Component {
         </div>
       </div>
     );
+  }
+
+  payPerdiem(f) {
+    window.location.href = "https://localhost:3000/perdiem-transaction/" + f.id;
   }
 
   view(f) {

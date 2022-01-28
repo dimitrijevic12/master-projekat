@@ -80,3 +80,5 @@ export const PAY_PERDIEM = "payPerdiem";
 export const PAY_PERDIEM_ERROR = "payPerdiemError";
 export const GET_REGISTERED_USER_BY_ID = "getRegisteredUserById";
 export const GET_REGISTERED_USER_BY_ID_ERROR = "getRegisteredUserByIdError";
+export const EDIT_PERDIEM_STATUS = "editPerdiemStatus";
+export const EDIT_PERDIEM_STATUS_ERROR = "editPerdiemStatusError";

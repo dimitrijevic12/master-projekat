@@ -38,6 +38,7 @@ import {
   SEND_TRANSACTION_TO_PSP,
   PAY_PERDIEM,
   GET_REGISTERED_USER_BY_ID,
+  EDIT_PERDIEM_STATUS,
 } from "../types/types";
 
 const initialState = {
@@ -249,6 +250,10 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         registeredUser: action.payload,
+      };
+    case EDIT_PERDIEM_STATUS:
+      return {
+        ...state,
       };
     default:
       return state;

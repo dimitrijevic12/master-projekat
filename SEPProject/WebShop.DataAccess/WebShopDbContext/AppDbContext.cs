@@ -50,7 +50,7 @@ namespace WebShop.DataAccess.WebShopDbContext
             );
 
             modelBuilder.Entity<Transaction>().HasData(
-               new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Failed, DateTime.Now, 1640.0, "EUR", admin.Id, issuer.Id)
+               new Transaction(new Guid("12345678-1234-1234-1234-123412341234"), TransactionStatus.Failed, PerdiemStatus.ShouldntPay, DateTime.Now, 1640.0, "EUR", admin.Id, issuer.Id)
             );
 
             TransactionItem transactionItem1 = new TransactionItem(new Guid("12345678-1234-1234-1234-123412341234"), TransactionItemType.Item, new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", 4, 150.0, new Guid("12345678-1234-1234-1234-123412341234"));

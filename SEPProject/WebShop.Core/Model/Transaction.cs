@@ -8,6 +8,7 @@ namespace WebShop.Core.Model
     {
         public Guid Id { get; set; }
         public TransactionStatus Status { get; set; }
+        public PerdiemStatus PerdiemStatus { get; set; }
         public DateTime Timestamp { get; set; }
         public double TotalPrice { get; set; }
         public string Currency { get; set; }
@@ -21,10 +22,11 @@ namespace WebShop.Core.Model
         {
         }
 
-        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, string currency, Guid sellerId, Guid buyerId)
+        public Transaction(Guid id, TransactionStatus status, PerdiemStatus perdiemStatus, DateTime timestamp, double totalPrice, string currency, Guid sellerId, Guid buyerId)
         {
             Id = id;
             Status = status;
+            PerdiemStatus = perdiemStatus;
             Timestamp = timestamp;
             TotalPrice = totalPrice;
             Currency = currency;

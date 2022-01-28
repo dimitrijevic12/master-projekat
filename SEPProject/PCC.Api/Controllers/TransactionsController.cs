@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -71,22 +70,15 @@ namespace PCC.Api.Controllers
             return Created($"{this.Request.Path}/{transactionResult.Value.Id}", pccRequest);
         }
 
-        [HttpPost("{id}")]
-        public IActionResult Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<Transaction> patchDoc)
+        [HttpPost("per-diem")]
+        public async Task<IActionResult> CreatePerDiem(PCCPerDiemRequest pccPerDiemRequest)
         {
-            if (patchDoc != null)
-            {
-                Transaction transaction = _transactionRepository.GetById(id);
-                patchDoc.ApplyTo(transaction, ModelState);
-                _transactionRepository.Edit(transaction);
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                ForwardTransactionStatus(transaction.AcquirerOrderId, transaction.TransactionStatus);
-                return new NoContentResult();
-            }
-            return BadRequest(ModelState);
+            Result<Transaction> transactionResult = _transactionService.CreatePerDiem(pccPerDiemRequest.Amount, pccPerDiemRequest.Currency, DateTime.Now,
+                pccPerDiemRequest.PaymentId, "", "", TransactionStatus.Pending,
+                Guid.Empty, pccPerDiemRequest.AcquirerTimestamp, Guid.Empty, new DateTime());
+            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
+            await ForwardPerDiem(transactionResult.Value, pccPerDiemRequest);
+            return Created($"{this.Request.Path}/{transactionResult.Value.Id}", pccPerDiemRequest);
         }
 
         private async Task ForwardCardInfo(Transaction transaction, Guid transactionId, CardInfo cardInfo)
@@ -109,6 +101,27 @@ namespace PCC.Api.Controllers
             httpResponseMessage.Dispose();
         }
 
+        private async Task ForwardPerDiem(Transaction transaction, PCCPerDiemRequest pCCPerDiemRequest)
+        {
+            var perDiemJson = new StringContent(
+              System.Text.Json.JsonSerializer.Serialize(new BankPerDiemRequest(transaction.Id, transaction.Timestamp, pCCPerDiemRequest.Amount,
+              pCCPerDiemRequest.AcquirerAccountNumber, pCCPerDiemRequest.Currency)),
+              Encoding.UTF8,
+              Application.Json);
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
+            using var httpResponseMessage = await client.PostAsync(Config.AcquirerBankServerAddress + "/per-diem-pcc", perDiemJson);
+            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            PCCResponse pccResponse = JsonConvert.DeserializeObject<PCCResponse>(content);
+            Enum.TryParse(pccResponse.TransactionStatus, out TransactionStatus transactionStatus);
+            transaction.TransactionStatus = transactionStatus;
+            transaction.IssuerOrderId = pccResponse.IssuerOrderId;
+            transaction.IssuerTimestamp = pccResponse.IssuerTimestamp;
+            _transactionRepository.Edit(transaction);
+            ForwardTransactionStatusToIssuerBank(pCCPerDiemRequest.AcquirerTransactionId, transactionStatus);
+            httpResponseMessage.Dispose();
+        }
+
         private async void ForwardTransactionStatus(Guid transactionId, TransactionStatus transactionStatus)
         {
             var patchPayloadList = new ArrayList();
@@ -121,6 +134,21 @@ namespace PCC.Api.Controllers
             var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PatchAsync(Config.AcquirerBankServerAddress + $"/{transactionId}", payload);
+            httpResponseMessage.Dispose();
+        }
+
+        private async void ForwardTransactionStatusToIssuerBank(Guid transactionId, TransactionStatus transactionStatus)
+        {
+            var patchPayloadList = new ArrayList();
+            PatchRequestPayload patchRequestPayload = new PatchRequestPayload("replace", "/transactionStatus", (int)transactionStatus);
+            patchPayloadList.Add(patchRequestPayload);
+            var payload = new StringContent(
+              System.Text.Json.JsonSerializer.Serialize(patchPayloadList),
+              Encoding.UTF8,
+              Application.Json);
+            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
+            using var httpResponseMessage = await client.PatchAsync(Config.IssuerBankServerAddress + $"/{transactionId}", payload);
             httpResponseMessage.Dispose();
         }
 

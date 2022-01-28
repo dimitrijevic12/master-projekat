@@ -112,6 +112,30 @@ namespace Bank.Core.Services
             return Result.Success(transaction);
         }
 
+        public Result<Transaction> CreatePerDiemFromPCC(double amount, string currency, string accountNumber)
+        {
+            Transaction transaction = null;
+            Guid id = Guid.NewGuid();
+            while (_transactionRepository.GetById(id) != null)
+                id = Guid.NewGuid();
+            Guid paymentId = Guid.NewGuid();
+            while (_transactionRepository.GetByPaymentId(paymentId) != null)
+                paymentId = Guid.NewGuid();
+            Account issuerAccount = _accountRepository.GetByAccountNumber(accountNumber);
+            if (issuerAccount == null)
+            {
+                transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Success, Guid.Empty,
+                "Unkwnown", Guid.Empty, "Unknown");
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
+            RegisteredUser issuer = _registeredUserRepository.GetById(issuerAccount.UserId);
+            transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Success, Guid.Empty,
+                "Unkwnown", issuerAccount.UserId, issuer.FirstName + " " + issuer.LastName);
+            _transactionRepository.Save(transaction);
+            return Result.Success(transaction);
+        }
+
         public Result<Transaction> Update(Transaction transaction)
         {
             if (_transactionRepository.GetById(transaction.Id) == null) return Result.Failure<Transaction>("Transaction with that id does not exist");

@@ -9,5 +9,7 @@ namespace Bank.Core.Interface.Service
         public Result<Transaction> Create(double amount, string currency, DateTime timestamp, Guid paymentId, string pan, TransactionStatus transactionStatus);
 
         public Result<Transaction> CreatePerDiem(string uniquePersonalRegistrationNumber, double amount, string currency, string accountNumber);
+
+        public Result<Transaction> CreatePerDiemFromPCC(double amount, string currency, string accountNumber);
     }
 }

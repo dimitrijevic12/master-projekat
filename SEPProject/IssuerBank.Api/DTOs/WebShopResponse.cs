@@ -4,7 +4,7 @@ namespace IssuerBank.Api.DTOs
 {
     public class WebShopResponse
     {
-        private Guid TransactionId { get; set; }
+        public Guid TransactionId { get; set; }
 
         public string PerdiemStatus { get; set; }
 

@@ -196,7 +196,9 @@ namespace Bank.Api.Controllers
                 {
                     bankPerDiemRequest
                 }, "Transaction has failed, invalid account number");
-                return BadRequest("Transaction has failed, invalid account number");
+                return Created(this.Request.Path + "/" + transactionResult.Value.Id,
+                new PCCResponse(TransactionStatus.Error.ToString(), bankPerDiemRequest.AcquirerOrderId, bankPerDiemRequest.AcquirerTimestamp,
+                    transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
             if (_accountService.UpdateBalance(transactionResult.Value.IssuerId, -transactionResult.Value.Amount, transactionResult.Value.Currency).IsFailure)
             {
@@ -206,7 +208,9 @@ namespace Bank.Api.Controllers
                 {
                     bankPerDiemRequest
                 }, "Transaction has failed, not enough resources.");
-                return BadRequest("Not enough resources.");
+                return Created(this.Request.Path + "/" + transactionResult.Value.Id,
+                new PCCResponse(TransactionStatus.Failed.ToString(), bankPerDiemRequest.AcquirerOrderId, bankPerDiemRequest.AcquirerTimestamp,
+                    transactionResult.Value.Id, transactionResult.Value.Timestamp));
             }
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id,

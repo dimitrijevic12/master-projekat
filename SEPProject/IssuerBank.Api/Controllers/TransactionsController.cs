@@ -179,10 +179,10 @@ namespace IssuerBank.Api.Controllers
                 if (transaction.TransactionStatus == TransactionStatus.Success)
                 {
                     _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
-                    //ForwardPerDiem(new WebShopResponse(transaction.Id, PerdiemStatus.Paid.ToString()));
+                    ForwardPerDiem(new WebShopResponse(transaction.PaymentId, PerdiemStatus.Paid.ToString()));
                     return new NoContentResult();
                 }
-                //ForwardPerDiem(new WebShopResponse(transaction.Id, PerdiemStatus.ShouldPay.ToString()));
+                ForwardPerDiem(new WebShopResponse(transaction.PaymentId, PerdiemStatus.ShouldPay.ToString()));
                 return new NoContentResult();
             }
             return BadRequest(ModelState);

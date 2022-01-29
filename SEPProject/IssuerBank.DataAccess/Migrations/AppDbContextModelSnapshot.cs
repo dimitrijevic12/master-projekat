@@ -44,28 +44,28 @@ namespace IssuerBank.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            AccountNumber = "123456789",
+                            AccountNumber = "123456781",
                             Balance = 100000.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341235")
                         },
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341235"),
-                            AccountNumber = "222222222",
+                            AccountNumber = "222222221",
                             Balance = 222222.0,
                             UserId = new Guid("12345678-1234-1234-1234-123412341234")
                         },
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341236"),
-                            AccountNumber = "333333333",
+                            AccountNumber = "333333331",
                             Balance = 222222.0,
                             UserId = new Guid("d969bb55-393a-4b22-9507-f4b492b3413f")
                         },
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341237"),
-                            AccountNumber = "444444444",
+                            AccountNumber = "444444441",
                             Balance = 222222.0,
                             UserId = new Guid("665166bf-411c-4ba9-a16d-2a6460a59500")
                         });
@@ -119,7 +119,7 @@ namespace IssuerBank.DataAccess.Migrations
                             MerchantId = new Guid("12345678-1234-1234-1234-123412341235"),
                             MerchantOrderId = new Guid("12345678-1234-1234-1234-123412341234"),
                             MerchantPassword = "password",
-                            MerchantTimestamp = new DateTime(2022, 1, 19, 15, 4, 18, 54, DateTimeKind.Local).AddTicks(7056),
+                            MerchantTimestamp = new DateTime(2022, 1, 29, 15, 16, 14, 471, DateTimeKind.Local).AddTicks(424),
                             SuccessUrl = "https://www.webshop.com/success"
                         });
                 });
@@ -251,7 +251,7 @@ namespace IssuerBank.DataAccess.Migrations
                             IssuerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             IssuerName = "Issuer name",
                             PaymentId = new Guid("12345678-1234-1234-1234-123412341234"),
-                            Timestamp = new DateTime(2022, 1, 19, 15, 4, 18, 58, DateTimeKind.Local).AddTicks(5433),
+                            Timestamp = new DateTime(2022, 1, 29, 15, 16, 14, 502, DateTimeKind.Local).AddTicks(4473),
                             TransactionStatus = 1
                         });
                 });

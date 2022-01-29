@@ -42,7 +42,12 @@ namespace Bank.Core.Services
             if (account == null)
                 return Result.Failure<Account>("Account does not exist.");
             amount = GetAmountBasedOnCurrency(amount, currency);
-            account.IncreaseBalance(amount);
+            if (amount < 0)
+            {
+                if (account.ReserveBalance(amount).IsFailure)
+                    return Result.Failure<Account>("Not enough resources.");
+            }
+            else { account.IncreaseBalance(amount); }
             _accountRepository.Edit(account);
             return Result.Success<Account>(account);
         }

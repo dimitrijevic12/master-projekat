@@ -62,19 +62,23 @@ namespace IssuerBank.Core.Services
             return Result.Success(transaction);
         }
 
-        public Result<Transaction> CreatePerDiem(string uniquePersonalRegistrationNumber, double amount, string currency)
+        public Result<Transaction> CreatePerDiem(string uniquePersonalRegistrationNumber, double amount, string currency, Guid transactionId)
         {
             Transaction transaction = null;
             Guid id = Guid.NewGuid();
             while (_transactionRepository.GetById(id) != null)
                 id = Guid.NewGuid();
-            Guid paymentId = Guid.NewGuid();
-            while (_transactionRepository.GetByPaymentId(paymentId) != null)
-                paymentId = Guid.NewGuid();
+            if (_transactionRepository.GetByPaymentId(transactionId) != null)
+            {
+                transaction = new Transaction(id, amount, currency, DateTime.Now, transactionId, TransactionStatus.Error, Guid.Empty,
+                "Unknown", Guid.Empty, "Unknown");
+                _transactionRepository.Save(transaction);
+                return Result.Success<Transaction>(transaction);
+            }
             RegisteredUser registeredUser = _registeredUserRepository.GetByUniquePersonalRegistrationNumber(uniquePersonalRegistrationNumber);
             if (registeredUser == null)
             {
-                transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Failed, Guid.Empty,
+                transaction = new Transaction(id, amount, currency, DateTime.Now, transactionId, TransactionStatus.Failed, Guid.Empty,
                 "Unknown", Guid.Empty, "Unknown");
                 _transactionRepository.Save(transaction);
                 return Result.Success<Transaction>(transaction);
@@ -82,12 +86,12 @@ namespace IssuerBank.Core.Services
             Account account = _accountRepository.GetByUserId(registeredUser.Id);
             if (account == null)
             {
-                transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Failed, registeredUser.Id,
+                transaction = new Transaction(id, amount, currency, DateTime.Now, transactionId, TransactionStatus.Failed, registeredUser.Id,
                 registeredUser.FirstName + " " + registeredUser.LastName, Guid.Empty, "Unknown");
                 _transactionRepository.Save(transaction);
                 return Result.Success<Transaction>(transaction);
             }
-            transaction = new Transaction(id, amount, currency, DateTime.Now, paymentId, TransactionStatus.Success, registeredUser.Id,
+            transaction = new Transaction(id, amount, currency, DateTime.Now, transactionId, TransactionStatus.Pending, registeredUser.Id,
                 registeredUser.FirstName + " " + registeredUser.LastName, Guid.Empty, "Unknown");
             _transactionRepository.Save(transaction);
             return Result.Success(transaction);

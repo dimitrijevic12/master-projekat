@@ -149,7 +149,7 @@ namespace Bank.Api.Controllers
             }
             Result<Transaction> transactionResult = null;
             transactionResult = _transactionService.CreatePerDiem(perDiem.UniquePersonalRegistrationNumber, perDiem.Amount,
-                perDiem.Currency);
+                perDiem.Currency, perDiem.AccountNumber);
 
             if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
             {
@@ -159,9 +159,59 @@ namespace Bank.Api.Controllers
                 }, "Transaction has failed, invalid Unique Personal Registration Number");
                 return BadRequest("Transaction has failed, invalid Unique Personal Registration Number");
             }
+            if (_accountService.UpdateBalance(transactionResult.Value.IssuerId, -transactionResult.Value.Amount, transactionResult.Value.Currency).IsFailure)
+            {
+                transactionResult.Value.TransactionStatus = TransactionStatus.Failed;
+                _transactionRepository.Edit(transactionResult.Value);
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    perDiem
+                }, "Transaction has failed, not enough resources.");
+                return BadRequest("Not enough resources.");
+            }
+            _accountService.UpdateBalance(transactionResult.Value.AcquirerId, -transactionResult.Value.Amount, transactionResult.Value.Currency);
             _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
-            _accountService.UpdateBalance(transactionResult.Value.AcquirerId, transactionResult.Value.Amount, transactionResult.Value.Currency);
             return Created(this.Request.Path + "/" + transactionResult.Value.Id, "");
+        }
+
+        [HttpPost]
+        [Route("per-diem-pcc")]
+        public IActionResult CreatePerDiemFromPCCTransaction(BankPerDiemRequest bankPerDiemRequest)
+        {
+            if (bankPerDiemRequest.Amount < 0)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    bankPerDiemRequest
+                }, "Transaction has failed, negative amount");
+                return BadRequest("Transaction has failed, negative amount");
+            }
+            Result<Transaction> transactionResult = null;
+            transactionResult = _transactionService.CreatePerDiemFromPCC(bankPerDiemRequest.Amount,
+                bankPerDiemRequest.Currency, bankPerDiemRequest.IssuerAccountNumber);
+
+            if (transactionResult.Value.TransactionStatus == TransactionStatus.Failed)
+            {
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    bankPerDiemRequest
+                }, "Transaction has failed, invalid account number");
+                return BadRequest("Transaction has failed, invalid account number");
+            }
+            if (_accountService.UpdateBalance(transactionResult.Value.IssuerId, -transactionResult.Value.Amount, transactionResult.Value.Currency).IsFailure)
+            {
+                transactionResult.Value.TransactionStatus = TransactionStatus.Failed;
+                _transactionRepository.Edit(transactionResult.Value);
+                _logger.LogError("Failed to create Transaction with Per Diem {@PerDiem}, Error: {@Error}", new
+                {
+                    bankPerDiemRequest
+                }, "Transaction has failed, not enough resources.");
+                return BadRequest("Not enough resources.");
+            }
+            _logger.LogInformation("Created Transaction {@Transaction}", transactionResult.Value);
+            return Created(this.Request.Path + "/" + transactionResult.Value.Id,
+                new PCCResponse(TransactionStatus.Success.ToString(), bankPerDiemRequest.AcquirerOrderId, bankPerDiemRequest.AcquirerTimestamp,
+                    transactionResult.Value.Id, transactionResult.Value.Timestamp));
         }
 
         [HttpPatch("{id}")]
@@ -182,9 +232,9 @@ namespace Bank.Api.Controllers
                 if (transaction.TransactionStatus == TransactionStatus.Success)
                 {
                     _accountService.UpdateBalance(transaction.AcquirerId, transaction.Amount, transaction.Currency);
-                    Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(transaction.PaymentId).PSPRequest;
-                    ForwardTransaction(new PSPTransaction(request.MerchantOrderId, TransactionStatus.Success.ToString(), transaction.Id));
                 }
+                Core.Model.PSPRequest request = _PSPResponseRepository.GetByPaymentId(transaction.PaymentId).PSPRequest;
+                ForwardTransaction(new PSPTransaction(request.MerchantOrderId, transaction.TransactionStatus.ToString(), transaction.Id));
 
                 return new NoContentResult();
             }

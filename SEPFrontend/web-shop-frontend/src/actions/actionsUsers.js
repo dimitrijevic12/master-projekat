@@ -14,6 +14,8 @@ import {
 } from "../types/types";
 import axios from "axios";
 
+const https = require("https");
+
 export const userRegistration = (user) => async (dispatch) => {
   debugger;
   try {
@@ -66,11 +68,15 @@ export const adminRegistration = (admin) => async (dispatch) => {
 
 export const userLoggedIn = (user) => async (dispatch) => {
   debugger;
+  const agent = new https.Agent({
+    rejectUnauthorized: false,
+  });
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/users/login",
+      "https://192.168.1.18:44326/api/users/login",
       user,
       {
+        httpsAgent: agent,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },

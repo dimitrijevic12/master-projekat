@@ -16,8 +16,9 @@ import {
 import axios from "axios";
 
 export const getItems = () => async (dispatch) => {
+  debugger;
   try {
-    const response = await axios.get(`https://localhost:44326/api/items`, {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}items`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -38,7 +39,7 @@ export const getItems = () => async (dispatch) => {
 export const getImagesForItems = (items) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/contents/images",
+      `${process.env.REACT_APP_API_URL}contents/images`,
       items,
       {
         headers: {
@@ -63,7 +64,7 @@ export const getItemById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:44326/api/items/" + id, {
+      .get(`${process.env.REACT_APP_API_URL}items/` + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -76,7 +77,8 @@ export const getItemById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:44326/api/contents/" + response.data.imagePath,
+            `${process.env.REACT_APP_API_URL}contents/` +
+              response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -103,7 +105,7 @@ export const getItemById = (id) => async (dispatch) => {
 export const createItem = (item) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/items",
+      `${process.env.REACT_APP_API_URL}items`,
       item,
       {
         headers: {
@@ -128,7 +130,7 @@ export const getItemsForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/items/users/` + ownerId,
+      `${process.env.REACT_APP_API_URL}items/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -151,7 +153,7 @@ export const getItemsForOwner = (ownerId) => async (dispatch) => {
 export const editItem = (item) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/items",
+      `${process.env.REACT_APP_API_URL}items`,
       item,
       {
         headers: {

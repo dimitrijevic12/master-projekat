@@ -22,7 +22,7 @@ namespace WebShop.Api
         public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
         {
             Configuration = configuration;
-            CurrentEnvironment = currentEnvironment;
+            var contentRoot = currentEnvironment.ContentRootPath;
         }
 
         public IConfiguration Configuration { get; }

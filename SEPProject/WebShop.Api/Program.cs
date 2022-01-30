@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +8,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebShop.Api
@@ -28,8 +30,15 @@ namespace WebShop.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>().UseSerilog();
-                    webBuilder.ConfigureKestrel(o => {
-                        o.ConfigureHttpsDefaults(o => o.ClientCertificateMode = ClientCertificateMode.AllowCertificate);
+                    webBuilder.ConfigureKestrel(options => {
+                        var port = 44326;
+                        var pfxFilePath = $"{AppContext.BaseDirectory}cert.pfx";
+                        var pfxPassword = "12345";
+
+                        options.Listen(IPAddress.Any, port, listenOptions => {
+                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                            listenOptions.UseHttps(pfxFilePath, pfxPassword);
+                        });
                     });
                 });
     }

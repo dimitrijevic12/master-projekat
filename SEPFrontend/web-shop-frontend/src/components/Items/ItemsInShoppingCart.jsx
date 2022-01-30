@@ -228,7 +228,8 @@ class ItemsInShoppingCart extends Component {
     });
     localStorage.setItem("shoppingCart", "");
     window.location.href =
-      "https://localhost:3001/psp/" + this.props.savedTransaction.id;
+      `${process.env.REACT_APP_PSP_FRONT_END_URL}/psp/` +
+      this.props.savedTransaction.id;
   }
 
   getTotalPrice() {

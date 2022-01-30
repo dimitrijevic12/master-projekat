@@ -191,7 +191,7 @@ class CreateTransportation extends Component {
     try {
       const res = await axios({
         method: "post",
-        url: "https://localhost:44326/api/contents",
+        url: `${process.env.REACT_APP_API_URL}contents`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",

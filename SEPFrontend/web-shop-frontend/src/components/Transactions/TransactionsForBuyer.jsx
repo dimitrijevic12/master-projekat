@@ -111,7 +111,9 @@ class TransactionsForBuyer extends Component {
   }
 
   payPerdiem(f) {
-    window.location.href = "https://localhost:3000/perdiem-transaction/" + f.id;
+    window.location.href =
+      `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}/perdiem-transaction/` +
+      f.id;
   }
 
   view(f) {

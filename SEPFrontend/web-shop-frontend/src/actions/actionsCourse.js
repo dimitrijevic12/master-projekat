@@ -16,12 +16,15 @@ import axios from "axios";
 export const getCourses = () => async (dispatch) => {
   debugger;
   try {
-    const response = await axios.get(`https://localhost:44326/api/courses`, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
-      },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}courses`,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
+        },
+      }
+    );
     dispatch({
       type: GET_COURSES,
       payload: response.data,
@@ -38,7 +41,7 @@ export const getCourseById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:44326/api/courses/" + id, {
+      .get(`${process.env.REACT_APP_API_URL}courses/` + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -51,7 +54,8 @@ export const getCourseById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:44326/api/contents/" + response.data.imagePath,
+            `${process.env.REACT_APP_API_URL}contents/` +
+              response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -79,7 +83,7 @@ export const createCourse = (course) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/courses",
+      `${process.env.REACT_APP_API_URL}courses`,
       course,
       {
         headers: {
@@ -103,7 +107,7 @@ export const createCourse = (course) => async (dispatch) => {
 export const editCourse = (course) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/courses",
+      `${process.env.REACT_APP_API_URL}courses`,
       course,
       {
         headers: {
@@ -128,7 +132,7 @@ export const getCoursesForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/courses/users/` + ownerId,
+      `${process.env.REACT_APP_API_URL}courses/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

@@ -44,7 +44,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Success",
           });
           window.location.href =
-            "https://localhost:3000/perdiem-transaction/" +
+          `${process.env.REACT_APP_API_URL}perdiem-transaction/` +
             props.paypalTransaction.orderId;
         },
         onCancel: async (obj) => {
@@ -52,7 +52,7 @@ function PayPalFunction(props) {
             MerchantOrderId: props.paypalTransaction.orderId,
             TransactionStatus: "Failed",
           });
-          window.location.href = "https://localhost:3000/items";
+          window.location.href = `${process.env.REACT_APP_API_URL}items`;
         },
         onError: async (err) => {
           console.log(err);
@@ -61,7 +61,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Error",
           });
           window.location.href =
-            "https://localhost:3000/error-transaction/" +
+          `${process.env.REACT_APP_API_URL}error-transaction/` +
             props.paypalTransaction.orderId;
         },
       })

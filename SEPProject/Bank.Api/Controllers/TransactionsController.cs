@@ -252,7 +252,7 @@ namespace Bank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\bank.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PutAsync(Config.PSPServerAddress, transactionJson);
@@ -266,7 +266,7 @@ namespace Bank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\bank.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PostAsync(Config.PCCServerAddress, cardInfoJson);

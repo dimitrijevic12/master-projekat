@@ -12,7 +12,7 @@ import {
       debugger;
       try {
         const response = await axios.put(
-          "https://localhost:44390/api/crypto-transactions",
+          `${process.env.REACT_APP_API_URL}crypto-transactions`,
           transactionStatus,
           {
             headers: {
@@ -37,7 +37,7 @@ import {
         debugger;
         try {
           const response = await axios.post(
-            "https://localhost:44390/api/transactions/cryptoPayment",
+            `${process.env.REACT_APP_API_URL}transactions/cryptoPayment`,
             transaction,
             {
               headers: {
@@ -64,7 +64,7 @@ import {
         debugger;
         try {
           const response = await axios.get(
-            "https://localhost:44390/api/crypto-transactions/" + orderId,
+            `${process.env.REACT_APP_API_URL}crypto-transactions/` + orderId,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",

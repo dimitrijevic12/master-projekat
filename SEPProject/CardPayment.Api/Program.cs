@@ -3,6 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Serilog;
+using System;
+using System.Net;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace CardPayment.Api
 {
@@ -23,8 +26,15 @@ namespace CardPayment.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>().UseSerilog();
-                    webBuilder.ConfigureKestrel(o => {
-                        o.ConfigureHttpsDefaults(o => o.ClientCertificateMode = ClientCertificateMode.AllowCertificate);
+                    webBuilder.ConfigureKestrel(options => {
+                        var port = 44300;
+                        var pfxFilePath = $"{AppContext.BaseDirectory}psp.pfx";
+                        var pfxPassword = "12345";
+
+                        options.Listen(IPAddress.Any, port, listenOptions => {
+                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                            listenOptions.UseHttps(pfxFilePath, pfxPassword);
+                        });
                     });
                 });
     }

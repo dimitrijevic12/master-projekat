@@ -11,7 +11,7 @@ export const setPayPalTransactionStatus =
     debugger;
     try {
       const response = await axios.put(
-        "https://localhost:44390/api/paypal-transactions",
+        `${process.env.REACT_APP_API_URL}paypal-transactions`,
         transactionStatus,
         {
           headers: {
@@ -36,7 +36,7 @@ export const getPayPalTransaction = (orderId) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.get(
-      "https://localhost:44390/api/paypal-transactions/" + orderId,
+      `${process.env.REACT_APP_API_URL}paypal-transactions/` + orderId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

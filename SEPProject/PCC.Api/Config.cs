@@ -6,7 +6,7 @@
         {
             get
             {
-                return "https://localhost:44376/api/transactions";
+                return "https://192.168.1.62:44376/api/transactions";
             }
         }
 
@@ -14,7 +14,7 @@
         {
             get
             {
-                return "https://localhost:44375/api/transactions";
+                return "https://192.168.1.62:44375/api/transactions";
             }
         }
     }

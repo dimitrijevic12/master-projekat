@@ -87,7 +87,7 @@ namespace PCC.Api.Controllers
               System.Text.Json.JsonSerializer.Serialize(cardInfo),
               Encoding.UTF8,
               Application.Json);
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\pcc.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PostAsync(Config.IssuerBankServerAddress, cardInfoJson);
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -108,7 +108,7 @@ namespace PCC.Api.Controllers
               pCCPerDiemRequest.AcquirerAccountNumber, pCCPerDiemRequest.Currency)),
               Encoding.UTF8,
               Application.Json);
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\pcc.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PostAsync(Config.AcquirerBankServerAddress + "/per-diem-pcc", perDiemJson);
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -131,7 +131,7 @@ namespace PCC.Api.Controllers
               System.Text.Json.JsonSerializer.Serialize(patchPayloadList),
               Encoding.UTF8,
               Application.Json);
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\pcc.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PatchAsync(Config.AcquirerBankServerAddress + $"/{transactionId}", payload);
             httpResponseMessage.Dispose();
@@ -146,7 +146,7 @@ namespace PCC.Api.Controllers
               System.Text.Json.JsonSerializer.Serialize(patchPayloadList),
               Encoding.UTF8,
               Application.Json);
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpcc.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\pcc.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage = await client.PatchAsync(Config.IssuerBankServerAddress + $"/{transactionId}", payload);
             httpResponseMessage.Dispose();

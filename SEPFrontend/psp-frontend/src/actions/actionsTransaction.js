@@ -14,7 +14,7 @@ export const getTransactions = () => async (dispatch) => {
   debugger;
   try {
     const response = await axios.get(
-      "https://localhost:44390/api/Transactions",
+      `${process.env.REACT_APP_API_URL}Transactions`,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -39,7 +39,7 @@ export const getRequest = (orderId) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.get(
-      "https://localhost:44390/api/Transactions/" + orderId,
+      `${process.env.REACT_APP_API_URL}Transactions/` + orderId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -64,7 +64,7 @@ export const sendRequest = (request) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44375/api/PSPRequests",
+      `${process.env.REACT_APP_API_URL}PSPRequests`,
       request,
       {
         headers: {
@@ -89,7 +89,7 @@ export const setPaymentId = (transactionsPayment) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.put(
-      "https://localhost:44390/api/Transactions/paymentId",
+      `${process.env.REACT_APP_API_URL}Transactions/paymentId`,
       transactionsPayment,
       {
         headers: {

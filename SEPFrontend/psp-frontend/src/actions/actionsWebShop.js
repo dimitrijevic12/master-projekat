@@ -16,7 +16,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.post(
-        "https://localhost:44390/api/RegisteredWebShops",
+          `${process.env.REACT_APP_API_URL}RegisteredWebShops`,
         webShop,
         {
             headers: {
@@ -40,7 +40,7 @@ export const webShopRegistration = (webShop) => async (dispatch) => {
 export const userLoggedIn = (webShop) => async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://localhost:44390/api/RegisteredWebShops/login",
+        `${process.env.REACT_APP_API_URL}RegisteredWebShops/login`,
         webShop,
         {
           headers: {
@@ -70,7 +70,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
       const response = await axios.get(
-        "https://localhost:44390/api/RegisteredWebShops/" + webShopEmail,
+        `${process.env.REACT_APP_API_URL}RegisteredWebShops/` + webShopEmail,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -95,7 +95,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
     debugger;
     try {
         const response = await axios.put(
-        "https://localhost:44390/api/RegisteredWebShops",
+          `${process.env.REACT_APP_API_URL}RegisteredWebShops`,
         paymentTypes,
         {
             headers: {
@@ -119,7 +119,7 @@ export const userLoggedIn = (webShop) => async (dispatch) => {
 export const getPaymentTypes = () => async (dispatch) => {  
     try {
       const response = await axios.get(
-        "https://localhost:44390/api/PaymentTypes",
+        `${process.env.REACT_APP_API_URL}PaymentTypes`,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",
@@ -143,7 +143,7 @@ export const getPaymentTypes = () => async (dispatch) => {
     debugger;
     try {
       const response = await axios.get(
-        "https://localhost:44390/api/paymenttypes/" + orderId,
+        `${process.env.REACT_APP_API_URL}paymenttypes/` + orderId,
         {
           headers: {
             "Access-Control-Allow-Origin": "*",

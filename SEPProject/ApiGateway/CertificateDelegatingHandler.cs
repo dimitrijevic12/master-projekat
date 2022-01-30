@@ -26,8 +26,8 @@ namespace ApiGateway
             if (inner is HttpClientHandler)
             {
                 var httpClientHandler = (HttpClientHandler)inner;
-                var cert = new X509Certificate2($"{_webHostEnvironment.ContentRootPath}\\clientcertbank.pfx",
-                "Client123", X509KeyStorageFlags.PersistKeySet);
+                var cert = new X509Certificate2($"{_webHostEnvironment.ContentRootPath}\\psp.pfx",
+                "12345", X509KeyStorageFlags.PersistKeySet);
                 httpClientHandler.ClientCertificates.Add(cert);
             }
             return await base.SendAsync(request, cancellationToken);

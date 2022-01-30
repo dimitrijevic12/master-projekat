@@ -18,7 +18,7 @@ class SuccessRedirect extends Component {
       TransactionStatus: "Success",
     });
     window.location.href =
-      "https://localhost:3000/perdiem-transaction/" + orderId;
+    `${process.env.REACT_APP_API_URL}perdiem-transaction/` + orderId;
   }
 
   render() {

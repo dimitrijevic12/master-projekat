@@ -110,9 +110,9 @@ class ChoosePaymentTypes extends Component {
         price_currency: this.props.cryptoTransaction.currency,
         receive_currency: this.props.cryptoTransaction.currency,
         success_url:
-          "https://localhost:3001/paid-transaction/" + this.state.orderId,
+        `${process.env.REACT_APP_PSP_FRONT_END_URL}paid-transaction/` + this.state.orderId,
         cancel_url:
-          "https://localhost:3001/invalid-transaction/" + this.state.orderId,
+        `${process.env.REACT_APP_PSP_FRONT_END_URL}invalid-transaction/` + this.state.orderId,
       });
       debugger;
       if (successful === true) {

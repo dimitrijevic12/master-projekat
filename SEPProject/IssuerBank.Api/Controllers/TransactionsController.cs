@@ -195,7 +195,7 @@ namespace IssuerBank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertissuerbank.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\issuer.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PostAsync(Config.PCCServerAddress, pccPerDiemJson);
@@ -209,7 +209,7 @@ namespace IssuerBank.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertissuerbank.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\issuer.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
             await client.PutAsync(Config.WebShopAddress, webShopResponseJson);

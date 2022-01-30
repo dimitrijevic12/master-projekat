@@ -16,7 +16,7 @@ namespace PayPal.Api
             handler.ClientCertificateOptions = ClientCertificateOption.Manual;
             handler.SslProtocols = SslProtocols.Tls12;
             var cert = new X509Certificate2(path,
-                "Client123", X509KeyStorageFlags.PersistKeySet);
+                "12345", X509KeyStorageFlags.PersistKeySet);
             handler.ClientCertificates.Add(cert);
             return handler;
         }

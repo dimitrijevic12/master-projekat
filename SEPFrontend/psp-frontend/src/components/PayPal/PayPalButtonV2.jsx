@@ -50,8 +50,12 @@ class PayPalButtonV2 extends Component {
               MerchantOrderId: paypalTransaction.orderId,
               TransactionStatus: "Success",
             });
+            debugger;
+            var stringTest = `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}perdiem-transaction/` +
+            paypalTransaction.orderId;
+            debugger;
             window.location.href =
-            `${process.env.REACT_APP_API_URL}perdiem-transaction/` +
+            `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}perdiem-transaction/` +
               paypalTransaction.orderId;
           }}
           onCancel={async (obj) => {
@@ -59,7 +63,7 @@ class PayPalButtonV2 extends Component {
               MerchantOrderId: paypalTransaction.orderId,
               TransactionStatus: "Failed",
             });
-            window.location.href =  `${process.env.REACT_APP_API_URL}items`;
+            window.location.href =  `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}items`;
           }}
           onError={async (err) => {
             console.log(err);
@@ -68,7 +72,7 @@ class PayPalButtonV2 extends Component {
               TransactionStatus: "Error",
             });
             window.location.href =
-            `${process.env.REACT_APP_API_URL}error-transaction/` +
+            `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}error-transaction/` +
               paypalTransaction.orderId;
           }}
           options={{

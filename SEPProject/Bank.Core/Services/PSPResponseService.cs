@@ -23,7 +23,7 @@ namespace Bank.Core.Services
             Guid paymentId = Guid.NewGuid();
             if (_PSPResponseRepository.GetByPaymentId(paymentId) != null)
                 return Result.Failure<PSPResponse>("Payment Id already exists.");
-            PSPResponse response = new PSPResponse(id, new Uri("https://localhost:3002/payment/" + paymentId), paymentId, pspRequestId);
+            PSPResponse response = new PSPResponse(id, new Uri("https://192.168.1.62:3002/payment/" + paymentId), paymentId, pspRequestId);
             _PSPResponseRepository.Save(response);
             return Result.Success(response);
         }

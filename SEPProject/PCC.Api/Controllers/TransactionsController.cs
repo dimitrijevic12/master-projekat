@@ -37,8 +37,7 @@ namespace PCC.Api.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost]     
         public async Task<IActionResult> Create(PCCRequest pccRequest)
         {
             Result<Transaction> transactionResult = _transactionService.Create(pccRequest.Amount, pccRequest.Currency, DateTime.Now,

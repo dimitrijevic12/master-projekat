@@ -62,7 +62,6 @@ namespace CardPayment.Api.Controllers
         }
 
         [HttpPut("status")]
-        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult EditTransactionStatus(TransactionStatusDTO transactionStatusDTO)
         {
             Transaction transaction = _transactionService.EditTransaction(transactionStatusDTO);
@@ -83,10 +82,10 @@ namespace CardPayment.Api.Controllers
               Encoding.UTF8,
               Application.Json);
 
-            var path = $"{_webHostEnvironment.ContentRootPath}\\clientcertpsp.pfx";
+            var path = $"{_webHostEnvironment.ContentRootPath}\\psp.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
-            await client.PutAsync("https://localhost:44326/api/transactions", transactionJson);
+            await client.PutAsync("https://192.168.1.18:44326/api/transactions", transactionJson);
             httpResponseMessage.Dispose();
         }
     }

@@ -18,7 +18,7 @@ class FailedRedirect extends Component {
         TransactionStatus: "Failed",
       });
     window.location.href =
-    `${process.env.REACT_APP_API_URL}failed-transaction/` +
+    `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}failed-transaction/` +
             orderId;
   }
 

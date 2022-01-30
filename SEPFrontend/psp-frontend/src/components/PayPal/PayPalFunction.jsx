@@ -44,7 +44,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Success",
           });
           window.location.href =
-          `${process.env.REACT_APP_API_URL}perdiem-transaction/` +
+          `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}perdiem-transaction/` +
             props.paypalTransaction.orderId;
         },
         onCancel: async (obj) => {
@@ -52,7 +52,7 @@ function PayPalFunction(props) {
             MerchantOrderId: props.paypalTransaction.orderId,
             TransactionStatus: "Failed",
           });
-          window.location.href = `${process.env.REACT_APP_API_URL}items`;
+          window.location.href = `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}items`;
         },
         onError: async (err) => {
           console.log(err);
@@ -61,7 +61,7 @@ function PayPalFunction(props) {
             TransactionStatus: "Error",
           });
           window.location.href =
-          `${process.env.REACT_APP_API_URL}error-transaction/` +
+          `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}error-transaction/` +
             props.paypalTransaction.orderId;
         },
       })

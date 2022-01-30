@@ -64,7 +64,7 @@ export const sendRequest = (request) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}PSPRequests`,
+      `${process.env.REACT_APP_API_URL_BANK}PSPRequests`,
       request,
       {
         headers: {

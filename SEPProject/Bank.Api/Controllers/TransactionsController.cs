@@ -44,13 +44,6 @@ namespace Bank.Api.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult GetAll()
-        {
-            return Ok(_transactionRepository.GetAll());
-        }
-
         [HttpGet("{id}/transaction-status")]
         public IActionResult GetTransactionStatusById(Guid id)
         {
@@ -219,7 +212,6 @@ namespace Bank.Api.Controllers
         }
 
         [HttpPatch("{id}")]
-        [Authorize]
         public IActionResult Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<Transaction> patchDoc)
         {
             if (patchDoc != null)

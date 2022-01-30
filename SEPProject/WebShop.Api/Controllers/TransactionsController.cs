@@ -50,7 +50,6 @@ namespace WebShop.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
         public IActionResult EditStatus(TransactionDTO transactionDTO)
         {
             if (_transactionRepository.GetById(transactionDTO.MerchantOrderId) is null)

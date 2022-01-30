@@ -20,7 +20,7 @@ export const userRegistration = (user) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/registeredUsers",
+      `${process.env.REACT_APP_API_URL}registeredUsers`,
       user,
       {
         headers: {
@@ -45,7 +45,7 @@ export const adminRegistration = (admin) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/admins",
+      `${process.env.REACT_APP_API_URL}admins`,
       admin,
       {
         headers: {
@@ -73,7 +73,7 @@ export const userLoggedIn = (user) => async (dispatch) => {
   });
   try {
     const response = await axios.post(
-      "https://192.168.1.18:44326/api/users/login",
+      `${process.env.REACT_APP_API_URL}users/login`,
       user,
       {
         httpsAgent: agent,
@@ -103,7 +103,7 @@ export const bankAdminRegistration = (name) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44375/api/merchants",
+      `${process.env.REACT_APP_BANK_APP_API_URL}merchants`,
       name,
       {
         headers: {
@@ -129,7 +129,7 @@ export const editAdmin = (admin) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/admins",
+      `${process.env.REACT_APP_API_URL}admins`,
       admin,
       {
         headers: {
@@ -153,7 +153,7 @@ export const pspAdminRegistration = (admin) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44390/api/merchants",
+      `${process.env.REACT_APP_PSP_APP_API_URL}merchants`,
       admin,
       {
         headers: {
@@ -178,7 +178,7 @@ export const getRegisteredUserById = () => async (dispatch) => {
   const userId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/registeredUsers/` + userId,
+      `${process.env.REACT_APP_API_URL}registeredUsers/` + userId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

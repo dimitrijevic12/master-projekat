@@ -17,7 +17,7 @@ export const getTransportations =
   (startDestination, finalDestination) => async (dispatch) => {
     try {
       const response = await axios.get(
-        "https://localhost:44326/api/transportations?",
+        `${process.env.REACT_APP_API_URL}transportations?`,
         {
           params: {
             startDestination: startDestination,
@@ -45,7 +45,7 @@ export const createTransportation = (transportation) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/transportations",
+      `${process.env.REACT_APP_API_URL}transportations`,
       transportation,
       {
         headers: {
@@ -70,7 +70,7 @@ export const getTransportationById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:44326/api/transportations/" + id, {
+      .get(`${process.env.REACT_APP_API_URL}transportations/` + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -83,7 +83,8 @@ export const getTransportationById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:44326/api/contents/" + response.data.imagePath,
+            `${process.env.REACT_APP_API_URL}contents/` +
+              response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -111,7 +112,7 @@ export const getTransportationsForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/transportations/users/` + ownerId,
+      `${process.env.REACT_APP_API_URL}transportations/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -134,7 +135,7 @@ export const getTransportationsForOwner = (ownerId) => async (dispatch) => {
 export const editTransportation = (transportation) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/transportations",
+      `${process.env.REACT_APP_API_URL}transportations`,
       transportation,
       {
         headers: {

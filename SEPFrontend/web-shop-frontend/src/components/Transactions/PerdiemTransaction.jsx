@@ -155,7 +155,7 @@ class PerdeimTransaction extends Component {
         perdiemStatus: "Paid",
       });
       window.location.href =
-        "https://localhost:3000/successful-transaction/" +
+        `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}/successful-transaction/` +
         this.props.transaction.id;
     } else {
       toast.configure();
@@ -176,7 +176,7 @@ class PerdeimTransaction extends Component {
   redirect() {
     if (this.state.showPerdiemForm === false) {
       window.location.href =
-        "https://localhost:3000/successful-transaction/" +
+        `${process.env.REACT_APP_WEBSHOP_FRONT_END_URL}/successful-transaction/` +
         this.props.transaction.id;
     }
   }

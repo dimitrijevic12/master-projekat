@@ -17,7 +17,7 @@ export const createAccommodation = (accommodation) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/accommodations",
+      `${process.env.REACT_APP_API_URL}accommodations`,
       accommodation,
       {
         headers: {
@@ -41,7 +41,7 @@ export const createAccommodation = (accommodation) => async (dispatch) => {
 export const getAccommodationsForCity = (city) => async (dispatch) => {
   try {
     const response = await axios.get(
-      "https://localhost:44326/api/accommodations?",
+      `${process.env.REACT_APP_API_URL}accommodations?`,
       {
         params: { city: city },
         headers: {
@@ -66,7 +66,7 @@ export const getAccommodationById = (id) => async (dispatch) => {
   try {
     debugger;
     const response = await axios
-      .get("https://localhost:44326/api/accommodations/" + id, {
+      .get(`${process.env.REACT_APP_API_URL}accommodations/` + id, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + sessionStorage.getItem("tokenWebShop"),
@@ -79,7 +79,8 @@ export const getAccommodationById = (id) => async (dispatch) => {
         });
         const response2 = axios
           .get(
-            "https://localhost:44326/api/contents/" + response.data.imagePath,
+            `${process.env.REACT_APP_API_URL}contents/` +
+              response.data.imagePath,
             {
               headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -107,7 +108,7 @@ export const getAccommodationsForOwner = (ownerId) => async (dispatch) => {
   ownerId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/accommodations/users/` + ownerId,
+      `${process.env.REACT_APP_API_URL}accommodations/users/` + ownerId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -130,7 +131,7 @@ export const getAccommodationsForOwner = (ownerId) => async (dispatch) => {
 export const editAccommodation = (accommodation) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/accommodations",
+      `${process.env.REACT_APP_API_URL}accommodations`,
       accommodation,
       {
         headers: {

@@ -12,8 +12,8 @@ export const payPerdiem = (perdiem) => async (dispatch) => {
   };
   var url =
     perdiem.bank === "Erste Bank"
-      ? "https://localhost:44376/api/transactions/per-diem"
-      : "https://localhost:44375/api/transactions/per-diem";
+      ? `${process.env.REACT_APP_ISSUER_BANK_APP_API_URL}transactions/per-diem`
+      : `${process.env.REACT_APP_BANK_APP_API_URL}transactions/per-diem`;
   try {
     const response = await axios.post(url, perdiemDto, {
       headers: {

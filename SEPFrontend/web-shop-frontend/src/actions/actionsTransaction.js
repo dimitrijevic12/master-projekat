@@ -17,7 +17,7 @@ import axios from "axios";
 export const saveTransaction = (transaction) => async (dispatch) => {
   try {
     const response = await axios.post(
-      "https://localhost:44326/api/transactions",
+      `${process.env.REACT_APP_API_URL}transactions`,
       transaction,
       {
         headers: {
@@ -42,7 +42,7 @@ export const getTransactionsForBuyer = (userId) => async (dispatch) => {
   userId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/transactions/buyers/` + userId,
+      `${process.env.REACT_APP_API_URL}transactions/buyers/` + userId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -65,7 +65,7 @@ export const getTransactionsForBuyer = (userId) => async (dispatch) => {
 export const getTransactionById = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/transactions/` + id,
+      `${process.env.REACT_APP_API_URL}transactions/` + id,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -89,7 +89,7 @@ export const getTransactionsForSeller = (userId) => async (dispatch) => {
   userId = sessionStorage.getItem("userIdWebShop");
   try {
     const response = await axios.get(
-      `https://localhost:44326/api/transactions/sellers/` + userId,
+      `${process.env.REACT_APP_API_URL}transactions/sellers/` + userId,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -113,7 +113,7 @@ export const sendTransactionToPsp = (transaction) => async (dispatch) => {
   debugger;
   try {
     const response = await axios.post(
-      "https://localhost:44390/api/transactions",
+      `${process.env.REACT_APP_PSP_APP_API_URL}transactions`,
       transaction,
       {
         headers: {
@@ -137,7 +137,7 @@ export const sendTransactionToPsp = (transaction) => async (dispatch) => {
 export const editPerdiemStatus = (perdiemTransaction) => async (dispatch) => {
   try {
     const response = await axios.put(
-      "https://localhost:44326/api/transactions/per-diem",
+      `${process.env.REACT_APP_API_URL}transactions/per-diem`,
       perdiemTransaction,
       {
         headers: {

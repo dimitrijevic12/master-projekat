@@ -69,7 +69,7 @@ namespace PayPal.Api.Controllers
             var path = $"{_webHostEnvironment.ContentRootPath}\\psp.pfx";
             HttpClient client = new HttpClient(HTTPClientHandlerFactory.Create(path));
             using var httpResponseMessage =
-            await client.PutAsync("https://192.168.1.18:44326/api/transactions", transactionJson);
+            await client.PutAsync("https://172.20.10.2:44326/api/transactions", transactionJson);
             httpResponseMessage.Dispose();
         }
     }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PSP.DataAccess.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -118,12 +118,12 @@ namespace PSP.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "RegisteredWebShops",
                 columns: new[] { "Id", "EmailAddress", "ErrorUrl", "FailedUrl", "Password", "Salt", "SuccessUrl", "WebShopId", "WebShopName" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "https://192.168.1.18:3000/error-transaction", "https://192.168.1.18:3000/failed-transaction", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=", "DhR9MbXejS+TQxW3rvMT1g==", "https://192.168.1.18:3000/perdiem-transaction", 123, "WebShopName" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341230"), "gmail@gmail.com", "https://172.20.10.3:3000/error-transaction", "https://172.20.10.3:3000/failed-transaction", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=", "DhR9MbXejS+TQxW3rvMT1g==", "https://172.20.10.3:3000/perdiem-transaction", 123, "WebShopName" });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "Amount", "Currency", "IssuerId", "IssuerName", "MerchantId", "MerchantName", "OrderId", "PaymentId", "Timestamp", "TransactionStatus", "Type" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2022, 1, 30, 20, 9, 32, 775, DateTimeKind.Local).AddTicks(6862), 0, "Other" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), 100.0, "EUR", new Guid("12345678-1234-1234-1234-123412341235"), "IssuerName", new Guid("12345678-1234-1234-1234-123412341233"), "MerchantName", new Guid("12345678-1234-1234-1234-123412341232"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(2022, 2, 2, 15, 49, 8, 993, DateTimeKind.Local).AddTicks(9923), 0, "Other" });
 
             migrationBuilder.InsertData(
                 table: "Merchants",

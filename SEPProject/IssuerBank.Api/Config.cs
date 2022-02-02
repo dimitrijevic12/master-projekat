@@ -6,7 +6,7 @@
         {
             get
             {
-                return "https://192.168.1.62:44320/api/transactions/per-diem";
+                return "https://172.20.10.3:44320/api/transactions/per-diem";
             }
         }
 
@@ -14,7 +14,7 @@
         {
             get
             {
-                return "https://192.168.1.18:44326/api/transactions/per-diem";
+                return "https://172.20.10.2:44326/api/transactions/per-diem";
             }
         }
     }

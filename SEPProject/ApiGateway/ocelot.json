@@ -5,7 +5,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44359
         }
       ],
@@ -16,7 +16,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -27,7 +27,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -38,7 +38,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -49,7 +49,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -60,7 +60,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -71,7 +71,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -82,7 +82,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44370
         }
       ],
@@ -93,7 +93,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44300
         }
       ],
@@ -104,7 +104,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44300
         }
       ],
@@ -115,7 +115,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44300
         }
       ],
@@ -126,7 +126,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44338
         }
       ],
@@ -137,7 +137,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44338
         }
       ],
@@ -148,7 +148,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44359
         }
       ],
@@ -159,7 +159,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "192.168.1.62",
+          "Host": "172.20.10.3",
           "Port": 44359
         }
       ],
@@ -172,6 +172,6 @@
     "CertificateDelegatingHandler"
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://192.168.1.62:44390"
+    "BaseUrl": "https://172.20.10.3:44390"
   }
 }

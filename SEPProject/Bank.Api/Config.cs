@@ -14,8 +14,8 @@
         {
             get
             {
-                return "https://192.168.1.62:44390/api/transactions/status";
-                //return "https://192.168.1.62:44300/api/Transactions/status";
+                return "https://172.20.10.3:44390/api/transactions/status";
+                //return "https://172.20.10.3:44300/api/Transactions/status";
             }
         }
 
@@ -23,7 +23,7 @@
         {
             get
             {
-                return "https://192.168.1.62:44320/api/transactions";
+                return "https://172.20.10.3:44320/api/transactions";
             }
         }
 
@@ -31,7 +31,7 @@
         {
             get
             {
-                return "https://192.168.1.62:44320/api/transactions";
+                return "https://172.20.10.3:44320/api/transactions";
             }
         }
     }

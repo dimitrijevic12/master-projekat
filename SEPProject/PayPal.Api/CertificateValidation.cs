@@ -12,8 +12,8 @@ namespace PayPal.Api
         {
             string[] allowedThumbprints = {
                 "AA925BA367138F17DF5627454E2A9847230E5D2F",
-                "a379a2ed534499ea50c197d79d802550d58484f1",
-                "96a0a90af35aaf548a6438f58d490208a689f786"
+                "d666d46e3f6f32efd3331c76082f6e0c8b6a3bac",
+                "96f5bc58286f32ad1aa342eefc27344e63aadf10"
             };
             if (allowedThumbprints.Contains(clientCertificate.Thumbprint))
             {

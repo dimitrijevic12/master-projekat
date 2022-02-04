@@ -51,8 +51,8 @@ namespace PSP.DataAccess.PSPDbContext
             modelBuilder.Entity<RegisteredWebShop>().HasData(
                new RegisteredWebShop(new Guid("12345678-1234-1234-1234-123412341230"), 123, "WebShopName", "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
                "DhR9MbXejS+TQxW3rvMT1g==", "gmail@gmail.com",
-               new System.Uri("https://172.20.10.3:3000/perdiem-transaction"), new System.Uri("https://172.20.10.3:3000/failed-transaction"),
-               new System.Uri("https://172.20.10.3:3000/error-transaction"))
+               new System.Uri("https://172.20.10.2:3000/perdiem-transaction"), new System.Uri("https://172.20.10.2:3000/failed-transaction"),
+               new System.Uri("https://172.20.10.2:3000/error-transaction"))
             );
 
             modelBuilder.Entity<PaymentTypeRegisteredWebShop>().HasData(

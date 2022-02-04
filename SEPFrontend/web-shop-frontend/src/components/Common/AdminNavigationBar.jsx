@@ -17,16 +17,6 @@ class AdminNavigationBar extends Component {
         <React.Fragment>
           <NavLink
             exact
-            to="/"
-            onClick={() => {
-              window.location = "/";
-            }}
-          >
-            <img src="/images/home.png" />
-          </NavLink>
-          <span style={{ width: 25, display: "inline-block" }}></span>
-          <NavLink
-            exact
             to="/owners-items"
             onClick={() => {
               window.location = "/owners-items";

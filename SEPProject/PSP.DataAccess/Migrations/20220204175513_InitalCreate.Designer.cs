@@ -10,8 +10,8 @@ using PSP.DataAccess.PSPDbContext;
 namespace PSP.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220202144909_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220204175513_InitalCreate")]
+    partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -158,11 +158,11 @@ namespace PSP.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341230"),
                             EmailAddress = "gmail@gmail.com",
-                            ErrorUrl = "https://172.20.10.3:3000/error-transaction",
-                            FailedUrl = "https://172.20.10.3:3000/failed-transaction",
+                            ErrorUrl = "https://172.20.10.2:3000/error-transaction",
+                            FailedUrl = "https://172.20.10.2:3000/failed-transaction",
                             Password = "Vw73lwyE0LkxR3qGNGGefU2/9n6KmuyK68RHbcIlkBM=",
                             Salt = "DhR9MbXejS+TQxW3rvMT1g==",
-                            SuccessUrl = "https://172.20.10.3:3000/perdiem-transaction",
+                            SuccessUrl = "https://172.20.10.2:3000/perdiem-transaction",
                             WebShopId = 123,
                             WebShopName = "WebShopName"
                         });
@@ -223,7 +223,7 @@ namespace PSP.DataAccess.Migrations
                             MerchantName = "MerchantName",
                             OrderId = new Guid("12345678-1234-1234-1234-123412341232"),
                             PaymentId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            Timestamp = new DateTime(2022, 2, 2, 15, 49, 8, 993, DateTimeKind.Local).AddTicks(9923),
+                            Timestamp = new DateTime(2022, 2, 4, 18, 55, 12, 447, DateTimeKind.Local).AddTicks(5916),
                             TransactionStatus = 0,
                             Type = "Other"
                         });

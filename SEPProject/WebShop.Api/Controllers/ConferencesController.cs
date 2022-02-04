@@ -66,7 +66,6 @@ namespace WebShop.Api.Controllers
         [Authorize(Roles = "AdminProxy")]
         public IActionResult GetForOwner(Guid ownerId)
         {
-            _logger.LogInformation("Getting conferences for owner: {id}", ownerId);
             return Ok(_conferenceRepository.GetConferencesForOwner(ownerId));
         }
     }

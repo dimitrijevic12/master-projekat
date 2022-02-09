@@ -16,6 +16,11 @@ namespace WebShop.DataAccess.Implementation
             dbContext = context;
         }
 
+        public Item GetItemByName(string name)
+        {
+            return dbContext.Items.ToList().FirstOrDefault(item => item.Name.Equals(name));
+        }
+
         public IEnumerable<Item> GetItemsForOwner(Guid ownerId)
         {
             return dbContext.Items.ToList().Where(item => item.OwnerId == ownerId).ToList();

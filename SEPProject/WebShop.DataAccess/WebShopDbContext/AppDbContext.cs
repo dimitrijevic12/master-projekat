@@ -26,14 +26,17 @@ namespace WebShop.DataAccess.WebShopDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RegisteredUser issuer = new RegisteredUser(Guid.NewGuid(), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14");
+            RegisteredUser issuer = new RegisteredUser(new Guid("12345678-1234-1234-1234-123412341999"), "issuer@gmail.com", "issuer", "password", "issuer", "issuer", "1234", "123456789", "Novosadska 14");
             modelBuilder.Entity<RegisteredUser>().HasData(issuer);
 
             Admin admin = new Admin(new Guid("12345678-1234-1234-1234-123412341234"), "admin@gmail.com", "admin", "password", "Admin", new Guid("12345678-1234-1234-1234-123412341234"));
             modelBuilder.Entity<Admin>().HasData(admin);
 
             modelBuilder.Entity<Item>().HasData(
-                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
+                new Item(new Guid("12345678-1234-1234-1234-123412341234"), "ItemName", "ItemDesc", 123.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234")),
+                new Item(new Guid("12345678-1234-1234-1234-123412341235"), "Logitech Monitor", "Logitech Monitor", 100.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234")),
+                new Item(new Guid("12345678-1234-1234-1234-123412341236"), "Redragon Keyboard", "Redragon Keyboard", 65.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234")),
+                new Item(new Guid("12345678-1234-1234-1234-123412341237"), "X7 Mouse", "X7 Mouse", 40.0, "bed.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
 
             modelBuilder.Entity<Accommodation>().HasData(

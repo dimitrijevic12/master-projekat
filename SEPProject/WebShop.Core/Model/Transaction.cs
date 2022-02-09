@@ -29,5 +29,16 @@ namespace WebShop.Core.Model
             SellerId = sellerId;
             BuyerId = buyerId;
         }
+
+        public Transaction(Guid id, TransactionStatus status, DateTime timestamp, double totalPrice, Guid sellerId, Guid buyerId, ICollection<TransactionItem> transactionItems)
+        {
+            Id = id;
+            Status = status;
+            Timestamp = timestamp;
+            TotalPrice = totalPrice;
+            SellerId = sellerId;
+            BuyerId = buyerId;
+            TransactionItems = transactionItems;
+        }
     }
 }

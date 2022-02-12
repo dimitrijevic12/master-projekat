@@ -23,6 +23,7 @@ namespace WebShop.DataAccess.WebShopDbContext
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionItem> TransactionItems { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
+        public DbSet<UPPAccess> UPPAccess { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +66,12 @@ namespace WebShop.DataAccess.WebShopDbContext
             modelBuilder.Entity<Transportation>().HasData(
                new Transportation(new Guid("12345678-1234-1234-1234-123412341234"), "TransportationName", "TransportationDesc", 1000.0, "Belgrade", "Novi Sad", DateTime.Now, "conferences-integrated-systems-events-1500x630-2.jpg", new Guid("12345678-1234-1234-1234-123412341234"))
             );
+
+            modelBuilder.Entity<UPPAccess>().HasData(
+              new UPPAccess(new Guid("12345678-1234-1234-1234-123412341234"), "Beograd", DateTime.Now),
+               new UPPAccess(new Guid("22345678-1234-1234-1234-123412341234"), "Novi Sad", DateTime.Now),
+               new UPPAccess(new Guid("32345678-1234-1234-1234-123412341234"), "Novi Sad", DateTime.Now)
+           );
 
             /*modelBuilder
              .Entity<TransactionItem>()

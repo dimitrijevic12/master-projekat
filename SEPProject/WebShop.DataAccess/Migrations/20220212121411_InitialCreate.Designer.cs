@@ -10,7 +10,7 @@ using WebShop.DataAccess.WebShopDbContext;
 namespace WebShop.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220209155507_InitialCreate")]
+    [Migration("20220212121411_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,7 +146,7 @@ namespace WebShop.DataAccess.Migrations
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
-                            Date = new DateTime(2022, 2, 9, 16, 55, 7, 260, DateTimeKind.Local).AddTicks(9937),
+                            Date = new DateTime(2022, 2, 12, 13, 14, 10, 654, DateTimeKind.Local).AddTicks(796),
                             Description = "ConferenceDesc",
                             ImagePath = "conference12345123.jpg",
                             Name = "ConferenceName",
@@ -201,13 +201,13 @@ namespace WebShop.DataAccess.Migrations
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
                             Address = "Beogradska 14",
                             Description = "CourseDesc",
-                            EndDate = new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(2710),
+                            EndDate = new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(4538),
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
                             Name = "CourseName",
                             Online = false,
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1400.0,
-                            StartDate = new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(2683)
+                            StartDate = new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(4510)
                         });
                 });
 
@@ -362,7 +362,7 @@ namespace WebShop.DataAccess.Migrations
                             BuyerId = new Guid("12345678-1234-1234-1234-123412341999"),
                             SellerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Status = 0,
-                            Timestamp = new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(5546),
+                            Timestamp = new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(8227),
                             TotalPrice = 1640.0
                         });
                 });
@@ -460,7 +460,7 @@ namespace WebShop.DataAccess.Migrations
                         new
                         {
                             Id = new Guid("12345678-1234-1234-1234-123412341234"),
-                            DepartureTime = new DateTime(2022, 2, 9, 16, 55, 7, 264, DateTimeKind.Local).AddTicks(407),
+                            DepartureTime = new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(3607),
                             Description = "TransportationDesc",
                             FinalDestination = "Novi Sad",
                             ImagePath = "conferences-integrated-systems-events-1500x630-2.jpg",
@@ -468,6 +468,43 @@ namespace WebShop.DataAccess.Migrations
                             OwnerId = new Guid("12345678-1234-1234-1234-123412341234"),
                             Price = 1000.0,
                             StartDestination = "Belgrade"
+                        });
+                });
+
+            modelBuilder.Entity("WebShop.Core.Model.UPPAccess", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Place")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UPPAccess");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("12345678-1234-1234-1234-123412341234"),
+                            Place = "Beograd",
+                            Timestamp = new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(6628)
+                        },
+                        new
+                        {
+                            Id = new Guid("22345678-1234-1234-1234-123412341234"),
+                            Place = "Novi Sad",
+                            Timestamp = new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(7874)
+                        },
+                        new
+                        {
+                            Id = new Guid("32345678-1234-1234-1234-123412341234"),
+                            Place = "Novi Sad",
+                            Timestamp = new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(7889)
                         });
                 });
 

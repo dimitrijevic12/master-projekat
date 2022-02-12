@@ -43,6 +43,19 @@ namespace WebShop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UPPAccess",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Place = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UPPAccess", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Accommodations",
                 columns: table => new
                 {
@@ -226,6 +239,16 @@ namespace WebShop.DataAccess.Migrations
                 values: new object[] { new Guid("12345678-1234-1234-1234-123412341999"), "Novosadska 14", "issuer@gmail.com", "issuer", "issuer", "password", "123456789", "1234", "issuer" });
 
             migrationBuilder.InsertData(
+                table: "UPPAccess",
+                columns: new[] { "Id", "Place", "Timestamp" },
+                values: new object[,]
+                {
+                    { new Guid("12345678-1234-1234-1234-123412341234"), "Beograd", new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(6628) },
+                    { new Guid("22345678-1234-1234-1234-123412341234"), "Novi Sad", new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(7874) },
+                    { new Guid("32345678-1234-1234-1234-123412341234"), "Novi Sad", new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(7889) }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Accommodations",
                 columns: new[] { "Id", "Address", "City", "CostPerNight", "Description", "ImagePath", "Name", "OwnerId" },
                 values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", "Belgrade", 1000.0, "AccomodationDesc", "95024620.jpg", "AccomodationName", new Guid("12345678-1234-1234-1234-123412341234") });
@@ -233,12 +256,12 @@ namespace WebShop.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Conferences",
                 columns: new[] { "Id", "Address", "Date", "Description", "ImagePath", "Name", "Online", "OwnerId", "Price" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", new DateTime(2022, 2, 9, 16, 55, 7, 260, DateTimeKind.Local).AddTicks(9937), "ConferenceDesc", "conference12345123.jpg", "ConferenceName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", new DateTime(2022, 2, 12, 13, 14, 10, 654, DateTimeKind.Local).AddTicks(796), "ConferenceDesc", "conference12345123.jpg", "ConferenceName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0 });
 
             migrationBuilder.InsertData(
                 table: "Courses",
                 columns: new[] { "Id", "Address", "Description", "EndDate", "ImagePath", "Name", "Online", "OwnerId", "Price", "StartDate" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", "CourseDesc", new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(2710), "conferences-integrated-systems-events-1500x630-2.jpg", "CourseName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0, new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(2683) });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), "Beogradska 14", "CourseDesc", new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(4538), "conferences-integrated-systems-events-1500x630-2.jpg", "CourseName", false, new Guid("12345678-1234-1234-1234-123412341234"), 1400.0, new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(4510) });
 
             migrationBuilder.InsertData(
                 table: "Items",
@@ -254,12 +277,12 @@ namespace WebShop.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Transactions",
                 columns: new[] { "Id", "BuyerId", "SellerId", "Status", "Timestamp", "TotalPrice" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341999"), new Guid("12345678-1234-1234-1234-123412341234"), 0, new DateTime(2022, 2, 9, 16, 55, 7, 263, DateTimeKind.Local).AddTicks(5546), 1640.0 });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341999"), new Guid("12345678-1234-1234-1234-123412341234"), 0, new DateTime(2022, 2, 12, 13, 14, 10, 656, DateTimeKind.Local).AddTicks(8227), 1640.0 });
 
             migrationBuilder.InsertData(
                 table: "Transportations",
                 columns: new[] { "Id", "DepartureTime", "Description", "FinalDestination", "ImagePath", "Name", "OwnerId", "Price", "StartDestination" },
-                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2022, 2, 9, 16, 55, 7, 264, DateTimeKind.Local).AddTicks(407), "TransportationDesc", "Novi Sad", "conferences-integrated-systems-events-1500x630-2.jpg", "TransportationName", new Guid("12345678-1234-1234-1234-123412341234"), 1000.0, "Belgrade" });
+                values: new object[] { new Guid("12345678-1234-1234-1234-123412341234"), new DateTime(2022, 2, 12, 13, 14, 10, 657, DateTimeKind.Local).AddTicks(3607), "TransportationDesc", "Novi Sad", "conferences-integrated-systems-events-1500x630-2.jpg", "TransportationName", new Guid("12345678-1234-1234-1234-123412341234"), 1000.0, "Belgrade" });
 
             migrationBuilder.InsertData(
                 table: "TransactionItems",
@@ -331,6 +354,9 @@ namespace WebShop.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transportations");
+
+            migrationBuilder.DropTable(
+                name: "UPPAccess");
 
             migrationBuilder.DropTable(
                 name: "Transactions");

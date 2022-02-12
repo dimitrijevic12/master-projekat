@@ -45,6 +45,7 @@ namespace WebShop.Api
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IRegisteredUserRepository, RegisteredUserRepository>();
             services.AddScoped<ITransportationRepository, TransportationRepository>();
+            services.AddScoped<IUPPAccessRepository, UPPAccessRepository>();
             services.AddScoped<ItemService>();
             services.AddScoped<TransactionService>();
             services.AddScoped<RegisteredUserService>();

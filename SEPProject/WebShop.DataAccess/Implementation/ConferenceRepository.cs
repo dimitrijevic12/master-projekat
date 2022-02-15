@@ -25,5 +25,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Conferences.ToList().Where(conference => conference.Date > DateTime.Now).ToList();
         }
+
+        public Conference GetByName(string name)
+        {
+            return dbContext.Conferences.FirstOrDefault(conference => conference.Name.Equals(name));
+        }
     }
 }

@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebShop.Core.DTOs;
 using WebShop.Core.Interface.Repository;
-using WebShop.Core.Model;
 using WebShop.Core.Services;
 
 namespace WebShop.Api.Controllers
@@ -86,7 +80,12 @@ namespace WebShop.Api.Controllers
 
             return new UPPAccessDTO(highCountValuePlace, hour);
         }
+          
+        [HttpPost("education")]
+        public IActionResult SaveEducation(EducationPurchaseOrder educationPurchaseOrder)
+        {
+            transactionService.SaveUPPEducation(educationPurchaseOrder);
+            return Ok(educationPurchaseOrder);
+        }
     }
-
-        
 }

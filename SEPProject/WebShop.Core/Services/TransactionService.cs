@@ -13,16 +13,23 @@ namespace WebShop.Core.Services
         private readonly IItemRepository _itemRepository;
         private readonly IRegisteredUserRepository _registeredUserRepository;
         private readonly IAdminRepository _adminRepository;
+        private readonly IConferenceRepository _conferenceRepository;
+        private readonly ICourseRepository _courseRepository;
+        private readonly ITransportationRepository _transportationRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
 
         public TransactionService(ITransactionRepository transactionRepository, IItemRepository itemRepository,
-            IRegisteredUserRepository registeredUserRepository, 
-            IAdminRepository adminRepository)
+            IRegisteredUserRepository registeredUserRepository, IAdminRepository adminRepository, IConferenceRepository conferenceRepository,
+            ICourseRepository courseRepository, ITransportationRepository transportationRepository, IAccommodationRepository accommodationRepository)
         {
             _transactionRepository = transactionRepository;
+            _itemRepository = itemRepository;
             _registeredUserRepository = registeredUserRepository;
             _adminRepository = adminRepository;
-            _itemRepository = itemRepository;
-
+            _conferenceRepository = conferenceRepository;
+            _courseRepository = courseRepository;
+            _transportationRepository = transportationRepository;
+            _accommodationRepository = accommodationRepository;
         }
 
         public Result Save(Transaction transaction)
@@ -53,6 +60,35 @@ namespace WebShop.Core.Services
             transaction.TransactionItems = transactionItems;
             _transactionRepository.Save(transaction);
             return Result.Success(uppItemTransaction);
+        }
+
+        public Result SaveUPPEducation(EducationPurchaseOrder educationPurchaseOrder)
+        {
+            List<TransactionItem> transactionItems = new List<TransactionItem>();
+            Transaction transaction = new Transaction(Guid.NewGuid(), TransactionStatus.Success, DateTime.Now, 1640, new Guid("12345678-1234-1234-1234-123412341234"), new Guid("12345678-1234-1234-1234-123412341999"));
+            Conference conference = _conferenceRepository.GetByName(educationPurchaseOrder.educationRequest);
+            if (conference != null)
+            {
+                transactionItems.Add(new TransactionItem(Guid.NewGuid(), TransactionItemType.Conference, conference.Id, conference.Name, 1, conference.Price, transaction.Id));
+            }
+            else
+            {
+                Course course = _courseRepository.GetByName(educationPurchaseOrder.educationRequest);
+                transactionItems.Add(new TransactionItem(Guid.NewGuid(), TransactionItemType.Course, course.Id, course.Name, 1, course.Price, transaction.Id));
+            }
+            if (educationPurchaseOrder.online == true)
+            {
+                transaction.TransactionItems = transactionItems;
+                _transactionRepository.Save(transaction);
+                return Result.Success(transaction);
+            }
+            Transportation transportation = _transportationRepository.GetTransportationByName(educationPurchaseOrder.transportationOption);
+            transactionItems.Add(new TransactionItem(Guid.NewGuid(), TransactionItemType.Transportation, transportation.Id, transportation.Name, 1, transportation.Price, transaction.Id));
+            Accommodation accommodation = _accommodationRepository.GetByName(educationPurchaseOrder.accommodationOption);
+            transactionItems.Add(new TransactionItem(Guid.NewGuid(), TransactionItemType.Accommodation, accommodation.Id, accommodation.Name, 1, accommodation.CostPerNight * (DateTime.Parse(educationPurchaseOrder.endDate) - DateTime.Parse(educationPurchaseOrder.startDate)).TotalDays, transaction.Id));
+            transaction.TransactionItems = transactionItems;
+            _transactionRepository.Save(transaction);
+            return Result.Success(transaction);
         }
 
         public Result EditStatus(TransactionDTO transactionDTO)

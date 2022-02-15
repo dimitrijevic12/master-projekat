@@ -25,5 +25,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Courses.ToList().Where(course => course.StartDate > DateTime.Now).ToList();
         }
+
+        public Course GetByName(string name)
+        {
+            return dbContext.Courses.FirstOrDefault(conference => conference.Name.Equals(name));
+        }
     }
 }

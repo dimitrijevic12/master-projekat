@@ -25,5 +25,10 @@ namespace WebShop.DataAccess.Implementation
         {
             return dbContext.Accommodations.ToList().Where(accommodation => accommodation.OwnerId == ownerId).ToList();
         }
+
+        public Accommodation GetByName(string name)
+        {
+            return dbContext.Accommodations.FirstOrDefault(accommodation => accommodation.Name.Equals(name));
+        }
     }
 }

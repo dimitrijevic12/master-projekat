@@ -35,7 +35,7 @@ namespace WebShop.DataAccess.Implementation
         private IEnumerable<Transportation> GetOnlyForFinalDestination(string finalDestination)
         {
             return dbContext.Transportations.ToList().Where(transportation =>
-                                transportation.FinalDestination.Equals(finalDestination) && 
+                                transportation.FinalDestination.Equals(finalDestination) &&
                                 transportation.DepartureTime > DateTime.Now).ToList();
         }
 
@@ -64,6 +64,11 @@ namespace WebShop.DataAccess.Implementation
         public IEnumerable<Transportation> GetTransportationsForOwner(Guid ownerId)
         {
             return dbContext.Transportations.ToList().Where(transportation => transportation.OwnerId == ownerId).ToList();
+        }
+
+        public Transportation GetTransportationByName(string name)
+        {
+            return dbContext.Transportations.FirstOrDefault(transportation => transportation.Name.Equals(name));
         }
     }
 }
